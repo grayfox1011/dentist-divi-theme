@@ -1,0 +1,100 @@
+/**
+ * Builds the importable Divi 5 files in /layouts from the page definitions in /src.
+ * The JSON structure mirrors what Divi 5 itself exports (Divi Library / Theme Builder portability).
+ *
+ *   node src/build.js            build everything
+ *   PREVIEW_DIR=dir node ...     also write preview bundles used by the screenshot tooling
+ */
+const fs = require('fs');
+const path = require('path');
+const { serialize, countBlocks, BUILDER_VERSION } = require('./lib/d5');
+const tokens = require('./tokens');
+const { PAGES, THEME } = require('./pages');
+
+const OUT = path.join(__dirname, '..', 'layouts');
+const PREVIEW = process.env.PREVIEW_DIR;
+const DATE = '2026-11-11 09:00:00';
+const PREFIX = tokens.BRAND.themeName;
+
+const write = (file, data) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, JSON.stringify(data)); return fs.statSync(file).size; };
+
+/** Colours and variables shared by every export file. The theme uses no presets, so that list is empty. */
+const shared = () => ({ presets: [], global_colors: tokens.exportGlobalColors(), global_variables: tokens.exportGlobalVariables() });
+
+const term = (name, slug, taxonomy) => ({ name, slug, taxonomy, parent: 0, all_parents: [], description: '' });
+
+/** One Divi Library item (a saved page layout). */
+function libraryPost(id, title, slug, markup) {
+  return {
+    ID: id, post_date: DATE, post_date_gmt: DATE, post_content: markup, post_title: title, post_excerpt: '', post_status: 'publish',
+    comment_status: 'closed', ping_status: 'closed', post_password: '', post_name: slug, to_ping: '', pinged: '',
+    post_modified: DATE, post_modified_gmt: DATE, post_content_filtered: '', post_parent: 0, menu_order: 0,
+    post_type: 'et_pb_layout', post_mime_type: '', comment_count: '0', filter: 'raw',
+    post_meta: { _et_pb_built_for_post_type: ['page'], _et_pb_template_type: ['layout'] },
+    terms: { 1: term('layout', 'layout', 'layout_type'), 2: term('non_global', 'non_global', 'scope'), 3: term('Page', 'page', 'layout_category'), 4: term('regular', 'regular', 'module_width') },
+  };
+}
+
+const libraryFile = posts => ({ context: 'et_builder_layouts', data: Object.fromEntries(posts.map(p => [p.ID, p])), ...shared(), canvases: [], images: [], thumbnails: [] });
+
+const TB_META = [
+  ['_et_pb_use_builder', 'on'], ['_et_pb_show_page_creation', 'on'], ['_et_pb_content_area_background_color', ''], ['_et_pb_custom_css', ''],
+  ['_et_pb_enable_shortcode_tracking', 'off'], ['_et_pb_gutter_width', '3'], ['_et_pb_page_z_index', 'auto'], ['_et_pb_section_background_color', ''],
+  ['_et_pb_first_image', ''], ['_et_pb_truncate_post', ''], ['_et_pb_truncate_post_date', ''], ['_et_pb_use_divi_5', 'on'],
+].map(([key, value]) => ({ key, value }));
+
+function themeBuilderLayout(id, title, type, markup, isGlobal) {
+  return { context: 'et_builder', data: { [id]: markup }, images: [], post_title: title, post_type: type, theme_builder: { is_global: isGlobal }, global_colors: [], canvases: { local: [], global: [] }, post_meta: TB_META };
+}
+
+function previewBundle(markup) {
+  // Previews only: fonts and the four Customizer-linked colours normally come from the site itself.
+  return { markup, global_colors: tokens.exportGlobalColors(), global_variables: [...tokens.exportGlobalVariables(), ...tokens.exportColorVariables(), ...tokens.exportFontVariables()], fonts: [tokens.BRAND.headingFont, tokens.BRAND.bodyFont] };
+}
+
+function build() {
+  const report = [];
+  const built = (name, sections) => {
+    const markup = serialize(sections);
+    report.push(`${name.padEnd(22)} ${String(sections.length).padStart(2)} sections  ${String(Object.values(countBlocks(sections)).reduce((a, b) => a + b, 0)).padStart(3)} modules`);
+    if (PREVIEW) write(path.join(PREVIEW, `${name}.json`), previewBundle(markup));
+    return markup;
+  };
+
+  // 1. Design system: global colours, fonts and design variables.
+  write(path.join(OUT, `${PREFIX}-1-Design-System.json`), {
+    context: 'et_builder', data: [], presets: [],
+    global_colors: Object.values(tokens.COLORS).map(col => [col.id, { color: col.value, status: 'active', label: col.label }]),
+    global_variables: [...tokens.exportGlobalVariables({ full: true }), ...tokens.exportColorVariables(), ...tokens.exportFontVariables()],
+    canvases: [], images: [], thumbnails: [],
+  });
+
+  // 2. Pages: one file with everything, plus one file per page.
+  const posts = PAGES.map((page, i) => libraryPost(9101 + i, `${PREFIX} – ${page.title}`, `${PREFIX.toLowerCase()}-${page.slug}`, built(page.slug, page.build())));
+  write(path.join(OUT, `${PREFIX}-2-All-Pages.json`), libraryFile(posts));
+  posts.forEach((post, i) => write(path.join(OUT, 'pages', `${PREFIX}-Page-${PAGES[i].slug}.json`), libraryFile([post])));
+
+  // 3. Theme Builder: global header + footer, blog post template, 404 page.
+  const ids = { header: 9201, footer: 9202, post: 9203, notFound: 9204 };
+  const markup = Object.fromEntries(Object.entries(THEME).map(([key, def]) => [key, built(`theme-${key}`, def.build())]));
+  const tpl = (title, useOn, body, autoTitle = true) => ({ title, autogenerated_title: autoTitle, default: useOn === null, enabled: true, use_on: useOn || [], exclude_from: [], layouts: { header: { id: ids.header, enabled: true }, body: { id: body, enabled: true }, footer: { id: ids.footer, enabled: true } }, description: '' });
+  write(path.join(OUT, `${PREFIX}-3-Theme-Builder.json`), {
+    context: 'et_theme_builder',
+    templates: [tpl('Default Website Template', null, 0, false), tpl('All Posts', ['singular:post_type:post:all'], ids.post), tpl('404 Page', ['404'], ids.notFound)],
+    layouts: {
+      [ids.header]: themeBuilderLayout(ids.header, THEME.header.title, 'et_header_layout', markup.header, true),
+      [ids.footer]: themeBuilderLayout(ids.footer, THEME.footer.title, 'et_footer_layout', markup.footer, true),
+      [ids.post]: themeBuilderLayout(ids.post, THEME.post.title, 'et_body_layout', markup.post, false),
+      [ids.notFound]: themeBuilderLayout(ids.notFound, THEME.notFound.title, 'et_body_layout', markup.notFound, false),
+    },
+    ...shared(),
+    has_default_template: true,
+    has_global_layouts: true,
+  });
+
+  console.log(`Divi builder version: ${BUILDER_VERSION}`);
+  console.log(report.join('\n'));
+  for (const file of fs.readdirSync(OUT).filter(f => f.endsWith('.json'))) console.log(`layouts/${file}  ${(fs.statSync(path.join(OUT, file)).size / 1024).toFixed(0)} KB`);
+}
+
+build();

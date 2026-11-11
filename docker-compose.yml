@@ -1,0 +1,56 @@
+# Local development environment: WordPress + MariaDB + WP-CLI.
+# Start it with ./bin/setup.sh (see README.md).
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress
+      MARIADB_ROOT_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${WP_PORT:-8080}:80"
+    environment: &wp_env
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DEBUG: "1"
+    volumes: &wp_volumes
+      - wp_data:/var/www/html
+      # The child theme is edited live from this repository.
+      - ./theme/perla-child:/var/www/html/wp-content/themes/perla-child
+      # Read-only inputs used by the setup script.
+      - ./layouts:/project/layouts:ro
+      - ./tools/wp:/project/tools:ro
+      - ./divi:/project/divi:ro
+
+  # One-off WP-CLI container: docker compose run --rm cli wp <command>
+  cli:
+    image: wordpress:cli-php8.3
+    profiles: ["cli"]
+    user: "33:33"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment: *wp_env
+    volumes: *wp_volumes
+
+volumes:
+  db_data:
+  wp_data:

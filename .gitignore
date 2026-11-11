@@ -1,0 +1,12 @@
+# Local secrets
+.env
+
+# Divi itself is a licensed product: download it from your Elegant Themes account.
+/divi/*
+!/divi/.gitkeep
+
+# Build output of the sellable package
+/dist/
+
+node_modules/
+.DS_Store

@@ -1,0 +1,30 @@
+/*
+ Theme Name:   Perla – Dental Clinic
+ Theme URI:    https://example.com/perla
+ Description:  A clean, modern Divi 5 child theme for dentists, orthodontists and dental clinics. Built entirely with standard Divi 5 modules, global colours and design variables.
+ Author:       Your Name
+ Author URI:   https://example.com
+ Template:     Divi
+ Version:      1.0.0
+ Requires at least: 6.5
+ Requires PHP: 7.4
+ License:      GNU General Public License v2 or later
+ License URI:  https://www.gnu.org/licenses/gpl-2.0.html
+ Text Domain:  perla-child
+*/
+
+/*
+ * The whole design lives in the Divi layouts (see the "layouts" folder of the download),
+ * so this stylesheet is intentionally almost empty. Add your own CSS below.
+ */
+
+/* Smooth scrolling for in-page links such as "See pricing". */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
