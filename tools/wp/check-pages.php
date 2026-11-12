@@ -9,6 +9,11 @@ if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
 }
 
 foreach ( get_pages() as $perla_page ) {
+	// Only pages built with Divi: WordPress' own sample page has no Divi modules.
+	if ( 'on' !== get_post_meta( $perla_page->ID, '_et_pb_use_builder', true ) ) {
+		continue;
+	}
+
 	$perla_count   = 0;
 	$perla_missing = 0;
 	$perla_types   = array();

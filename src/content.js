@@ -1,11 +1,56 @@
 /** Demo copy for the theme. Edit here (or directly in Divi after importing). */
+/**
+ * Treatments. Each one gets a card on the Home and Services pages and its own page
+ * (/services/<slug>/). `facts` fill the "At a glance" box; `plans` add a pricing section.
+ */
 const SERVICES = [
-  { slug: 'general-dentistry', icon: '&#xf5c9;', title: 'General Dentistry', text: 'Check-ups, cleanings and fillings that keep your teeth healthy for life.' },
-  { slug: 'cosmetic-dentistry', icon: '&#xf3a5;', title: 'Cosmetic Dentistry', text: 'Veneers, bonding and smile design tailored to the shape of your face.' },
-  { slug: 'dental-implants', icon: '&#xf62e;', title: 'Dental Implants', text: 'Permanent, natural-looking replacements for one or several missing teeth.' },
-  { slug: 'teeth-whitening', icon: '&#xf0d0;', title: 'Teeth Whitening', text: 'Safe in-studio whitening that brightens your smile in a single visit.' },
-  { slug: 'orthodontics', icon: '&#xf62f;', title: 'Orthodontics', text: 'Clear aligners and modern braces for teens and adults, without the fuss.' },
-  { slug: 'emergency-care', icon: '&#xf479;', title: 'Emergency Care', text: 'Toothache or a chipped tooth? We keep same-day slots free for urgent care.' },
+  {
+    slug: 'general-dentistry', icon: '&#xf5c9;', title: 'General Dentistry',
+    text: 'Check-ups, cleanings and fillings that keep your teeth healthy for life.',
+    headline: 'Healthy teeth, one check-up at a time',
+    lead: 'Regular examinations, professional cleaning and gentle fillings. Preventive care is the simplest way to avoid bigger treatments later.',
+    facts: [['Appointment', '30–45 minutes'], ['Recommended', 'Every 6 months'], ['Suitable for', 'All ages'], ['From', '$80']],
+  },
+  {
+    slug: 'cosmetic-dentistry', icon: '&#xf3a5;', title: 'Cosmetic Dentistry',
+    text: 'Veneers, bonding and smile design tailored to the shape of your face.',
+    headline: 'A smile designed around you',
+    lead: 'Veneers, bonding and contouring planned with digital previews, so you can see your new smile before treatment begins.',
+    facts: [['Treatment time', '1–3 visits'], ['Recovery', 'None'], ['Results last', '10+ years'], ['From', '$350']],
+  },
+  {
+    slug: 'dental-implants', icon: '&#xf62e;', title: 'Dental Implants',
+    text: 'Permanent, natural-looking replacements for one or several missing teeth.',
+    headline: 'A permanent fix for missing teeth',
+    lead: 'Dental implants look, feel and work like natural teeth. Placed in our studio by an implant specialist, they are designed to last for decades.',
+    facts: [['Treatment time', '2–3 visits'], ['Recovery', '2–5 days'], ['Results last', '20+ years'], ['From', '$1,900']],
+    plans: [
+      { name: 'Single implant', price: '$1,900', note: 'per tooth', items: ['3D scan and treatment plan', 'Titanium implant', 'Custom ceramic crown', 'Two follow-up visits'] },
+      { name: 'Implant bridge', price: '$4,800', note: 'from', items: ['Replaces 3–4 teeth', 'Two implants', 'Fixed ceramic bridge', 'Five-year guarantee'], featured: true },
+      { name: 'Full arch', price: '$12,500', note: 'from', items: ['Complete upper or lower arch', 'Four to six implants', 'Same-day temporary teeth', 'Interest-free plans'] },
+    ],
+  },
+  {
+    slug: 'teeth-whitening', icon: '&#xf0d0;', title: 'Teeth Whitening',
+    text: 'Safe in-studio whitening that brightens your smile in a single visit.',
+    headline: 'A brighter smile in a single visit',
+    lead: 'Professional whitening that lifts years of staining in about an hour, with products chosen to protect your enamel.',
+    facts: [['Treatment time', '60 minutes'], ['Recovery', 'None'], ['Results last', '1–2 years'], ['From', '$290']],
+  },
+  {
+    slug: 'orthodontics', icon: '&#xf62f;', title: 'Orthodontics',
+    text: 'Clear aligners and modern braces for teens and adults, without the fuss.',
+    headline: 'Straighter teeth, without the fuss',
+    lead: 'Clear aligners and discreet braces for teens and adults, planned with a 3D scan and checked at short, regular visits.',
+    facts: [['Treatment time', '6–18 months'], ['Check-ups', 'Every 6–8 weeks'], ['Suitable for', 'Teens and adults'], ['From', '$2,400']],
+  },
+  {
+    slug: 'emergency-care', icon: '&#xf479;', title: 'Emergency Care',
+    text: 'Toothache or a chipped tooth? We keep same-day slots free for urgent care.',
+    headline: 'In pain? We will see you today',
+    lead: 'Severe toothache, swelling or a broken tooth should not wait. Call us and we will find you a same-day appointment.',
+    facts: [['Response', 'Same day'], ['Open', 'Mon–Sat'], ['Suitable for', 'All ages'], ['From', '$120']],
+  },
 ];
 
 const TEAM = [

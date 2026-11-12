@@ -1,8 +1,8 @@
 {
   "name": "perla-divi5-dental-theme",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "Perla – a Divi 5 child theme and layout pack for dental clinics.",
+  "description": "Perla – a Divi 5 child theme for dental clinics that installs its own demo site.",
   "license": "GPL-2.0-or-later",
   "scripts": {
     "build": "node src/build.js",

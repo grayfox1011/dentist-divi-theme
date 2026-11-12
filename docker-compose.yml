@@ -40,7 +40,6 @@ services:
       # The child theme is edited live from this repository.
       - ./theme/perla-child:/var/www/html/wp-content/themes/perla-child
       # Read-only inputs used by the setup script.
-      - ./layouts:/project/layouts:ro
       - ./tools/wp:/project/tools:ro
       - ./divi:/project/divi:ro
 

@@ -34,7 +34,7 @@ function check(block, parent, where) {
   for (const child of (block.children || []).filter(Boolean)) check(child, block, where);
 }
 
-const layouts = [...PAGES.map(p => [p.slug, p.build()]), ...Object.entries(THEME).map(([key, def]) => [`theme-${key}`, def.build()])];
+const layouts = [...PAGES.map(p => [p.key, p.build()]), ...Object.entries(THEME).map(([key, def]) => [`theme-${key}`, def.build()])];
 for (const [name, sections] of layouts) for (const section of sections.filter(Boolean)) check(section, null, name);
 
 if (problems.size) {

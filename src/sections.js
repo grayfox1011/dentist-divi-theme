@@ -260,33 +260,35 @@ function blogList() {
 
 // ---------------------------------------------------------------- single service
 
-function serviceHero() {
+function serviceHero(sv) {
   return u.section({ label: 'Service header', bg: c('tint'), padding: { top: 'clamp(40px, 6vw, 88px)', bottom: 'clamp(48px, 6vw, 88px)' } }, [
     u.row({ cols: 2, align: 'center', tablet: 'keep', label: 'Service intro' }, [
       u.col({ gap: '20px', justify: 'center' }, [
-        u.eyebrow('Treatments · Dental implants'),
-        u.display('A permanent fix for missing teeth', { size: 'clamp(34px, 4.6vw, 58px)' }),
-        u.lead('<p>Dental implants look, feel and work like natural teeth. Placed in our studio by an implant specialist, they are designed to last for decades.</p>'),
-        u.group({ direction: 'row', wrap: 'wrap', align: 'center', gap: '20px', mod: { margin: { top: '8px' } } }, [u.button('Book a consultation', v('bookUrl')), u.linkButton('See pricing', '#pricing')]),
+        u.eyebrow(`Treatments · ${sv.title}`),
+        u.display(sv.headline, { size: 'clamp(34px, 4.6vw, 58px)' }),
+        u.lead(`<p>${sv.lead}</p>`),
+        u.group({ direction: 'row', wrap: 'wrap', align: 'center', gap: '20px', mod: { margin: { top: '8px' } } }, [
+          u.button('Book a consultation', v('bookUrl')),
+          sv.plans ? u.linkButton('See pricing', '#pricing') : u.linkButton('All treatments', '/services/'),
+        ]),
       ]),
-      u.col({}, [u.image(ph.photo(960, 860, 'Treatment photo'), { alt: 'Dental implant consultation', shadow: 'soft' })]),
+      u.col({}, [u.image(ph.photo(960, 860, 'Treatment photo'), { alt: sv.title, shadow: 'soft' })]),
     ]),
   ]);
 }
 
-function serviceDetails() {
-  const facts = [['Treatment time', '2–3 visits'], ['Recovery', '2–5 days'], ['Results last', '20+ years'], ['From', '$1,900']];
+function serviceDetails(sv) {
   return u.section({ label: 'Service details', bg: c('white') }, [
     u.row({ cols: '3_5,2_5', label: 'Details' }, [
       u.col({ gap: '20px' }, [
         u.heading('What to expect'),
-        u.text('<p>An implant is a small titanium post that replaces the root of a missing tooth. Once it has bonded with the jaw, we attach a custom crown matched to the colour and shape of your smile.</p><p>Your treatment starts with a 3D scan so we can plan the placement precisely. Most patients are surprised by how straightforward the procedure is, and are back to normal routines within a few days.</p>'),
+        u.text('<p>Your treatment starts with a relaxed consultation and a full examination. We explain what we find, talk through your options and agree on a plan and its cost before anything begins.</p><p>On the day we take the time to keep you comfortable. You leave with clear aftercare advice and a direct number to call if you have any questions.</p>'),
         u.h3('Is it right for you?', { mod: { margin: { top: '12px' } } }),
-        u.iconList(['You are missing one or more teeth', 'You want a fixed alternative to dentures', 'Your gums are healthy, or can be treated first', 'You would like a long-term solution']),
+        u.iconList(['You want a clear plan before you start', 'You value gentle, unhurried care', 'You would like costs explained up front', 'You prefer to have everything done in one studio']),
       ]),
       u.card({ gap: '0px', label: 'At a glance', mod: { bg: c('mist'), border: { width: '0px', color: c('mist') }, padding: box('clamp(24px, 3vw, 40px)') } }, [
         u.h3('At a glance', { mod: { margin: { bottom: '8px' } } }),
-        ...facts.map(([k, val], i) => u.group({ direction: 'row', justify: 'space-between', align: 'center', gap: '16px', mod: { width: '100%', padding: { top: '16px', bottom: '16px' }, border: i < facts.length - 1 ? { bottom: { width: '1px', color: c('line') } } : undefined } }, [
+        ...sv.facts.map(([k, val], i) => u.group({ direction: 'row', justify: 'space-between', align: 'center', gap: '16px', mod: { width: '100%', padding: { top: '16px', bottom: '16px' }, border: i < sv.facts.length - 1 ? { bottom: { width: '1px', color: c('line') } } : undefined } }, [
           u.text(`<p>${k}</p>`), u.text(`<p><strong>${val}</strong></p>`, { color: c('heading') }),
         ])),
         u.button('Book a consultation', v('bookUrl'), { mod: { margin: { top: '20px' } } }),
@@ -295,15 +297,10 @@ function serviceDetails() {
   ]);
 }
 
-function pricing() {
-  const plans = [
-    { name: 'Single implant', price: '$1,900', note: 'per tooth', items: ['3D scan and treatment plan', 'Titanium implant', 'Custom ceramic crown', 'Two follow-up visits'] },
-    { name: 'Implant bridge', price: '$4,800', note: 'from', items: ['Replaces 3–4 teeth', 'Two implants', 'Fixed ceramic bridge', 'Five-year guarantee'], featured: true },
-    { name: 'Full arch', price: '$12,500', note: 'from', items: ['Complete upper or lower arch', 'Four to six implants', 'Same-day temporary teeth', 'Interest-free plans'] },
-  ];
+function pricing(sv) {
   return u.section({ label: 'Pricing', bg: c('mist'), anchor: 'pricing' }, [
     intro({ eyebrow: 'Clear pricing', title: 'No surprises on your bill', text: 'Every plan is confirmed in writing before treatment begins. Flexible monthly payments are available.' }),
-    u.grid({ count: resp('3', '1', '1'), label: 'Plans', align: 'stretch' }, plans.map(pl =>
+    u.grid({ count: resp('3', '1', '1'), label: 'Plans', align: 'stretch' }, sv.plans.map(pl =>
       u.card({ gap: '16px', mod: pl.featured ? { bg: c('dark'), border: { width: '0px', color: c('dark') }, shadow: 'lift' } : { border: { width: '0px', color: c('white') } } }, [
         u.h3(pl.name, { color: pl.featured ? c('white') : undefined }),
         u.group({ direction: 'row', align: 'baseline', gap: '8px' }, [

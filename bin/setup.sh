@@ -64,5 +64,5 @@ cat <<MSG
 Done. Site:  $URL
       Admin: $URL/wp-admin   (admin / admin)
 
-To try the installation the way a customer does it, see docs/BUYER-GUIDE.md.
+A customer gets the same result by activating the theme: see docs/BUYER-GUIDE.md.
 MSG

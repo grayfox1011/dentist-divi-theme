@@ -1,87 +1,80 @@
 # Perla – Dental Clinic theme for Divi 5
 
-Thank you for your purchase! This guide takes you from download to a finished site.
-Allow about 15 minutes for the setup.
+Thank you for your purchase! Setting up takes about five minutes: you install the theme and it
+builds the demo site for you.
 
 ## Before you start
 
 You need:
 
-- A self-hosted WordPress site (not WordPress.com free plans).
-- The **Divi theme, version 5.4 or newer**, installed and activated. Divi is sold separately by
-  Elegant Themes and is not included in this download.
+- A self-hosted WordPress site (not a WordPress.com free plan).
+- The **Divi theme, version 5.4 or newer**, installed. Divi is sold separately by Elegant Themes
+  and is not included in this download.
 
-A fresh WordPress site is best. If your site already has content, back it up first.
+A new WordPress site is best. If your site already has content, back it up first.
 
 ## What is in the download
 
 | File | What it is |
 | --- | --- |
-| `perla-child.zip` | The child theme. It also sets the theme's colours and fonts. |
-| `layouts/Perla-1-All-Pages.json` | All six page layouts, with their colours and variables. |
-| `layouts/Perla-2-Theme-Builder.json` | Header, footer, blog post template and 404 page. |
-| `layouts/pages/` | The same pages as single files, if you only want some of them. |
+| `perla-child.zip` | The theme. Upload this file to WordPress exactly as it is: do not unzip it. |
+| `Perla-Setup-Guide` | This guide. |
+| `Perla-Pages-for-Divi-Library.json` | Optional. The page layouts as a Divi Library file (see step 3). |
+| `Perla-Theme-Builder-Templates.json` | Optional. Header, footer and templates as a Theme Builder file (see step 3). |
 
-## 1. Install the child theme
+## 1. Install the theme
 
 1. Go to **Appearance → Themes → Add New Theme → Upload Theme**.
 2. Choose `perla-child.zip`, click **Install Now**, then **Activate**.
 
-Activating the theme sets the Perla colours and fonts in Divi. If you had already chosen your own
-colours or fonts in the Theme Customizer, yours are kept.
+That is all. On a new WordPress site the theme builds the demo site by itself, in a few seconds,
+and then shows the **Perla Setup** screen with the list of what it created:
 
-## 2. Import the pages
+- 11 pages: Home, About, Services, one page for each of the six treatments, Blog and Contact
+- the header and footer, the blog post template and the 404 page
+- the main menu
+- the colours, fonts and design variables of the theme
+- three sample blog posts with placeholder images
 
-1. Go to **Divi → Divi Library** and click **Import & Export**.
-2. Open the **Import** tab and choose `layouts/Perla-1-All-Pages.json`.
-3. Click **Import Divi Builder Layouts** and wait for the page to reload.
+Open your site: it now looks like the demo.
 
-Six layouts named "Perla – …" now appear in your Divi Library.
+### If your site already has content
 
-## 3. Import the header and footer
+The theme never changes a site that already has pages or posts of its own. After you activate it
+you see the **Perla Setup** screen with one button: **Install the demo site**.
 
-1. Go to **Divi → Theme Builder**.
-2. Click the **Portability** icon (two arrows) at the top right.
-3. Open the **Import** tab, choose `layouts/Perla-2-Theme-Builder.json` and click
-   **Import Divi Theme Builder Templates**.
-4. Click **Save Changes**.
+Only what is missing is added. A page that already exists at the same address (for example
+`/about/`), your menu, your Theme Builder templates and your posts are left exactly as they are,
+and the screen lists what was added and what was left alone.
 
-## 4. Create your pages
+You find the screen again at any time under **Appearance → Perla Setup**. **Run the set-up again**
+re-creates anything you have deleted, without touching the rest.
 
-Repeat these steps for Home, About, Services, Dental Implants, Blog and Contact:
+### If something goes wrong
 
-1. Go to **Pages → Add New**, type the title and click **Use Divi Builder**.
-2. In the builder, click the **+** button at the top of the left bar and choose **Saved Layout**.
-3. Open **Your Saved Layouts**, click the matching "Perla –" layout, then **Use This Layout**.
-4. Click **Save**, then publish the page (in **Pages**, use *Quick Edit → Status → Published*).
+- **"The theme is missing the style.css stylesheet"**: WordPress received the wrong file. Upload
+  `perla-child.zip` itself, not a folder and not a zip that contains it. Safari on a Mac unzips
+  downloads automatically: in that case compress the `perla-child` folder again, or download the
+  file with another browser.
+- **"The parent theme is missing"**: install Divi first, then install Perla.
+- **"Perla needs the Divi theme, version 5.4 or newer"**: update Divi, then open
+  **Appearance → Perla Setup** and click the button.
 
-Then set the home page in **Settings → Reading → A static page → Homepage: Home**.
+## 2. Make it yours
 
-Use these page addresses so the buttons work straight away: `/about/`, `/services/`, `/blog/`,
-`/contact/`. You can change any link later in the builder.
+### Clinic details, in one place
 
-## 5. Set up the menu
+Open any page with the Divi builder and open the **Variable Manager** in the left bar. Change
+these once and they update in the header, the footer and every page:
 
-1. Go to **Appearance → Menus**, create a menu and add your pages.
-2. Tick **Primary Menu** under *Display location* and save.
-
-Until you do this, the header lists your pages automatically.
-
-## 6. Make it yours
+- Clinic Name, Phone Number, Email Address, Address, Opening Hours
+- Phone Link (`tel:+1...`) and Email Link (`mailto:...`)
+- Booking Page (where the "Book a visit" buttons go)
 
 ### Your logo
 
 Go to **Divi → Theme Builder**, open the **Global Header**, click the Menu module and replace the
 logo image. A transparent PNG about 120 px high works well (it is shown 40 px high).
-
-### Clinic details, in one place
-
-Open any page in the builder and open the **Variable Manager** in the left bar. Change these once
-and they update in the header, the footer and every page:
-
-- Clinic Name, Phone Number, Email Address, Address, Opening Hours
-- Phone Link (`tel:+1...`) and Email Link (`mailto:...`)
-- Booking Page (where the "Book a visit" buttons go)
 
 ### Colours and fonts
 
@@ -99,15 +92,26 @@ Three ready-made palettes you can type in:
 
 ### Photos
 
-The layouts use light placeholder images, so nothing has to be uploaded during import. Click any
+The layouts use light placeholder images, so nothing has to be uploaded during set-up. Click any
 image and replace it with your own photo. Recommended sizes:
 
 | Where | Size |
 | --- | --- |
 | Hero, About, Story | 960 × 1040 px (portrait) |
+| Treatment pages | 960 × 860 px |
 | Team members | 640 × 760 px |
 | Before / after | 960 × 720 px, both the same size |
 | Review avatars | 120 × 120 px |
+
+### Treatment pages
+
+Each treatment has its own page under **Pages → Services**: General Dentistry, Cosmetic Dentistry,
+Dental Implants, Teeth Whitening, Orthodontics and Emergency Care. Change the texts and the
+"At a glance" facts on each one. Dental Implants also shows a price table: delete that section if
+you do not publish prices.
+
+Do you not offer a treatment? Move its page to the trash, then remove its card on the Home and
+Services pages and its link in the footer.
 
 ### Contact form
 
@@ -120,14 +124,43 @@ panel.
 On the Contact page, click the map (a Code module) and replace `Springfield,+IL` in the address
 with your own, using `+` instead of spaces, for example `10+Main+Street,+Boston`.
 
-### Service pages
+### Menu
 
-"Dental Implants" is a template for a single treatment. For each service, create a new page,
-load the "Perla – Service – Dental Implants" layout again and change the text. Then update the
-links of the service cards on the Home and Services pages.
+The theme creates a menu with Home, About, Services, Blog and Contact. Change it in
+**Appearance → Menus**.
+
+## 3. Optional: the layouts as Divi files
+
+You do not need these files for a normal set-up. They are useful in two cases.
+
+**To build more pages from the Perla layouts**, add them to your Divi Library:
+
+1. Go to **Divi → Divi Library** and click **Import & Export**.
+2. Open the **Import** tab, choose `Perla-Pages-for-Divi-Library.json` and click
+   **Import Divi Builder Layouts**.
+3. Create a page, click **Use Divi Builder**, then the **+** button at the top of the left bar →
+   **Saved Layout** → **Your Saved Layouts**. Pick a "Perla –" layout and click
+   **Use This Layout**.
+
+**To add the Perla header and footer to a site that already had Theme Builder templates** (the
+set-up leaves those alone):
+
+1. Go to **Divi → Theme Builder** and click the **Portability** icon (two arrows) at the top right.
+2. Open the **Import** tab and choose `Perla-Theme-Builder-Templates.json`. Leave
+   **Override Existing Default Website Template** ticked to show the Perla header and footer on
+   the whole site, then click **Import Divi Theme Builder Templates**.
+3. Click **Save Changes**.
+
+Templates you already had for blog posts or for the 404 page are kept as "Unassigned": delete
+them, or assign them again if you prefer yours.
 
 ## Good to know
 
+- **Sample content of WordPress.** "Hello world!" and "Sample Page" come with every new WordPress
+  site. You can delete them.
+- **Privacy policy and Terms.** The footer links to `/privacy-policy/` and `/terms/`. WordPress
+  prepares a draft privacy policy for you under **Pages**: complete and publish it, and create a
+  Terms page, or remove the two links in the Global Footer.
 - **The header stays at the top while scrolling.** To turn this off, open the header section in
   the Theme Builder, type "sticky" in the settings search box and set the sticky position to
   *Do Not Stick*.
