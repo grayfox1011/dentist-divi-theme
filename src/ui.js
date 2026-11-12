@@ -337,6 +337,7 @@ function menu(o = {}) {
     menuMobile: { decoration: { background: G({ color: c('white') }), font: font({ color: c('heading') }) } },
     hamburgerMenuIcon: { decoration: { font: font({ color: o.color || c('heading'), size: '32px' }) } },
     cartIcon: { advanced: { show: rv('off') } }, cartQuantity: { advanced: { show: rv('off') } }, searchIcon: { advanced: { show: rv('off') } },
+    logo: o.logo ? { innerContent: rv({ src: o.logo, alt: o.logoAlt || '', linkUrl: o.logoLink }), decoration: { sizing: G({ maxHeight: o.logoHeight || '40px' }) } } : undefined,
   };
   return block('divi/menu', merge(root(o, { bg: 'rgba(255,255,255,0)' }), attrs, at('module.advanced.text.text', G({ orientation: resp(o.align || 'center', 'right', 'right') })), o.attrs));
 }
@@ -388,7 +389,24 @@ function postNav(o = {}) {
 }
 
 function comments(o = {}) {
-  return block('divi/comments', merge(root(o), o.attrs));
+  const variant = BUTTONS.primary;
+  const attrs = {
+    commentCount: { decoration: { font: font({ level: 'h2', size: 'clamp(24px, 2.4vw, 30px)', weight: '700', color: c('heading'), lineHeight: '1.25em' }) } },
+    formTitle: { decoration: { font: font({ level: 'h3', size: v('h3'), weight: '700', color: c('heading'), lineHeight: '1.25em' }) } },
+    meta: { decoration: { font: font({ size: v('small'), color: c('body') }) } },
+    commentText: { decoration: { font: font({ size: v('bodySize'), color: c('body'), lineHeight: '1.7em' }) } },
+    field: { decoration: { background: G({ color: c('mist') }), border: G({ radius: corners(v('radiusS')), styles: { all: { width: '1px', color: c('line') } } }), font: font({ size: '16px', color: c('heading'), lineHeight: '1.5em' }), spacing: G({ padding: box('15px', '18px') }) } },
+    button: {
+      decoration: {
+        button: G({ enable: 'on', icon: { enable: 'off' } }),
+        background: G({ color: variant.bg }, { color: variant.bgHover }),
+        border: G({ radius: corners(v('radiusPill')), styles: { all: { width: '1.5px', color: variant.borderColor } } }),
+        font: font({ family: fontRef('heading'), size: '16px', weight: '600', color: variant.color, lineHeight: '1.2em' }),
+        spacing: G({ padding: box('15px', '30px') }),
+      },
+    },
+  };
+  return block('divi/comments', merge(root(o), attrs, o.attrs));
 }
 
 module.exports = { resp, G, S, box, corners, deco, font, root, SHADOWS, FA, section, row, grid, col, card, group, heading, display, h3, eyebrow, text, lead, small, button, linkButton, image, icon, blurb, iconList, divider, accordion, counter, contactForm, blog, code, menu, social, beforeAfter, postTitle, postContent, postNav, comments, BUTTONS };

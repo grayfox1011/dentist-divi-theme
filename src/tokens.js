@@ -94,7 +94,7 @@ const dynamic = name => variableRef('content', name);
 
 const STAMP = '2026-11-11T00:00:00.000Z';
 
-/** The font variables Divi keeps in the "fonts" group (they mirror the Theme Customizer). */
+/** Preview only: the font variables of the builder (on a site they mirror the Theme Customizer). */
 function exportFontVariables() {
   return [
     { id: '--et_global_heading_font', label: 'Heading', value: BRAND.headingFont, groupKey: 'fonts', status: 'active', order: 1, lastUpdated: STAMP, type: 'fonts' },
@@ -102,7 +102,7 @@ function exportFontVariables() {
   ];
 }
 
-/** Colours as "colors" variables: this is how Divi carries the four Customizer-linked colours. */
+/** Preview only: all colours as builder "colors" variables, including the four Customizer-linked ones. */
 function exportColorVariables() {
   return Object.values(COLORS).map((col, i) => ({ id: col.id, label: col.label, value: col.value, groupKey: 'colors', status: 'active', order: i + 1, lastUpdated: STAMP, type: 'colors' }));
 }
@@ -112,17 +112,10 @@ function exportGlobalColors() {
   return Object.values(COLORS).map((c, i) => [c.id, { id: c.id, lastUpdated: STAMP, label: c.label, color: c.value, order: String(i + 1), status: 'active', folder: '', usedInPosts: [] }]);
 }
 
-/**
- * global_variables array in Divi 5 portability format. Layout files carry the short form,
- * the design system file the full one (pass { full: true }) - exactly as Divi exports them.
- */
-function exportGlobalVariables({ full = false } = {}) {
+/** global_variables array in Divi 5 portability format (the same shape Divi writes into layout exports). */
+function exportGlobalVariables() {
   const out = [];
-  for (const group of Object.values(GROUPS)) {
-    Object.values(group).forEach((d, i) => out.push(full
-      ? { id: d.id, label: d.label, value: d.value, order: String(i + 1), status: 'active', lastUpdated: STAMP, variableType: d.type, type: d.type }
-      : { id: d.id, label: d.label, value: d.value, status: 'active', type: d.type }));
-  }
+  for (const group of Object.values(GROUPS)) for (const d of Object.values(group)) out.push({ id: d.id, label: d.label, value: d.value, status: 'active', type: d.type });
   return out;
 }
 

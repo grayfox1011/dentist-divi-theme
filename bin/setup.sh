@@ -30,7 +30,10 @@ if ! wp theme is-installed Divi >/dev/null 2>&1; then
       --data-urlencode "api_key=${ET_API_KEY}" --data-urlencode "username=${ET_USERNAME}" \
       -o divi/Divi.zip || true
     # Anything that is not a real zip (for example an error page) is discarded.
-    if ! unzip -tq divi/Divi.zip >/dev/null 2>&1; then rm -f divi/Divi.zip; fi
+    if ! unzip -tq divi/Divi.zip >/dev/null 2>&1; then
+      rm -f divi/Divi.zip
+      echo "    The automatic download did not return a valid Divi package."
+    fi
   fi
   if [ ! -f divi/Divi.zip ]; then
     cat <<MSG
@@ -53,7 +56,7 @@ echo "==> Activating the Perla child theme"
 wp theme activate perla-child
 wp rewrite structure '/%postname%/' >/dev/null
 
-echo "==> Creating demo pages, menu and sample posts"
+echo "==> Building the demo site (pages, header and footer, menu, sample posts)"
 wp --user=admin eval-file /project/tools/import-demo.php
 
 cat <<MSG
@@ -61,8 +64,5 @@ cat <<MSG
 Done. Site:  $URL
       Admin: $URL/wp-admin   (admin / admin)
 
-One manual step is left, exactly as a buyer would do it (about one minute):
-  1. Divi > Divi Library > Import & Export > Import   ->  layouts/Perla-1-Design-System.json
-  2. Divi > Theme Builder > Portability (arrows icon) ->  layouts/Perla-3-Theme-Builder.json
-Step-by-step instructions: docs/BUYER-GUIDE.md
+To try the installation the way a customer does it, see docs/BUYER-GUIDE.md.
 MSG

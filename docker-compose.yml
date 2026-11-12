@@ -30,7 +30,11 @@ services:
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
+      # Errors go to wp-content/debug.log instead of being printed on the pages.
       WORDPRESS_DEBUG: "1"
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_DEBUG_LOG', true );
+        define( 'WP_DEBUG_DISPLAY', false );
     volumes: &wp_volumes
       - wp_data:/var/www/html
       # The child theme is edited live from this repository.

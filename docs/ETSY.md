@@ -6,9 +6,10 @@ dati di mercato: conviene confrontarle con le inserzioni simili già presenti su
 
 ## Prima di pubblicare
 
-1. **Prova l'importazione su un Divi vero.** I layout sono stati controllati nel builder di
-   Divi 5.4, ma l'importazione dei JSON dal pannello di amministrazione va provata su
-   un'installazione reale, con l'ultima versione di Divi. È il controllo più importante.
+1. **Riprova l'installazione sull'ultima versione di Divi.** Il percorso dell'acquirente è stato
+   provato per intero su Divi 5.15.1 (vedi il README). Divi esce con aggiornamenti frequenti:
+   prima di pubblicare, e poi a ogni versione importante, ripeti la prova seguendo
+   `docs/BUYER-GUIDE.md` su un sito pulito.
 2. **Sostituisci i segnaposto con foto vere** per le immagini dell'inserzione e per la demo.
    Verifica la licenza: deve consentire l'uso commerciale e, se vuoi includere le foto nel
    pacchetto, anche la ridistribuzione. Per foto con persone riconoscibili serve la liberatoria.
@@ -16,8 +17,8 @@ dati di mercato: conviene confrontarle con le inserzioni simili già presenti su
    chiaramente ("immagini non incluse").
 3. **Metti online una demo.** Un link a un sito funzionante è ciò che più convince chi compra un
    template: basta un sottodominio con WordPress, Divi e il tema importato.
-4. **Scegli nome e autore definitivi** in `src/tokens.js` e in `theme/perla-child/style.css`,
-   poi `npm run package`.
+4. **Scegli nome, autore e logo definitivi**: `src/tokens.js`, `theme/perla-child/style.css` e
+   `src/assets/logo.png`, poi `npm run package`.
 5. **Aggiorna `theme/perla-child/screenshot.png`** (1200 × 900 px): è l'anteprima che WordPress
    mostra in Aspetto → Temi. Quella attuale è ricavata dalla home con i segnaposto.
 
@@ -27,9 +28,10 @@ In ordine di impatto stimato.
 
 ### 1. Importazione demo in un clic
 
-Oggi l'acquirente importa tre file e crea le pagine a mano (circa 15 minuti). Un pulsante
-"Importa demo" nel child theme riduce richieste di assistenza e rimborsi, ed è l'argomento di
-vendita più citato nelle inserzioni di child theme. Va sviluppato e provato su un Divi reale.
+Oggi l'acquirente importa due file e crea le pagine a mano (circa 15 minuti). Un pulsante
+"Importa demo" nel child theme riduce richieste di assistenza e rimborsi. La logica esiste già:
+è quella di `tools/wp/import-demo.php`, che costruisce l'intero sito demo con le funzioni di
+Divi. Va portata dentro il child theme con una pagina di amministrazione.
 
 ### 2. Più pagine
 

@@ -40,4 +40,10 @@ function portrait(w, h, tone = 'blue') {
   </svg>`);
 }
 
-module.exports = { photo, portrait, TOOTH, uri };
+/** Demo logo for the header (src/assets/logo.png, 3x resolution). Swap the file to change it. */
+function logo() {
+  const file = require('path').join(__dirname, 'assets', 'logo.png');
+  return `data:image/png;base64,${require('fs').readFileSync(file).toString('base64')}`;
+}
+
+module.exports = { photo, portrait, logo, TOOTH, uri };

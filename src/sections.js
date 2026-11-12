@@ -336,9 +336,10 @@ function header() {
     ]),
     u.section({ label: 'Header', bg: c('white'), padding: { top: '14px', bottom: '14px' }, rowGap: '0px', mod: { sticky: 'top', zIndex: '99', shadow: { style: 'preset1', horizontal: '0px', vertical: '1px', blur: '0px', spread: '0px', color: 'rgba(11,27,63,0.08)', position: 'outer' } } }, [
       u.row({ cols: 1, label: 'Navigation' }, [
+        // The logo sits inside the Menu module, so on phones the module spans the whole row and
+        // its dropdown opens full width.
         u.col({ direction: 'row', align: 'center', justify: 'space-between', columnGap: '24px', gap: '12px', wrap: 'nowrap' }, [
-          logo(),
-          u.menu({ mod: { size: ['flexGrow', 'flexShrink'] } }),
+          u.menu({ logo: ph.logo(), logoAlt: 'Perla Dental Studio', logoLink: dynamic('home_url'), mod: { size: ['flexGrow', 'flexShrink'] } }),
           u.button(v('bookLabel'), v('bookUrl'), { padding: box('12px', '22px'), size: '15px', mod: { hideOn: ['phone'] } }),
         ]),
       ]),
