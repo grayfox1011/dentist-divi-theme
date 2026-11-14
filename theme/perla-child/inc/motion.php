@@ -1,9 +1,11 @@
 <?php
 /**
- * Scroll animations: loads GSAP and the theme's animation script on the public site.
+ * Scroll animations and smooth scrolling: loads GSAP, Lenis and the theme's animation script
+ * on the public site.
  *
- * The animations are attached to CSS classes (see assets/js/perla-motion.js). They can be
- * switched off in Appearance > Perla Setup, and never run in the Visual Builder.
+ * The animations are attached to CSS classes (see assets/js/perla-motion.js). They and the
+ * smooth scrolling can be switched off in Appearance > Perla Setup, and never run in the
+ * Visual Builder.
  *
  * @package perla-child
  */
@@ -13,7 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'PERLA_CHILD_MOTION_OPTION', 'perla_child_motion' );
+define( 'PERLA_CHILD_SMOOTH_OPTION', 'perla_child_smooth' );
 define( 'PERLA_CHILD_GSAP_VERSION', '3.15.1' );
+define( 'PERLA_CHILD_LENIS_VERSION', '1.3.27' );
 
 /**
  * Tells whether the animations run on the current page.
@@ -38,6 +42,23 @@ function perla_child_motion_enabled() {
 }
 
 /**
+ * Tells whether the page scrolls smoothly with the mouse wheel. It is part of the animation
+ * script, so it needs the animations.
+ *
+ * @return bool
+ */
+function perla_child_smooth_scroll_enabled() {
+	$enabled = perla_child_motion_enabled() && 'off' !== get_option( PERLA_CHILD_SMOOTH_OPTION, 'on' );
+
+	/**
+	 * Filters whether the page scrolls smoothly with the mouse wheel.
+	 *
+	 * @param bool $enabled Whether smooth scrolling is on.
+	 */
+	return (bool) apply_filters( 'perla_child_smooth_scroll_enabled', $enabled );
+}
+
+/**
  * Marks the page as animated before anything is painted.
  *
  * The class "perla-motion" on <html> hides the elements that wait for their animation (see
@@ -58,7 +79,7 @@ function perla_child_motion_head() {
 add_action( 'wp_head', 'perla_child_motion_head', 1 );
 
 /**
- * Loads GSAP and the animation script, deferred so they never block the page.
+ * Loads GSAP, Lenis and the animation script, deferred so they never block the page.
  */
 function perla_child_motion_scripts() {
 	if ( ! perla_child_motion_enabled() ) {
@@ -74,6 +95,13 @@ function perla_child_motion_scripts() {
 	wp_enqueue_script( 'perla-gsap', $base . 'vendor/gsap.min.js', array(), PERLA_CHILD_GSAP_VERSION, $args );
 	wp_enqueue_script( 'perla-scrolltrigger', $base . 'vendor/ScrollTrigger.min.js', array( 'perla-gsap' ), PERLA_CHILD_GSAP_VERSION, $args );
 	wp_enqueue_script( 'perla-splittext', $base . 'vendor/SplitText.min.js', array( 'perla-gsap' ), PERLA_CHILD_GSAP_VERSION, $args );
-	wp_enqueue_script( 'perla-motion', $base . 'perla-motion.js', array( 'perla-gsap', 'perla-scrolltrigger', 'perla-splittext' ), PERLA_CHILD_VERSION, $args );
+
+	$needs = array( 'perla-gsap', 'perla-scrolltrigger', 'perla-splittext' );
+	if ( perla_child_smooth_scroll_enabled() ) {
+		wp_enqueue_script( 'perla-lenis', $base . 'vendor/lenis.min.js', array(), PERLA_CHILD_LENIS_VERSION, $args );
+		$needs[] = 'perla-lenis';
+	}
+
+	wp_enqueue_script( 'perla-motion', $base . 'perla-motion.js', $needs, PERLA_CHILD_VERSION, $args );
 }
 add_action( 'wp_enqueue_scripts', 'perla_child_motion_scripts', 20 );

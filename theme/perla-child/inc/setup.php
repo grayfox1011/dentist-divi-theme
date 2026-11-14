@@ -213,13 +213,15 @@ function perla_child_setup_handle_restore() {
 add_action( 'admin_post_' . PERLA_CHILD_RESTORE_ACTION, 'perla_child_setup_handle_restore' );
 
 /**
- * Switches the scroll animations on or off.
+ * Switches the scroll animations and the smooth scrolling on or off.
  */
 function perla_child_setup_handle_motion() {
 	perla_child_setup_check_form( PERLA_CHILD_MOTION_ACTION );
 
 	// phpcs:ignore WordPress.Security.NonceVerification -- Checked just above.
 	update_option( PERLA_CHILD_MOTION_OPTION, empty( $_POST['perla_motion'] ) ? 'off' : 'on' );
+	// phpcs:ignore WordPress.Security.NonceVerification -- Checked just above.
+	update_option( PERLA_CHILD_SMOOTH_OPTION, empty( $_POST['perla_smooth'] ) ? 'off' : 'on' );
 	perla_child_setup_back();
 }
 add_action( 'admin_post_' . PERLA_CHILD_MOTION_ACTION, 'perla_child_setup_handle_motion' );
@@ -338,11 +340,12 @@ function perla_child_setup_screen() {
 			</form>
 
 			<h2><?php esc_html_e( 'Animations', 'perla-child' ); ?></h2>
-			<p><?php esc_html_e( 'Titles, cards and images move into place while the visitor scrolls, and the top section of each page shrinks into a card. The animations never run in the Divi builder or for visitors whose device asks for reduced motion.', 'perla-child' ); ?></p>
+			<p><?php esc_html_e( 'Titles, cards and images move into place while the visitor scrolls, the top section of each page shrinks into a card, and the page glides when it is scrolled with a mouse or a trackpad. None of this runs in the Divi builder or for visitors whose device asks for reduced motion.', 'perla-child' ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="<?php echo esc_attr( PERLA_CHILD_MOTION_ACTION ); ?>">
 				<?php wp_nonce_field( PERLA_CHILD_MOTION_ACTION ); ?>
 				<p><label><input type="checkbox" name="perla_motion" value="on" <?php checked( 'off' !== get_option( PERLA_CHILD_MOTION_OPTION, 'on' ) ); ?>> <?php esc_html_e( 'Play the scroll animations', 'perla-child' ); ?></label></p>
+				<p><label><input type="checkbox" name="perla_smooth" value="on" <?php checked( 'off' !== get_option( PERLA_CHILD_SMOOTH_OPTION, 'on' ) ); ?>> <?php esc_html_e( 'Smooth scrolling with the mouse wheel and the trackpad (works together with the animations)', 'perla-child' ); ?></label></p>
 				<?php submit_button( __( 'Save', 'perla-child' ), 'secondary', 'perla-save-motion', false ); ?>
 			</form>
 

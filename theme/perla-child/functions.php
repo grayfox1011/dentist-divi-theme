@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PERLA_CHILD_VERSION', '1.2.0' );
+define( 'PERLA_CHILD_VERSION', '1.3.0' );
 
 /**
  * Load the child theme stylesheet after Divi's own styles.

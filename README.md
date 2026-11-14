@@ -4,7 +4,8 @@ Child theme per **Divi 5** pensato per essere venduto come template (Etsy). Si i
 normale tema e **costruisce da solo il sito demo**: pagine, header, footer, menu, colori e
 articoli di esempio. Tutto il design è fatto con **soli moduli standard di Divi 5**: chi lo
 compra modifica ogni cosa dal Visual Builder, senza plugin aggiuntivi e senza codice. Le pagine
-hanno **animazioni allo scorrimento fatte con GSAP**, che si spengono con una casella.
+hanno **animazioni allo scorrimento fatte con GSAP** e **scorrimento fluido con Lenis**, che si
+spengono con una casella.
 
 Il nome "Perla" e lo studio demo "Perla Dental Studio" sono segnaposto: si cambiano in
 `src/tokens.js` (nome, colori, font, contatti) e `src/assets/logo.png` (logo dell'header).
@@ -15,7 +16,7 @@ Il nome "Perla" e lo studio demo "Perla Dental Studio" sono segnaposto: si cambi
 | --- | --- |
 | `theme/perla-child/` | Il child theme da installare su WordPress. |
 | `theme/perla-child/inc/` | L'installazione automatica del sito demo, la schermata "Perla Setup", il caricamento delle animazioni. |
-| `theme/perla-child/assets/js/` | Lo script delle animazioni (`perla-motion.js`) e GSAP (`vendor/`). |
+| `theme/perla-child/assets/js/` | Lo script delle animazioni (`perla-motion.js`), GSAP e Lenis (`vendor/`). |
 | `theme/perla-child/demo/` | I layout Divi e i contenuti che il tema installa (generati da `src/`). |
 | `src/` | Il generatore dei layout: colori, variabili, sezioni, pagine. |
 | `tools/` | Validatore dello schema Divi e script WP-CLI per l'ambiente locale. |
@@ -89,6 +90,26 @@ indicato in `src/sections.js`. Nel builder compaiono in **Advanced → Attribute
 
 Tempi, distanze e curve sono le costanti in cima a `assets/js/perla-motion.js`.
 
+### Scorrimento fluido (Lenis)
+
+Con mouse o trackpad la pagina scorre in modo graduale grazie a Lenis 1.3.27 (licenza MIT),
+incluso in `assets/js/vendor/`. Lo avvia lo stesso script delle animazioni:
+
+- solo sui dispositivi con puntatore preciso (`(hover: hover) and (pointer: fine)`): telefoni e
+  tablet tengono lo scorrimento del sistema;
+- GSAP fa da orologio a Lenis e Lenis aggiorna ScrollTrigger, così gli effetti legati allo
+  scroll (hero, pannello finale) seguono la posizione senza ritardo aggiuntivo;
+- le aree con una barra di scorrimento propria (campi di testo lunghi, pop-up) continuano a
+  scorrere da sole (`allowNestedScroll`);
+- se qualcosa blocca la pagina con `overflow: hidden` su `<html>` o `<body>` (un pop-up, una
+  lightbox), la rotella torna al browser, quindi la pagina dietro non si muove;
+- durante il salto a un'ancora Lenis si fa da parte e riparte alla fine.
+
+La morbidezza è la costante `SMOOTH` in cima allo script. Si spegne da sola con "riduci
+movimento", e a mano con la seconda casella in **Aspetto → Perla Setup** (opzione
+`perla_child_smooth`) o con il filtro `perla_child_smooth_scroll_enabled`. Dipende dalle
+animazioni: se quelle sono spente, è spento anche lo scorrimento fluido.
+
 Come sono protette le pagine:
 
 - Gli elementi in attesa sono nascosti solo mentre `<html>` ha la classe `perla-motion`, che il
@@ -101,6 +122,9 @@ Come sono protette le pagine:
 - Con le animazioni attive lo scorrimento verso le ancore (`#pricing`) usa la funzione di Divi
   resa animata; la regola CSS `scroll-behavior: smooth` resta solo quando sono spente, perché
   non va d'accordo con ScrollTrigger.
+- Una pagina aperta direttamente su un'ancora lascia lo spazio dell'header fisso
+  (`:target { scroll-margin-top }` in `style.css`). Senza questa regola, alla seconda visita Divi
+  lasciava il titolo della sezione sotto l'header, anche a tema senza animazioni.
 
 Le pagine già installate non cambiano quando si aggiorna il tema: per portarle ai layout nuovi
 c'è **Restore the demo pages** nella stessa schermata, che sovrascrive le pagine e i layout
@@ -208,6 +232,23 @@ Animazioni (Chromium, sul sito di sviluppo e su un sito pulito installato dallo 
 | Sito con la versione 1.1 aggiornato caricando lo zip | Il sito resta com'era; dopo "Restore the demo pages" le animazioni compaiono |
 | Costo durante lo scorrimento (traccia del browser) | Circa 3 ms di JavaScript per fotogramma in media, nessun blocco lungo del thread principale |
 
+Scorrimento fluido (Chromium):
+
+| Verifica | Esito |
+| --- | --- |
+| Rotella del mouse | La pagina raggiunge la nuova posizione gradualmente e si ferma dove deve |
+| Hero e header fisso durante lo scorrimento fluido | Seguono la posizione esatta |
+| Rotella fino in fondo alla pagina, anche da utente collegato con la barra di amministrazione | Tutte le animazioni partono, niente resta nascosto |
+| Clic su "See pricing" e pagina aperta su `#pricing` (prima e seconda visita, desktop e telefono, animazioni accese e spente) | La sezione arriva sotto l'header; dopo il salto la rotella riprende a funzionare |
+| Campo di testo con barra di scorrimento propria | Scorre da solo, la pagina resta ferma |
+| Pagina bloccata con `overflow: hidden` | La rotella non la muove; tolto il blocco riprende |
+| Mappa incorporata | Utilizzabile a pagina ferma |
+| Tasto Pag↓ | Funziona |
+| Telefono (schermo touch) e "riduci movimento" | Lenis non parte, scorrimento del sistema |
+| Visual Builder | Lenis non viene caricato |
+| Le due caselle in Perla Setup | Provate dal pannello: lo scorrimento fluido si spegne da solo o insieme alle animazioni |
+| Costo sul thread principale con la rotella (traccia) | Attività più lunga 26 ms, circa 2,4 ms di JavaScript per fotogramma |
+
 I layout sono scritti nel formato di Divi 5.4. Le versioni successive aggiornano da sole i
 contenuti più vecchi: su 5.15.1, aprendo e salvando la home nel builder, l'unica modifica è stata
 la conversione del maiuscolo delle etichette nel nuovo campo dedicato.
@@ -217,8 +258,12 @@ Non verificato:
 - **Fluidità delle animazioni su dispositivi veri.** Questo ambiente non ha una scheda grafica:
   il browser disegna via software e i tempi di disegno non sono indicativi. È misurato solo il
   lavoro dello script. Vanno guardate su un computer e su un telefono veri.
-- **Safari e Firefox.** Le animazioni sono state provate solo in Chromium. GSAP li supporta, ma
-  non l'ho verificato su questo tema.
+- **Safari e Firefox.** Animazioni e scorrimento fluido sono stati provati solo in Chromium. GSAP
+  e Lenis li supportano, ma non l'ho verificato su questo tema.
+- **Trackpad e mouse veri.** La rotella è simulata dal browser automatico: la sensazione dello
+  scorrimento fluido con un trackpad (che ha già la sua inerzia) va giudicata a mano.
+- **Pop-up di altri plugin con lo scorrimento fluido.** Sono coperti i casi generali (aree con
+  scroll proprio, pagina bloccata con `overflow: hidden`), non plugin specifici.
 - **Il percorso nel builder per aggiungere una classe** (Advanced → Attributes → Add Attribute):
   le etichette vengono dal codice di Divi 5.15.1 e l'attributo risulta nei dati del builder, ma
   non ho fatto il clic a mano nell'interfaccia.

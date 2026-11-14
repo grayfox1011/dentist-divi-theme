@@ -136,14 +136,26 @@ Perla animates the pages while your visitors scroll:
 - titles are revealed line by line;
 - cards, list items and buttons appear one after another;
 - large photos are unveiled from the bottom;
-- on computers, the top section of each page shrinks into a rounded card as the page scrolls on.
+- on computers, the top section of each page shrinks into a rounded card as the page scrolls on;
+- with a mouse wheel or a trackpad the page glides instead of jumping (smooth scrolling). Phones
+  and tablets keep their own scrolling, which is already smooth.
 
-The animations never run inside the Divi builder, so you always edit the finished page. Visitors
-who have asked their device to reduce motion see the pages without animations.
+None of this runs inside the Divi builder, so you always edit the finished page. Visitors who
+have asked their device to reduce motion see the pages without animations and with normal
+scrolling.
 
-### Turn the animations off
+### Turn them off
 
-Go to **Appearance → Perla Setup**, untick **Play the scroll animations** and click **Save**.
+Go to **Appearance → Perla Setup**. Under **Animations** there are two boxes:
+
+- **Play the scroll animations** switches everything off when you untick it.
+- **Smooth scrolling with the mouse wheel and the trackpad** switches off only the gliding and
+  keeps the animations.
+
+Click **Save**.
+
+If a pop-up or a chat window from another plugin does not scroll properly with the mouse wheel,
+switch the smooth scrolling off: some plugins do not expect it.
 
 ### Animate something you add
 

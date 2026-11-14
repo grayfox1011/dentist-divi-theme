@@ -39,9 +39,9 @@ Meno passaggi manuali dovrebbero voler dire meno richieste di assistenza e meno 
 
 Dalla versione 1.2 le pagine sono animate con GSAP: la sezione in alto si rimpicciolisce in una
 scheda arrotondata mentre si scorre, i titoli compaiono riga per riga, card e pulsanti entrano
-uno dopo l'altro, le foto grandi si scoprono dal basso. Si spengono con una casella in
-Aspetto → Perla Setup, non partono mai dentro il builder e rispettano l'impostazione "riduci
-movimento" dei dispositivi.
+uno dopo l'altro, le foto grandi si scoprono dal basso. Dalla 1.3 c'è anche lo scorrimento
+fluido con Lenis per mouse e trackpad. Si spengono con due caselle in Aspetto → Perla Setup, non
+partono mai dentro il builder e rispettano l'impostazione "riduci movimento" dei dispositivi.
 
 Per l'inserzione: Etsy permette di aggiungere un video breve senza audio (per quanto ne so tra
 5 e 15 secondi: controlla i limiti quando lo carichi). `docs/previews/animations.mp4` dura
@@ -123,7 +123,7 @@ permette un prezzo più alto.
 > - Global colours, fonts and design variables: change your brand once, update everywhere
 > - Clinic name, phone, email and address stored as variables
 > - Scroll animations made with GSAP: text revealed line by line, staggered cards, a hero that
->   shrinks into a card. One tick switches them off
+>   shrinks into a card, and smooth scrolling (Lenis). One tick switches them off
 > - Fully responsive on desktop, tablet and phone
 > - Safe on existing sites: nothing you already have is overwritten
 > - Step-by-step set-up guide (PDF)
@@ -176,3 +176,6 @@ recensioni negative per questo tipo di prodotto.
   vuoi la certezza, GSAP invita a scrivere a <https://gsap.com/contact> nei casi dubbi. In
   alternativa il tema può caricare GSAP da un CDN invece di includerlo: è una modifica di poche
   righe in `theme/perla-child/inc/motion.php`.
+- **Lenis.** Lo zip contiene anche Lenis 1.3.27, con licenza MIT: si può ridistribuire e vendere
+  dentro un prodotto, a patto di lasciare la nota di copyright, che è nel file
+  `assets/js/vendor/lenis-LICENSE.txt` del tema.

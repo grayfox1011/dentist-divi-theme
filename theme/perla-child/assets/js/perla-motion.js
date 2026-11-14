@@ -11,6 +11,9 @@
  *   perla-image    image     is unveiled from the bottom while it slowly zooms out
  *   perla-pop      panel     grows to its full size as it scrolls into view (desktop)
  *
+ * With a mouse or a trackpad the page also scrolls smoothly (Lenis). Touch screens keep the
+ * scrolling of the device.
+ *
  * The page works without this file: elements are only hidden while <html> has the class
  * "perla-motion", which the theme adds in the <head> and removes again if this script does
  * not start. Nothing runs in the Visual Builder or for visitors who prefer reduced motion.
@@ -32,6 +35,9 @@
 	// point reachable for elements at the very end of the page.
 	var START = 'clamp(top 86%)';
 	var DESKTOP = '(min-width: 981px)';
+	// Smooth scrolling: how quickly the page catches up with the wheel, from 0 to 1. Lower values
+	// feel softer and take longer to settle.
+	var SMOOTH = 0.11;
 
 	function stop() {
 		clearTimeout( window.perlaMotionTimer );
@@ -49,6 +55,39 @@
 
 	var startedAt = 0;
 	var media = gsap.matchMedia();
+	var lenis = null;
+
+	/**
+	 * Smooth scrolling for the mouse wheel and the trackpad, made with Lenis. Touch screens keep
+	 * the scrolling of the device, which is already smooth.
+	 */
+	function setupSmoothScroll() {
+		if ( ! window.Lenis || ! window.matchMedia( '(hover: hover) and (pointer: fine)' ).matches ) {
+			return;
+		}
+
+		lenis = new window.Lenis( {
+			lerp: SMOOTH,
+			// Text areas, pop-ups and other boxes with their own scrollbar keep scrolling by themselves.
+			allowNestedScroll: true,
+			// While something locks the page (an open pop-up or lightbox), leave the wheel to the browser.
+			virtualScroll: function () {
+				return ! /hidden|clip/.test( getComputedStyle( root ).overflowY + getComputedStyle( document.body ).overflowY );
+			},
+		} );
+
+		// One clock for both: GSAP drives Lenis, and Lenis tells ScrollTrigger where the page is.
+		lenis.on( 'scroll', ScrollTrigger.update );
+		gsap.ticker.add( function ( time ) {
+			lenis.raf( time * 1000 );
+		} );
+		gsap.ticker.lagSmoothing( 0 );
+	}
+
+	/** Effects tied to the scroll position follow it directly when the scrolling itself is smooth. */
+	function scrub() {
+		return lenis ? true : 0.6;
+	}
 
 	/** Runs fn once, when el scrolls into view. */
 	function onEnter( el, fn ) {
@@ -190,7 +229,7 @@
 					},
 					// …until the hero has left the window.
 					end: 'bottom top',
-					scrub: 0.6,
+					scrub: scrub(),
 					invalidateOnRefresh: true,
 					onUpdate: function ( self ) {
 						hero.classList.toggle( 'perla-hero-card', self.progress > 0.01 );
@@ -211,7 +250,7 @@
 				gsap.fromTo(
 					el,
 					{ scale: 0.9 },
-					{ scale: 1, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'top 55%', scrub: 0.6 } }
+					{ scale: 1, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'top 55%', scrub: scrub() } }
 				);
 			} );
 		} );
@@ -226,7 +265,16 @@
 
 		if ( 'function' === typeof jump ) {
 			window.et_pb_smooth_scroll = function ( target, toTop, speed, easing ) {
-				return jump.call( this, target, toTop, speed || 900, easing );
+				var duration = speed || 900;
+
+				// The smooth scrolling steps aside while Divi moves the page.
+				if ( lenis ) {
+					lenis.stop();
+					setTimeout( function () {
+						lenis.start();
+					}, duration + 100 );
+				}
+				return jump.call( this, target, toTop, duration, easing );
 			};
 		}
 	}
@@ -242,6 +290,7 @@
 		ScrollTrigger.config( { ignoreMobileResize: true } );
 		startedAt = performance.now();
 
+		setupSmoothScroll();
 		setupHero();
 		setupStagger();
 		setupSingles();
