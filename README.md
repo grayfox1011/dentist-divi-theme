@@ -23,8 +23,8 @@ Il nome "Perla" e lo studio demo "Perla Dental Studio" sono segnaposto: si cambi
 | `theme/perla-child/demo/` | I layout Divi e i contenuti che il tema installa (generati da `src/`). |
 | `theme/perla-child/demo/images/` | Le 18 foto demo e `CREDITS.txt` con autore e fonte di ciascuna. |
 | `src/` | Il generatore dei layout: colori, variabili, sezioni, pagine, testi, elenco delle foto. |
-| `tools/` | Validatore dello schema Divi, script che prepara le foto, script WP-CLI per l'ambiente locale. |
-| `bin/` | `setup.sh` (ambiente di sviluppo) e `package.sh` (file da caricare su Etsy). |
+| `tools/` | Validatore dello schema Divi, script che prepara le foto, controlli di compatibilità, script WP-CLI per l'ambiente locale. |
+| `bin/` | `setup.sh` (ambiente di sviluppo), `package.sh` (file da caricare su Etsy), `compat.sh` (prova con una versione di Divi). |
 | `docs/` | Guida per l'acquirente, consigli di vendita, anteprime. |
 
 ### Pagine e template inclusi
@@ -130,6 +130,85 @@ dei pulsanti vengono adattati agli indirizzi reali delle pagine.
 
 Il codice è in `theme/perla-child/inc/`: `demo-import.php` (l'importazione, con le funzioni di
 WordPress e di Divi) e `setup.php` (primo avvio, schermata e pulsante).
+
+## Compatibilità con le versioni di Divi 5
+
+Divi 5 esce circa una volta a settimana: dalla 5.0.0 (26 febbraio 2026) alla 5.19.0 (6 novembre
+2026) ci sono 45 versioni stabili. Non le ho potute provare tutte: ho la copia 5.15.1 e l'accesso
+al builder pubblico di Elegant Themes, che gira sulla 5.4.0.
+
+| Versione di Divi | Cosa è stato provato | Come |
+| --- | --- | --- |
+| 5.0 – 5.3 | Non supportate. Il tema lo dice nella schermata di setup e non installa nulla | Controllo sul numero di versione, provato simulando la 5.3.3 |
+| **5.4.0** | Tutti i 15 layout, comprese foto con ID e misure, classi delle animazioni e ancore | Builder pubblico `demo.elegantthemes.com`: solo il builder, non l'installazione né il sito pubblico |
+| 5.5 – 5.14 | Non provate una per una | Vedi sotto: le coprono le conversioni di Divi |
+| **5.15.1** | Tutto: installazione, sito pubblico, builder, animazioni, aggiornamenti | Installazione reale (vedi "Verifiche fatte") |
+| 5.16 – 5.19 | **Non provate** | Ho letto il changelog ufficiale: correzioni e funzioni nuove, nessuna modifica dichiarata come incompatibile su ciò che Perla usa |
+
+### Perché un aggiornamento non fa perdere contenuti
+
+- **I contenuti stanno nel database di WordPress**, non nei file del tema: pagine, template del
+  Theme Builder, menu, variabili, foto. Aggiornare Divi sostituisce solo la cartella di Divi;
+  aggiornare Perla sostituisce solo la cartella di Perla. Nessuno dei due tocca il database.
+- **Le pagine sono moduli standard di Divi 5**, senza moduli propri: restano leggibili da Divi
+  anche a tema Perla disattivato (si perdono solo le animazioni).
+- **Divi converte da solo i contenuti più vecchi.** Ogni modulo porta la versione con cui è
+  stato scritto (`builderVersion`, per Perla 5.4.0) e Divi ha una catena di conversioni, ognuna
+  legata a una versione, che applica quando mostra la pagina, quando la apre nel builder e
+  quando importa un layout. La pagina salvata non viene riscritta finché non la si salva dal
+  builder. Sulla 5.15.1 le conversioni successive alla 5.4.0 sono sei; quelle che toccano i
+  layout di Perla sono due, e nessuna perde impostazioni:
+
+  | Conversione di Divi | Effetto sui layout di Perla |
+  | --- | --- |
+  | Maiuscolo dei testi (5.8.1) | Le 43 etichette in maiuscolo passano dal vecchio campo `style` al nuovo `capitalization` |
+  | Gruppo immagine (5.4.2) | Nel template dell'articolo, l'opzione che nasconde l'immagine in evidenza cambia nome |
+  | Spessore del testo, griglie, toggle, moduli globali | Nessun effetto: 1056 moduli su 1100 restano identici |
+
+### Prove fatte sugli aggiornamenti (Divi 5.15.1)
+
+| Prova | Esito |
+| --- | --- |
+| Conversioni di Divi applicate a tutti i 15 layout (`tools/wp/migration-report.php`) | 1100 moduli prima e dopo, nessuna impostazione persa |
+| Tutte le 11 pagine aperte e salvate nel Visual Builder | 987 moduli su 1028 identici, 41 etichette convertite, nessuna impostazione persa. 9 pagine identiche pixel per pixel; nelle altre due cambiano solo il captcha del modulo e la mappa |
+| File di Divi sostituiti con una copia nuova, a tema Perla attivo (quello che fa un aggiornamento) | Impronta del sito identica: 48 voci tra pagine, layout, template, menu, foto, colori, variabili |
+| Passaggio al tema Divi e ritorno a Perla | Impronta identica; l'installazione non riparte |
+| Tema Perla aggiornato da 1.4.0 a 1.4.1 caricando lo zip, su un sito con titolo, telefono e colore cambiati dal proprietario | Impronta identica, le modifiche restano |
+| "Restore the demo pages" (l'unica azione che sovrascrive, dietro conferma) | WordPress conserva la versione precedente di ogni pagina tra le revisioni |
+
+L'impronta è l'uscita di `tools/wp/fingerprint.php`: una riga per ogni cosa creata da Perla, con
+un codice calcolato sul contenuto.
+
+### Cosa succede se una versione futura di Divi cambia qualcosa
+
+- L'installazione automatica usa poche funzioni PHP di Divi (opzioni del tema, colori e
+  variabili globali, Theme Builder). Vengono controllate **tutte prima di creare qualsiasi
+  cosa**: se ne manca una il tema spiega che l'installazione non è partita, che nulla è stato
+  modificato e come aggiungere le pagine a mano con i due file JSON.
+- Un errore imprevisto durante l'installazione viene intercettato e mostrato nella schermata di
+  setup, senza bloccare la bacheca.
+- Le pagine già installate non dipendono da quelle funzioni: le mostra Divi.
+- Lo script delle animazioni usa di Divi solo la funzione per lo scorrimento verso le ancore, e
+  solo se esiste.
+
+Questo non è una garanzia sulle versioni future: è ciò che limita i danni se Divi cambia.
+
+### Riprovare con un'altra versione di Divi
+
+```bash
+./bin/compat.sh percorso/di/Divi.zip   # oppure: npm run compat
+```
+
+Lo script crea un WordPress usa e getta (non tocca il sito di sviluppo), installa quel Divi e il
+child theme, fa partire l'installazione come per un acquirente e controlla: resoconto del setup,
+tutte le pagine, un articolo e la 404 sul sito pubblico, che cosa converte quella versione di
+Divi e che non perda impostazioni, che sostituire Divi non cambi nulla, che un secondo setup non
+duplichi nulla, il log degli errori PHP. Sulla 5.15.1 passano tutti e 20 i controlli. Non apre
+un browser: builder e animazioni vanno guardati a mano.
+
+Con `ET_USERNAME` e `ET_API_KEY` in `.env` accetta anche un numero di versione
+(`./bin/compat.sh 5.19.0`) e scarica quella versione con la stessa richiesta che usa Divi per
+tornare alla versione precedente. Questa parte non l'ho potuta provare: servono le credenziali.
 
 ## Animazioni
 
@@ -358,9 +437,10 @@ Non verificato:
   le etichette vengono dal codice di Divi 5.15.1 e l'attributo risulta nei dati del builder, ma
   non ho fatto il clic a mano nell'interfaccia.
 - **Licenza di GSAP per un template venduto**: vedi `docs/ETSY.md`, "Aspetti legali".
-- **Versioni di Divi tra 5.4 e 5.14.** L'installazione automatica usa funzioni PHP di Divi ed è
-  stata eseguita solo su 5.15.1. Se una funzione manca il tema lo dice nella schermata di setup
-  invece di dare errore, ma su quelle versioni non è stato provato.
+- **Versioni di Divi diverse da 5.4.0 e 5.15.1.** Vedi "Compatibilità con le versioni di Divi 5".
+  In particolare l'installazione automatica (funzioni PHP di Divi) è stata eseguita solo sulla
+  5.15.1, e le versioni dalla 5.16 alla 5.19 non sono state provate affatto. Prima di vendere va
+  lanciato `./bin/compat.sh` con l'ultima versione di Divi.
 - **WordPress in una sottocartella.** L'adattamento dei link è stato provato sui layout con uno
   script, non su un sito realmente installato in una sottocartella.
 - **PHP 7.4 e multisite.** Il codice non usa sintassi di PHP 8, ma è stato eseguito solo su

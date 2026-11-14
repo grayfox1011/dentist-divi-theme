@@ -352,7 +352,7 @@ function perla_child_setup_screen() {
 			<?php if ( 'new' !== $status && 'waiting' !== $status ) : ?>
 				<h2><?php esc_html_e( 'Restore the demo pages', 'perla-child' ); ?></h2>
 				<p><?php esc_html_e( 'Puts the pages, the header, the footer and the templates created by Perla back to the design that comes with this version of the theme. Use it after a theme update that brings new layouts, or to start again from the original design.', 'perla-child' ); ?></p>
-				<p><strong><?php esc_html_e( 'Everything you changed on those pages is replaced.', 'perla-child' ); ?></strong> <?php esc_html_e( 'Pages you created yourself, your menu, your colours and your clinic details are not touched.', 'perla-child' ); ?></p>
+				<p><strong><?php esc_html_e( 'Everything you changed on those pages is replaced.', 'perla-child' ); ?></strong> <?php esc_html_e( 'Pages you created yourself, your menu, your colours and your clinic details are not touched. WordPress keeps the previous version of each page among its revisions, unless revisions are switched off on your site.', 'perla-child' ); ?></p>
 				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 					<input type="hidden" name="action" value="<?php echo esc_attr( PERLA_CHILD_RESTORE_ACTION ); ?>">
 					<?php wp_nonce_field( PERLA_CHILD_RESTORE_ACTION ); ?>
@@ -369,6 +369,14 @@ function perla_child_setup_screen() {
 				<li><?php esc_html_e( 'Contact form: open the Contact page, click the form and enter the email address that should receive the requests.', 'perla-child' ); ?></li>
 			</ol>
 		<?php endif; ?>
+
+		<hr>
+		<p class="description">
+			<?php
+			/* translators: 1: Perla version, 2: Divi version, 3: WordPress version. */
+			printf( esc_html__( 'Perla %1$s · Divi %2$s · WordPress %3$s. Please include this line when you ask for help.', 'perla-child' ), esc_html( PERLA_CHILD_VERSION ), esc_html( perla_child_demo_divi_version() ), esc_html( get_bloginfo( 'version' ) ) );
+			?>
+		</p>
 	</div>
 	<?php
 }

@@ -35,20 +35,50 @@ function perla_child_demo_read( $name ) {
 }
 
 /**
+ * Version of the Divi theme this child theme runs on.
+ *
+ * @return string Empty when the parent theme cannot be read.
+ */
+function perla_child_demo_divi_version() {
+	$parent = wp_get_theme( get_template() );
+
+	return $parent->exists() ? (string) $parent->get( 'Version' ) : '';
+}
+
+/**
  * Checks that the site can receive the demo content.
+ *
+ * The set-up asks Divi to do a few things through Divi's own functions. They are all checked
+ * here, before anything is created: on a Divi that is too old, or on a future one that has
+ * changed them, the set-up explains what to do instead of stopping half-way.
  *
  * @return string An explanation for the site owner, or an empty string when everything is fine.
  */
 function perla_child_demo_requirements() {
-	$has_divi = function_exists( 'et_get_option' )
+	$version = perla_child_demo_divi_version();
+	$is_old  = '' === $version || version_compare( $version, PERLA_CHILD_DIVI_MINIMUM, '<' );
+	$has_all = function_exists( 'et_get_option' )
+		&& function_exists( 'et_update_option' )
 		&& function_exists( 'et_theme_builder_get_theme_builder_post_id' )
 		&& function_exists( 'et_theme_builder_insert_layout' )
 		&& function_exists( 'et_theme_builder_store_template' )
-		&& class_exists( GlobalData::class )
-		&& method_exists( GlobalData::class, 'import_global_variables' );
+		&& class_exists( GlobalData::class );
 
-	if ( ! $has_divi ) {
-		return __( 'Perla needs the Divi theme, version 5.4 or newer. Install or update Divi, then open this page again.', 'perla-child' );
+	foreach ( array( 'get_imported_global_colors', 'set_global_colors', 'get_global_variables', 'import_global_variables' ) as $method ) {
+		$has_all = $has_all && method_exists( GlobalData::class, $method );
+	}
+
+	if ( $is_old ) {
+		/* translators: %s: version number. */
+		$message = sprintf( __( 'Perla needs the Divi theme, version %s or newer. Install or update Divi, then open this page again.', 'perla-child' ), PERLA_CHILD_DIVI_MINIMUM );
+
+		/* translators: %s: version number. */
+		return '' === $version ? $message : $message . ' ' . sprintf( __( 'This site has Divi %s.', 'perla-child' ), $version );
+	}
+
+	if ( ! $has_all ) {
+		/* translators: %s: version number. */
+		return sprintf( __( 'Divi %s has changed something the automatic set-up of Perla relies on, so the set-up did not run and nothing on your site was changed. Look for a newer version of Perla. Until then you can add the pages by hand with the two Divi files of your download: see step 4 of the guide.', 'perla-child' ), $version );
 	}
 
 	foreach ( array( 'manifest.json', 'pages.json', 'theme-builder.json' ) as $name ) {

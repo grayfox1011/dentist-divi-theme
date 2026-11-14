@@ -1,12 +1,13 @@
 {
   "name": "perla-divi5-dental-theme",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "description": "Perla – a Divi 5 child theme for dental clinics that installs its own demo site.",
   "license": "GPL-2.0-or-later",
   "scripts": {
     "build": "node src/build.js",
     "validate": "node tools/validate.js",
-    "package": "npm run validate && npm run build && bash bin/package.sh"
+    "package": "npm run validate && npm run build && bash bin/package.sh",
+    "compat": "bash bin/compat.sh"
   }
 }

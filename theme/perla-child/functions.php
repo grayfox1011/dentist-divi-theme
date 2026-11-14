@@ -13,7 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PERLA_CHILD_VERSION', '1.4.0' );
+define( 'PERLA_CHILD_VERSION', '1.4.1' );
+
+// The oldest Divi the layouts are written for.
+define( 'PERLA_CHILD_DIVI_MINIMUM', '5.4' );
 
 /**
  * Load the child theme stylesheet after Divi's own styles.

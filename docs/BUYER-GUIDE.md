@@ -60,6 +60,9 @@ re-creates anything you have deleted, without touching the rest.
 - **"The parent theme is missing"**: install Divi first, then install Perla.
 - **"Perla needs the Divi theme, version 5.4 or newer"**: update Divi, then open
   **Appearance → Perla Setup** and click the button.
+- **"Divi … has changed something the automatic set-up of Perla relies on"**: you have a version
+  of Divi that is newer than this version of Perla knows. Nothing on your site was changed. Ask
+  for the latest version of Perla, or add the pages by hand as described in step 4.
 
 ## 2. Make it yours
 
@@ -238,8 +241,11 @@ them, or assign them again if you prefer yours.
   delete them: they are general dental advice, not written for your patients.
 - **Blog posts** do not repeat the featured image at the top. To show it, open the "All Posts"
   template in the Theme Builder and enable the image in the Post Title module.
-- **Updating Divi** is safe: the layouts are standard Divi content, and newer Divi versions
-  update older layouts automatically.
+- **Updating Divi** does not touch your pages. They are standard Divi content kept in your
+  WordPress database, and Perla is a separate child theme: an update only replaces Divi's own
+  files. Newer versions of Divi convert older layouts by themselves when they show or open a
+  page. This version of Perla was tested with Divi 5.4.0 and 5.15.1. As with any update, make a
+  backup first.
 - **Updating Perla.** Upload the new `perla-child.zip` the same way and choose *Replace installed
   with uploaded*. Your pages stay exactly as you edited them. If you would rather have the new
   version of the demo pages, use **Appearance → Perla Setup → Restore the demo pages**: it replaces
@@ -247,6 +253,9 @@ them, or assign them again if you prefer yours.
   you are happy to redo. Coming from a version older than 1.4? Restoring is also what brings in
   the demo photos. The sample articles are left as they are: to get the new ones, move the three
   old ones to the Trash and click **Run the set-up again**.
+- **Restored a page by mistake?** WordPress keeps the earlier versions of every page, unless
+  revisions are switched off on your site. Go to **Pages**, click **Edit** under the page and
+  click **Revisions** in the panel on the right.
 
 ## Before you go live
 
@@ -260,8 +269,9 @@ them, or assign them again if you prefer yours.
 
 ## Need help?
 
-Send a message through the shop where you bought the theme. Please include your Divi version and
-a screenshot of what you see.
+Send a message through the shop where you bought the theme. Please include a screenshot of what
+you see and the line at the bottom of **Appearance → Perla Setup**, which shows your versions of
+Perla, Divi and WordPress.
 
 ---
 

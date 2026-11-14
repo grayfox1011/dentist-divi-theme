@@ -6,10 +6,14 @@ dati di mercato: conviene confrontarle con le inserzioni simili già presenti su
 
 ## Prima di pubblicare
 
-1. **Riprova l'installazione sull'ultima versione di Divi.** Il percorso dell'acquirente è stato
-   provato per intero su Divi 5.15.1 (vedi il README). Divi esce con aggiornamenti frequenti:
-   prima di pubblicare, e poi a ogni versione importante, ripeti la prova su un sito pulito:
-   carica `perla-child.zip`, attivalo e controlla che compaia "Your site is ready".
+1. **Riprova sull'ultima versione di Divi.** Tutto è stato provato su Divi 5.15.1, i layout
+   anche sulla 5.4.0; al 6 novembre 2026 l'ultima versione è la 5.19.0 e non è stata provata.
+   Divi esce circa una volta a settimana: prima di pubblicare, e poi a ogni versione importante,
+   scarica lo zip di Divi dal tuo account e lancia `./bin/compat.sh percorso/Divi.zip`. Fa da solo
+   installazione, controllo delle pagine e prova di aggiornamento (vedi "Compatibilità con le
+   versioni di Divi 5" nel README). Poi apri il sito e una pagina nel builder: animazioni e
+   icone si giudicano a occhio. Dalla 5.17 Divi ha un nuovo gestore delle icone: è la prima cosa
+   da guardare.
 2. **Decidi se tenere le foto demo.** Dalla versione 1.4 il tema include 18 fotografie prese
    da Pexels (vedi "Già incluso: foto e testi" e "Aspetti legali"). Sono pronte anche per le
    immagini dell'inserzione. Se preferisci le tue, sostituisci i file in
