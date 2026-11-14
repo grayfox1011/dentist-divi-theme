@@ -75,12 +75,26 @@ function deco(o = {}) {
 
 const font = (o = {}, hover) => ({ font: G({ family: o.family, headingLevel: o.level, size: o.size, weight: o.weight, color: o.color, lineHeight: o.lineHeight, letterSpacing: o.letterSpacing, textAlign: o.align, style: o.style }, hover) });
 
-/** Shared root: admin label + module decoration + raw attribute overrides. */
+/** CSS classes read by the scroll animations (theme/perla-child/assets/js/perla-motion.js). */
+const MOTION = { hero: 'perla-hero', split: 'perla-split', stagger: 'perla-stagger', reveal: 'perla-reveal', image: 'perla-image', pop: 'perla-pop' };
+
+/** Shared root: admin label + module decoration + custom HTML attributes. */
 function root(o = {}, defaults = {}) {
-  // o.anchor adds an HTML id (for "#pricing" style links) through Divi's custom attributes.
-  const anchor = o.anchor ? at('module.decoration.attributes', { attributes: [{ id: makeId('attr', o.anchor).slice(5), name: 'id', value: o.anchor, adminLabel: '', targetElement: 'main' }] }) : {};
-  return merge(o.label ? at('module.meta.adminLabel', rv(o.label)) : {}, { module: { decoration: deco(merge(defaults, o.mod)) } }, o.link ? at('module.advanced.link', rv({ url: o.link })) : {}, anchor);
+  // Divi's custom attributes carry the HTML id (o.anchor, for "#pricing" style links) and the
+  // class of the scroll animation (o.motion: a key of MOTION).
+  const custom = [];
+  const add = (name, value) => custom.push({ id: makeId('attr', `${name}:${value}`).slice(5), name, value, adminLabel: '', targetElement: 'main' });
+  if (o.anchor) add('id', o.anchor);
+  if (o.motion) {
+    if (!MOTION[o.motion]) throw new Error(`Unknown motion: ${o.motion}`);
+    add('class', MOTION[o.motion]);
+  }
+  const attributes = custom.length ? at('module.decoration.attributes', { attributes: custom }) : {};
+  return merge(o.label ? at('module.meta.adminLabel', rv(o.label)) : {}, { module: { decoration: deco(merge(defaults, o.mod)) } }, o.link ? at('module.advanced.link', rv({ url: o.link })) : {}, attributes);
 }
+
+/** The animation a module gets when the caller does not choose one (motion: false = none). */
+const motionOr = (o, fallback) => ({ ...o, motion: o.motion === undefined ? fallback : o.motion });
 
 // ---------------------------------------------------------------- structure
 
@@ -132,7 +146,7 @@ function grid(o = {}, columns = []) {
     layout: { display: 'grid', gridColumnWidths: 'equal', gridColumnCount: count, columnGap: o.gap || v('gapM'), rowGap: o.rowGap || o.gap || v('gapM'), alignItems: o.align },
   };
   const n = count instanceof Resp ? count.d : count;
-  return block('divi/row', merge(root(o, d), at('module.advanced.flexColumnStructure', rv(`equal-columns_${n}`)), o.attrs), columns.filter(Boolean));
+  return block('divi/row', merge(root(motionOr(o, 'stagger'), d), at('module.advanced.flexColumnStructure', rv(`equal-columns_${n}`)), o.attrs), columns.filter(Boolean));
 }
 
 function col(o = {}, modules = []) {
@@ -154,7 +168,8 @@ function group(o = {}, modules = []) {
 
 function heading(text, o = {}) {
   const f = { level: o.level || 'h2', size: o.size || v('h2'), weight: o.weight || '700', color: o.color || c('heading'), lineHeight: o.lineHeight || '1.15em', letterSpacing: o.letterSpacing || '-0.02em', align: o.align, style: o.style };
-  return block('divi/heading', merge(root(o), { title: { innerContent: rv(text), decoration: { font: font(f) } } }, o.attrs));
+  const titled = motionOr(o, ['h1', 'h2'].includes(f.level) ? 'split' : undefined);
+  return block('divi/heading', merge(root(titled), { title: { innerContent: rv(text), decoration: { font: font(f) } } }, o.attrs));
 }
 const display = (text, o = {}) => heading(text, merge({ level: 'h1', size: v('display'), weight: '800', lineHeight: '1.06em', letterSpacing: '-0.03em' }, o));
 const h3 = (text, o = {}) => heading(text, merge({ level: 'h3', size: v('h3'), lineHeight: '1.25em', letterSpacing: '-0.01em' }, o));

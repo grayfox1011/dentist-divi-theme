@@ -161,10 +161,11 @@ function perla_child_demo_import_pages( $manifest, $file, $update, &$report ) {
 		$layouts[ $layout['post_name'] ] = $layout['post_content'];
 	}
 
-	$ids    = array(); // Page key => ID of the page at that address (ours or the site owner's).
-	$saved  = array(); // Page key => content this run has to keep up to date.
-	$top    = array(); // Slug of a top-level page => ID, to attach its child pages.
-	$titles = array();
+	$ids      = array(); // Page key => ID of the page at that address (ours or the site owner's).
+	$saved    = array(); // Page key => content this run has to keep up to date.
+	$top      = array(); // Slug of a top-level page => ID, to attach its child pages.
+	$titles   = array();
+	$restored = array();
 
 	foreach ( $manifest['pages'] as $page ) {
 		if ( ! isset( $layouts[ $page['layout'] ] ) ) {
@@ -178,6 +179,7 @@ function perla_child_demo_import_pages( $manifest, $file, $update, &$report ) {
 
 		if ( $ours && $update ) {
 			$saved[ $key ] = '';
+			$restored[]    = $page['title'];
 		}
 
 		if ( ! $id ) {
@@ -238,6 +240,10 @@ function perla_child_demo_import_pages( $manifest, $file, $update, &$report ) {
 	if ( $titles ) {
 		/* translators: %s: list of page titles. */
 		array_unshift( $report['created'], sprintf( __( 'Pages: %s', 'perla-child' ), implode( ', ', $titles ) ) );
+	}
+	if ( $restored ) {
+		/* translators: %s: list of page titles. */
+		$report['created'][] = sprintf( __( 'Pages restored to the design of the theme: %s', 'perla-child' ), implode( ', ', $restored ) );
 	}
 
 	// Point the buttons to the real addresses of the pages.
@@ -393,6 +399,10 @@ function perla_child_demo_import_theme_builder( $file, $links, $update, &$report
 		if ( $id ) {
 			$layout_ids[ (int) $file_id ] = (int) $id;
 		}
+	}
+
+	if ( $installed && $update ) {
+		$report['created'][] = __( 'Header, footer, blog post template and 404 page restored to the design of the theme', 'perla-child' );
 	}
 
 	if ( $in_use ) {
@@ -570,8 +580,10 @@ function perla_child_demo_import_posts( $manifest, &$report ) {
  * @param array $args {
  *     Optional.
  *
- *     @type bool $update Also overwrite the pages, layouts and variables the importer created
- *                        earlier with the versions in /demo. Used while developing the theme.
+ *     @type bool $restore Also put the pages and Theme Builder layouts the importer created
+ *                         earlier back to the versions in /demo. Changes made to them are lost.
+ *     @type bool $update  The same, and the colours and design variables too. Used while
+ *                         developing the theme.
  * }
  * @return array {
  *     Import report.
@@ -583,8 +595,9 @@ function perla_child_demo_import_posts( $manifest, &$report ) {
  * }
  */
 function perla_child_import_demo( $args = array() ) {
-	$update = ! empty( $args['update'] );
-	$report = array(
+	$design  = ! empty( $args['update'] );
+	$content = $design || ! empty( $args['restore'] );
+	$report  = array(
 		'error'   => perla_child_demo_requirements(),
 		'created' => array(),
 		'kept'    => array(),
@@ -610,9 +623,9 @@ function perla_child_import_demo( $args = array() ) {
 
 	perla_child_apply_defaults();
 
-	list( $ids, $links ) = perla_child_demo_import_pages( $manifest, $pages_file, $update, $report );
-	perla_child_demo_import_design( $pages_file, $links, $update, $report );
-	perla_child_demo_import_theme_builder( $theme_file, $links, $update, $report );
+	list( $ids, $links ) = perla_child_demo_import_pages( $manifest, $pages_file, $content, $report );
+	perla_child_demo_import_design( $pages_file, $links, $design, $report );
+	perla_child_demo_import_theme_builder( $theme_file, $links, $content, $report );
 	perla_child_demo_import_menu( $manifest, $ids, $report );
 	perla_child_demo_import_posts( $manifest, $report );
 

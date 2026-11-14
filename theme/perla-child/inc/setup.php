@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'PERLA_CHILD_SETUP_OPTION', 'perla_child_setup' );
 define( 'PERLA_CHILD_SETUP_PAGE', 'perla-setup' );
 define( 'PERLA_CHILD_SETUP_ACTION', 'perla_child_import' );
+define( 'PERLA_CHILD_RESTORE_ACTION', 'perla_child_restore' );
+define( 'PERLA_CHILD_MOTION_ACTION', 'perla_child_motion' );
 
 require_once __DIR__ . '/demo-import.php';
 
@@ -30,7 +32,7 @@ function perla_child_setup_is_own_request() {
 	$action = isset( $_POST['action'] ) ? sanitize_key( wp_unslash( $_POST['action'] ) ) : '';
 	// phpcs:enable
 
-	return PERLA_CHILD_SETUP_PAGE === $page || PERLA_CHILD_SETUP_ACTION === $action;
+	return PERLA_CHILD_SETUP_PAGE === $page || in_array( $action, array( PERLA_CHILD_SETUP_ACTION, PERLA_CHILD_RESTORE_ACTION, PERLA_CHILD_MOTION_ACTION ), true );
 }
 
 /**
@@ -154,24 +156,73 @@ function perla_child_setup_first_run() {
 add_action( 'admin_init', 'perla_child_setup_first_run' );
 
 /**
- * Handles the button of the set-up screen.
+ * Checks that a form of the set-up screen was sent by an administrator.
+ *
+ * @param string $action Name of the form action, also used for its nonce.
  */
-function perla_child_setup_handle_form() {
+function perla_child_setup_check_form( $action ) {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		wp_die( esc_html__( 'You are not allowed to set up the theme.', 'perla-child' ), 403 );
 	}
-	check_admin_referer( PERLA_CHILD_SETUP_ACTION );
+	check_admin_referer( $action );
+}
 
-	// A second click while the import is still working must not start it twice.
-	$setup = perla_child_setup_get();
-	if ( 'running' !== $setup['status'] || time() - $setup['time'] > 5 * MINUTE_IN_SECONDS ) {
-		perla_child_setup_run();
-	}
-
+/**
+ * Goes back to the set-up screen.
+ */
+function perla_child_setup_back() {
 	wp_safe_redirect( admin_url( 'themes.php?page=' . PERLA_CHILD_SETUP_PAGE ) );
 	exit;
 }
+
+/**
+ * Runs the importer for a button of the set-up screen.
+ *
+ * @param array $args See perla_child_import_demo().
+ */
+function perla_child_setup_run_from_form( $args = array() ) {
+	// A second click while the import is still working must not start it twice.
+	$setup = perla_child_setup_get();
+	if ( 'running' !== $setup['status'] || time() - $setup['time'] > 5 * MINUTE_IN_SECONDS ) {
+		perla_child_setup_run( $args );
+	}
+	perla_child_setup_back();
+}
+
+/**
+ * "Install the demo site" / "Run the set-up again".
+ */
+function perla_child_setup_handle_form() {
+	perla_child_setup_check_form( PERLA_CHILD_SETUP_ACTION );
+	perla_child_setup_run_from_form();
+}
 add_action( 'admin_post_' . PERLA_CHILD_SETUP_ACTION, 'perla_child_setup_handle_form' );
+
+/**
+ * "Restore the demo pages": only after the box that confirms it has been ticked.
+ */
+function perla_child_setup_handle_restore() {
+	perla_child_setup_check_form( PERLA_CHILD_RESTORE_ACTION );
+
+	// phpcs:ignore WordPress.Security.NonceVerification -- Checked just above.
+	if ( empty( $_POST['perla_confirm'] ) ) {
+		perla_child_setup_back();
+	}
+	perla_child_setup_run_from_form( array( 'restore' => true ) );
+}
+add_action( 'admin_post_' . PERLA_CHILD_RESTORE_ACTION, 'perla_child_setup_handle_restore' );
+
+/**
+ * Switches the scroll animations on or off.
+ */
+function perla_child_setup_handle_motion() {
+	perla_child_setup_check_form( PERLA_CHILD_MOTION_ACTION );
+
+	// phpcs:ignore WordPress.Security.NonceVerification -- Checked just above.
+	update_option( PERLA_CHILD_MOTION_OPTION, empty( $_POST['perla_motion'] ) ? 'off' : 'on' );
+	perla_child_setup_back();
+}
+add_action( 'admin_post_' . PERLA_CHILD_MOTION_ACTION, 'perla_child_setup_handle_motion' );
 
 /**
  * Points to the set-up screen from the other dashboard screens when the last run did not finish.
@@ -269,7 +320,7 @@ function perla_child_setup_screen() {
 		<?php endif; ?>
 
 		<?php
-		perla_child_setup_list( __( 'Added to your site', 'perla-child' ), $report['created'] );
+		perla_child_setup_list( __( 'What was done', 'perla-child' ), $report['created'] );
 		perla_child_setup_list( __( 'Left as it was', 'perla-child' ), $report['kept'] );
 		perla_child_setup_list( __( 'Needs your attention', 'perla-child' ), $report['notes'] );
 		?>
@@ -285,6 +336,27 @@ function perla_child_setup_screen() {
 				submit_button( $is_done ? __( 'Run the set-up again', 'perla-child' ) : __( 'Install the demo site', 'perla-child' ), $is_done ? 'secondary' : 'primary', 'submit', false );
 				?>
 			</form>
+
+			<h2><?php esc_html_e( 'Animations', 'perla-child' ); ?></h2>
+			<p><?php esc_html_e( 'Titles, cards and images move into place while the visitor scrolls, and the top section of each page shrinks into a card. The animations never run in the Divi builder or for visitors whose device asks for reduced motion.', 'perla-child' ); ?></p>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="<?php echo esc_attr( PERLA_CHILD_MOTION_ACTION ); ?>">
+				<?php wp_nonce_field( PERLA_CHILD_MOTION_ACTION ); ?>
+				<p><label><input type="checkbox" name="perla_motion" value="on" <?php checked( 'off' !== get_option( PERLA_CHILD_MOTION_OPTION, 'on' ) ); ?>> <?php esc_html_e( 'Play the scroll animations', 'perla-child' ); ?></label></p>
+				<?php submit_button( __( 'Save', 'perla-child' ), 'secondary', 'perla-save-motion', false ); ?>
+			</form>
+
+			<?php if ( 'new' !== $status && 'waiting' !== $status ) : ?>
+				<h2><?php esc_html_e( 'Restore the demo pages', 'perla-child' ); ?></h2>
+				<p><?php esc_html_e( 'Puts the pages, the header, the footer and the templates created by Perla back to the design that comes with this version of the theme. Use it after a theme update that brings new layouts, or to start again from the original design.', 'perla-child' ); ?></p>
+				<p><strong><?php esc_html_e( 'Everything you changed on those pages is replaced.', 'perla-child' ); ?></strong> <?php esc_html_e( 'Pages you created yourself, your menu, your colours and your clinic details are not touched.', 'perla-child' ); ?></p>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="<?php echo esc_attr( PERLA_CHILD_RESTORE_ACTION ); ?>">
+					<?php wp_nonce_field( PERLA_CHILD_RESTORE_ACTION ); ?>
+					<p><label><input type="checkbox" name="perla_confirm" value="1" required> <?php esc_html_e( 'Replace my changes to the Perla pages', 'perla-child' ); ?></label></p>
+					<?php submit_button( __( 'Restore the demo pages', 'perla-child' ), 'secondary', 'perla-restore', false ); ?>
+				</form>
+			<?php endif; ?>
 
 			<h2><?php esc_html_e( 'Make it yours', 'perla-child' ); ?></h2>
 			<ol>

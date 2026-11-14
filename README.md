@@ -3,7 +3,8 @@
 Child theme per **Divi 5** pensato per essere venduto come template (Etsy). Si installa come un
 normale tema e **costruisce da solo il sito demo**: pagine, header, footer, menu, colori e
 articoli di esempio. Tutto il design è fatto con **soli moduli standard di Divi 5**: chi lo
-compra modifica ogni cosa dal Visual Builder, senza plugin aggiuntivi e senza codice.
+compra modifica ogni cosa dal Visual Builder, senza plugin aggiuntivi e senza codice. Le pagine
+hanno **animazioni allo scorrimento fatte con GSAP**, che si spengono con una casella.
 
 Il nome "Perla" e lo studio demo "Perla Dental Studio" sono segnaposto: si cambiano in
 `src/tokens.js` (nome, colori, font, contatti) e `src/assets/logo.png` (logo dell'header).
@@ -13,7 +14,8 @@ Il nome "Perla" e lo studio demo "Perla Dental Studio" sono segnaposto: si cambi
 | Cartella | Contenuto |
 | --- | --- |
 | `theme/perla-child/` | Il child theme da installare su WordPress. |
-| `theme/perla-child/inc/` | L'installazione automatica del sito demo e la schermata "Perla Setup". |
+| `theme/perla-child/inc/` | L'installazione automatica del sito demo, la schermata "Perla Setup", il caricamento delle animazioni. |
+| `theme/perla-child/assets/js/` | Lo script delle animazioni (`perla-motion.js`) e GSAP (`vendor/`). |
 | `theme/perla-child/demo/` | I layout Divi e i contenuti che il tema installa (generati da `src/`). |
 | `src/` | Il generatore dei layout: colori, variabili, sezioni, pagine. |
 | `tools/` | Validatore dello schema Divi e script WP-CLI per l'ambiente locale. |
@@ -65,6 +67,44 @@ dei pulsanti vengono adattati agli indirizzi reali delle pagine.
 
 Il codice è in `theme/perla-child/inc/`: `demo-import.php` (l'importazione, con le funzioni di
 WordPress e di Divi) e `setup.php` (primo avvio, schermata e pulsante).
+
+## Animazioni
+
+Sono fatte con GSAP 3.15.1 (con ScrollTrigger e SplitText), incluso nel tema in
+`theme/perla-child/assets/js/vendor/`, e si agganciano a classi CSS sui moduli:
+
+| Classe | Dove | Effetto |
+| --- | --- | --- |
+| `perla-hero` | prima sezione della pagina | All'apertura i contenuti entrano in sequenza; scorrendo, su schermi da 981 px in su, la sezione si rimpicciolisce in una scheda arrotondata. |
+| `perla-split` | titoli | Il testo compare riga per riga (SplitText). |
+| `perla-stagger` | righe, colonne, gruppi | I figli diretti entrano uno dopo l'altro. |
+| `perla-reveal` | qualsiasi modulo | Dissolvenza con un leggero movimento verso l'alto. |
+| `perla-image` | immagini grandi | L'immagine si scopre dal basso mentre lo zoom rientra. |
+| `perla-pop` | pannelli (invito all'azione) | Il pannello cresce fino alla dimensione piena mentre entra nello schermo. |
+
+Le classi le assegna il generatore con l'opzione `motion` dei moduli (`motion: 'stagger'`,
+`motion: 'image'`…): i titoli h1 e h2 e le griglie di card le ricevono da sole, il resto è
+indicato in `src/sections.js`. Nel builder compaiono in **Advanced → Attributes** come attributo
+`class`, quindi chi compra può aggiungerle o toglierle da qualsiasi modulo.
+
+Tempi, distanze e curve sono le costanti in cima a `assets/js/perla-motion.js`.
+
+Come sono protette le pagine:
+
+- Gli elementi in attesa sono nascosti solo mentre `<html>` ha la classe `perla-motion`, che il
+  tema aggiunge nel `<head>`. Senza JavaScript, con "riduci movimento" attivo o se gli script
+  vengono ritardati da un plugin di ottimizzazione, la classe non c'è e la pagina è visibile
+  com'è. Se lo script non parte entro 4 secondi la classe viene tolta.
+- Nel Visual Builder e nel Customizer gli script non vengono caricati.
+- Le animazioni si spengono in **Aspetto → Perla Setup** (opzione `perla_child_motion`) o con il
+  filtro `perla_child_motion_enabled`.
+- Con le animazioni attive lo scorrimento verso le ancore (`#pricing`) usa la funzione di Divi
+  resa animata; la regola CSS `scroll-behavior: smooth` resta solo quando sono spente, perché
+  non va d'accordo con ScrollTrigger.
+
+Le pagine già installate non cambiano quando si aggiorna il tema: per portarle ai layout nuovi
+c'è **Restore the demo pages** nella stessa schermata, che sovrascrive le pagine e i layout
+creati da Perla (non colori, variabili, menu né pagine proprie).
 
 ## Ambiente di sviluppo
 
@@ -151,12 +191,38 @@ secondo sito pulito in cui il tema non è montato ma caricato come zip.
 | Errori PHP nel log di WordPress durante tutte le prove | Nessuno |
 | Moduli conformi allo schema di Divi 5.4 (`npm run validate`) | 1079 moduli in 15 layout, nessun errore |
 
+Animazioni (Chromium, sul sito di sviluppo e su un sito pulito installato dallo zip):
+
+| Verifica | Esito |
+| --- | --- |
+| Tutte le pagine, articolo e 404: scorrendo fino in fondo | Nessun elemento resta nascosto, nessun errore JavaScript, i titoli tornano testo normale |
+| Sequenza di apertura, hero che si rimpicciolisce, titoli, card, immagini, pannello finale | Controllati fotogramma per fotogramma su desktop e telefono (vedi `docs/previews/animations.mp4`) |
+| "Riduci movimento" attivo | Nessuna animazione, tutto visibile |
+| JavaScript spento, oppure file di GSAP non caricabile | Tutto visibile (nel secondo caso dopo il timer di sicurezza) |
+| Pagina lenta, con l'evento di caricamento trattenuto 7 secondi | La hero parte subito e le sezioni compaiono scorrendo |
+| Pagina aperta su un'ancora e clic su "See pricing" | Arriva alla sezione giusta, con scorrimento animato |
+| Finestra ridimensionata sopra e sotto 981 px | L'effetto della hero si toglie e si rimette senza residui |
+| Visual Builder | Nessuno script di animazione caricato, pagina modificabile, le classi risultano negli attributi dei moduli |
+| Script eseguiti in ritardo, come fanno i plugin di ottimizzazione | Niente viene nascosto e niente viene animato |
+| Casella "Play the scroll animations" e pulsante "Restore the demo pages" | Provati dal pannello |
+| Sito con la versione 1.1 aggiornato caricando lo zip | Il sito resta com'era; dopo "Restore the demo pages" le animazioni compaiono |
+| Costo durante lo scorrimento (traccia del browser) | Circa 3 ms di JavaScript per fotogramma in media, nessun blocco lungo del thread principale |
+
 I layout sono scritti nel formato di Divi 5.4. Le versioni successive aggiornano da sole i
 contenuti più vecchi: su 5.15.1, aprendo e salvando la home nel builder, l'unica modifica è stata
 la conversione del maiuscolo delle etichette nel nuovo campo dedicato.
 
 Non verificato:
 
+- **Fluidità delle animazioni su dispositivi veri.** Questo ambiente non ha una scheda grafica:
+  il browser disegna via software e i tempi di disegno non sono indicativi. È misurato solo il
+  lavoro dello script. Vanno guardate su un computer e su un telefono veri.
+- **Safari e Firefox.** Le animazioni sono state provate solo in Chromium. GSAP li supporta, ma
+  non l'ho verificato su questo tema.
+- **Il percorso nel builder per aggiungere una classe** (Advanced → Attributes → Add Attribute):
+  le etichette vengono dal codice di Divi 5.15.1 e l'attributo risulta nei dati del builder, ma
+  non ho fatto il clic a mano nell'interfaccia.
+- **Licenza di GSAP per un template venduto**: vedi `docs/ETSY.md`, "Aspetti legali".
 - **Versioni di Divi tra 5.4 e 5.14.** L'installazione automatica usa funzioni PHP di Divi ed è
   stata eseguita solo su 5.15.1. Se una funzione manca il tema lo dice nella schermata di setup
   invece di dare errore, ma su quelle versioni non è stato provato.

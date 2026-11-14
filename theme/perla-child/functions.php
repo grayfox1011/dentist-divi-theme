@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PERLA_CHILD_VERSION', '1.1.0' );
+define( 'PERLA_CHILD_VERSION', '1.2.0' );
 
 /**
  * Load the child theme stylesheet after Divi's own styles.
@@ -96,6 +96,9 @@ function perla_child_maybe_apply_defaults() {
 	}
 }
 add_action( 'admin_init', 'perla_child_maybe_apply_defaults', 5 );
+
+// Scroll animations (GSAP).
+require_once get_stylesheet_directory() . '/inc/motion.php';
 
 // Demo site: automatic set-up and the Appearance > Perla Setup screen.
 require_once get_stylesheet_directory() . '/inc/setup.php';

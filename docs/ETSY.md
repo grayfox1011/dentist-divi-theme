@@ -35,6 +35,21 @@ un'immagine dedicata ("Install. Activate. Done.").
 Sui siti che hanno già contenuti il tema non tocca nulla e chiede conferma con un pulsante.
 Meno passaggi manuali dovrebbero voler dire meno richieste di assistenza e meno rimborsi.
 
+## Già incluso: animazioni allo scorrimento (GSAP)
+
+Dalla versione 1.2 le pagine sono animate con GSAP: la sezione in alto si rimpicciolisce in una
+scheda arrotondata mentre si scorre, i titoli compaiono riga per riga, card e pulsanti entrano
+uno dopo l'altro, le foto grandi si scoprono dal basso. Si spengono con una casella in
+Aspetto → Perla Setup, non partono mai dentro il builder e rispettano l'impostazione "riduci
+movimento" dei dispositivi.
+
+Per l'inserzione: Etsy permette di aggiungere un video breve senza audio (per quanto ne so tra
+5 e 15 secondi: controlla i limiti quando lo carichi). `docs/previews/animations.mp4` dura
+13,5 secondi ed è pensato per questo. Le animazioni non si
+capiscono dalle immagini ferme: il video è il modo più diretto per mostrarle.
+
+Una cosa da decidere tu: la licenza di GSAP (vedi "Aspetti legali" più sotto).
+
 ## Cosa aggiungere per vendere meglio
 
 In ordine di impatto stimato.
@@ -53,36 +68,30 @@ In ordine di impatto stimato.
 Con il generatore ogni pagina nuova riusa le sezioni esistenti: sono poche righe in `src/pages.js`,
 e l'installazione automatica la crea insieme alle altre.
 
-### 2. Animazioni leggere
-
-Comparsa allo scorrimento per titoli e card, leggero sollevamento delle card al passaggio del
-mouse, header che si compatta scorrendo. Poche e sobrie: un sito medico deve trasmettere calma, e
-le animazioni pesanti rallentano il caricamento su telefono.
-
-### 3. Prenotazione online
+### 2. Prenotazione online
 
 Una sezione pronta per incorporare Calendly o un plugin di prenotazione, il pulsante WhatsApp e
 una barra fissa "Chiama ora" su telefono. Per uno studio dentistico la prenotazione è l'obiettivo
 del sito: mostrarla già risolta aumenta il valore percepito.
 
-### 4. Varianti di colore
+### 3. Varianti di colore
 
 Tre o quattro palette pronte (menta, lavanda, sabbia, scuro). Tecnicamente basta cambiare sei
 colori nel Variable Manager: la guida per l'acquirente elenca già tre palette. Mostrarle nelle
 immagini dell'inserzione fa capire che il tema si adatta a qualunque marchio.
 
-### 5. Contenuti in più lingue
+### 4. Contenuti in più lingue
 
 Demo in inglese (la versione attuale), italiano e spagnolo come file separati. Allarga il
 mercato e ti distingue: quasi tutti i template sono solo in inglese.
 
-### 6. Materiale di supporto
+### 5. Materiale di supporto
 
 - Schermate nella guida PDF (oggi è solo testo: la base è `docs/BUYER-GUIDE.md`)
 - Video di 2-3 minuti: installazione e personalizzazione
 - Bonus in Canva: post social, biglietto appuntamento, copertina Facebook con gli stessi colori
 
-### 7. Altre nicchie con la stessa base
+### 6. Altre nicchie con la stessa base
 
 Ortodonzia, pediatria, fisioterapia, veterinario, medicina estetica: stessi layout, palette e
 testi diversi. Ogni variante è un'inserzione in più con poco lavoro, e un pacchetto "cliniche"
@@ -113,6 +122,8 @@ permette un prezzo più alto.
 > - Before/after smile slider, team, reviews, FAQ, pricing and appointment form sections
 > - Global colours, fonts and design variables: change your brand once, update everywhere
 > - Clinic name, phone, email and address stored as variables
+> - Scroll animations made with GSAP: text revealed line by line, staggered cards, a hero that
+>   shrinks into a card. One tick switches them off
 > - Fully responsive on desktop, tablet and phone
 > - Safe on existing sites: nothing you already have is overwritten
 > - Step-by-step set-up guide (PDF)
@@ -138,6 +149,7 @@ permette un prezzo più alto.
 
 Le anteprime in `docs/previews/` sono un buon punto di partenza per le immagini 2, 4, 5 e 8
 (`service-pages.jpg` per le pagine servizio, `setup-screen.jpg` per la schermata di installazione).
+Il video dell'inserzione è `animations.mp4`.
 
 ## Prezzo e licenza
 
@@ -155,3 +167,12 @@ recensioni negative per questo tipo di prodotto.
   riprende solo l'impostazione generale.
 - Il child theme è GPL. I layout e le foto che aggiungi possono avere la licenza che scegli:
   indicala nel pacchetto.
+- **GSAP.** Lo zip contiene i file di GSAP 3.15.1 (gsap, ScrollTrigger, SplitText) così come
+  sono distribuiti, con la loro nota di copyright. La licenza standard di GSAP (in vigore dal
+  30 aprile 2025, <https://gsap.com/standard-license>) dice che l'uso commerciale è gratuito,
+  plugin compresi, e vieta solo gli strumenti che permettono di costruire animazioni in modo
+  visuale in concorrenza con Webflow, cosa che un template non è. Non contiene però una
+  clausola esplicita sui template venduti a più acquirenti: né un permesso né un divieto. Se
+  vuoi la certezza, GSAP invita a scrivere a <https://gsap.com/contact> nei casi dubbi. In
+  alternativa il tema può caricare GSAP da un CDN invece di includerlo: è una modifica di poche
+  righe in `theme/perla-child/inc/motion.php`.

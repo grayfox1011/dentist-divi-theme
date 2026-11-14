@@ -25,7 +25,7 @@ if ( $perla_report['error'] ) {
 }
 
 foreach ( $perla_report['created'] as $perla_line ) {
-	WP_CLI::log( "Added: $perla_line" );
+	WP_CLI::log( "Done: $perla_line" );
 }
 foreach ( $perla_report['kept'] as $perla_line ) {
 	WP_CLI::log( "Kept: $perla_line" );

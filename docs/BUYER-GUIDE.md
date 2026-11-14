@@ -19,8 +19,8 @@ A new WordPress site is best. If your site already has content, back it up first
 | --- | --- |
 | `perla-child.zip` | The theme. Upload this file to WordPress exactly as it is: do not unzip it. |
 | `Perla-Setup-Guide` | This guide. |
-| `Perla-Pages-for-Divi-Library.json` | Optional. The page layouts as a Divi Library file (see step 3). |
-| `Perla-Theme-Builder-Templates.json` | Optional. Header, footer and templates as a Theme Builder file (see step 3). |
+| `Perla-Pages-for-Divi-Library.json` | Optional. The page layouts as a Divi Library file (see step 4). |
+| `Perla-Theme-Builder-Templates.json` | Optional. Header, footer and templates as a Theme Builder file (see step 4). |
 
 ## 1. Install the theme
 
@@ -36,7 +36,7 @@ and then shows the **Perla Setup** screen with the list of what it created:
 - the colours, fonts and design variables of the theme
 - three sample blog posts with placeholder images
 
-Open your site: it now looks like the demo.
+Open your site: it now looks like the demo, scroll animations included.
 
 ### If your site already has content
 
@@ -129,7 +129,40 @@ with your own, using `+` instead of spaces, for example `10+Main+Street,+Boston`
 The theme creates a menu with Home, About, Services, Blog and Contact. Change it in
 **Appearance → Menus**.
 
-## 3. Optional: the layouts as Divi files
+## 3. Animations
+
+Perla animates the pages while your visitors scroll:
+
+- titles are revealed line by line;
+- cards, list items and buttons appear one after another;
+- large photos are unveiled from the bottom;
+- on computers, the top section of each page shrinks into a rounded card as the page scrolls on.
+
+The animations never run inside the Divi builder, so you always edit the finished page. Visitors
+who have asked their device to reduce motion see the pages without animations.
+
+### Turn the animations off
+
+Go to **Appearance → Perla Setup**, untick **Play the scroll animations** and click **Save**.
+
+### Animate something you add
+
+Every animation is a class name. Open the settings of a module, row or section in the builder, go
+to the **Advanced** tab and open **Attributes**. Click **Add Attribute**, type `class` as the
+attribute name and one of these names as its value:
+
+| Class | Use it on | What it does |
+| --- | --- | --- |
+| `perla-reveal` | any module | Fades in while it rises. |
+| `perla-stagger` | a row, a column or a group | Its items appear one after another. |
+| `perla-split` | a Heading module | The title is revealed line by line. |
+| `perla-image` | an Image module | The picture is unveiled from the bottom. |
+| `perla-pop` | a row with a background | The panel grows to its full size as it scrolls into view. |
+| `perla-hero` | the first section of a page | The section shrinks into a card while the page scrolls on. |
+
+To remove an animation from a module, delete that attribute.
+
+## 4. Optional: the layouts as Divi files
 
 You do not need these files for a normal set-up. They are useful in two cases.
 
@@ -169,6 +202,11 @@ them, or assign them again if you prefer yours.
   template in the Theme Builder and enable the image in the Post Title module.
 - **Updating Divi** is safe: the layouts are standard Divi content, and newer Divi versions
   update older layouts automatically.
+- **Updating Perla.** Upload the new `perla-child.zip` the same way and choose *Replace installed
+  with uploaded*. Your pages stay exactly as you edited them. If you would rather have the new
+  version of the demo pages, use **Appearance → Perla Setup → Restore the demo pages**: it replaces
+  the changes you made to the pages Perla created, so use it before you start editing or on pages
+  you are happy to redo.
 
 ## Need help?
 
