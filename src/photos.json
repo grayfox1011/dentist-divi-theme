@@ -1,0 +1,20 @@
+{
+  "hero":         { "file": "hero.jpg",               "size": [960, 1040], "pexels": 5355857,  "by": "Tima Miroshnichenko", "title": "Dentist and patient looking at a tablet", "focus": [0.50, 0.33], "zoom": 1 },
+  "studio":       { "file": "studio.jpg",             "size": [960, 1000], "pexels": 5355858,  "by": "Tima Miroshnichenko", "title": "Treatment room", "focus": [0.36, 0.50], "zoom": 1 },
+  "team":         { "file": "team.jpg",               "size": [960, 1040], "pexels": 5355859,  "by": "Tima Miroshnichenko", "title": "Two dentists looking at a tablet", "focus": [0.52, 0.52], "zoom": 0.94 },
+  "general":      { "file": "general-dentistry.jpg",  "size": [960, 860],  "pexels": 5355892,  "by": "Tima Miroshnichenko", "title": "Check-up", "focus": [0.44, 0.50], "zoom": 1 },
+  "cosmetic":     { "file": "cosmetic-dentistry.jpg", "size": [960, 860],  "pexels": 5355891,  "by": "Tima Miroshnichenko", "title": "Matching the shade of a tooth", "focus": [0.50, 0.50], "zoom": 1 },
+  "implants":     { "file": "dental-implants.jpg",    "size": [960, 860],  "pexels": 6502305,  "by": "cottonbro studio", "title": "Model of a dental implant", "focus": [0.50, 0.50], "zoom": 1 },
+  "whitening":    { "file": "teeth-whitening.jpg",    "size": [960, 860],  "pexels": 5355829,  "by": "Tima Miroshnichenko", "title": "Treatment with a curing light", "focus": [0.56, 0.50], "zoom": 1 },
+  "orthodontics": { "file": "orthodontics.jpg",       "size": [960, 860],  "pexels": 11887613, "by": "Arvind Philomin", "title": "Clear aligner", "focus": [0.56, 0.50], "zoom": 1 },
+  "emergency":    { "file": "emergency-care.jpg",     "size": [960, 860],  "pexels": 5355715,  "by": "Tima Miroshnichenko", "title": "Dentist treating a patient", "focus": [0.50, 0.36], "zoom": 1 },
+  "smileBefore":  { "file": "smile-before.jpg",       "size": [960, 720],  "pexels": 3762402,  "by": "Shiny Diamond", "title": "Smile, before (retouched demo picture)", "focus": [0.50, 0.50], "zoom": 1, "retouch": "stained-teeth" },
+  "smileAfter":   { "file": "smile-after.jpg",        "size": [960, 720],  "pexels": 3762402,  "by": "Shiny Diamond", "title": "Smile, after", "focus": [0.50, 0.50], "zoom": 1 },
+  "team1":        { "file": "team-1.jpg",             "size": [640, 760],  "pexels": 5355860,  "by": "Tima Miroshnichenko", "title": "Team portrait 1", "focus": [0.49, 0.45], "zoom": 0.47 },
+  "team2":        { "file": "team-2.jpg",             "size": [640, 760],  "pexels": 5355862,  "by": "Tima Miroshnichenko", "title": "Team portrait 2", "focus": [0.45, 0.42], "zoom": 0.98 },
+  "team3":        { "file": "team-3.jpg",             "size": [640, 760],  "pexels": 15752232, "by": "Yasin Aydın", "title": "Team portrait 3", "focus": [0.52, 0.34], "zoom": 0.86 },
+  "team4":        { "file": "team-4.jpg",             "size": [640, 760],  "pexels": 15641079, "by": "Tran Nhu Tuan", "title": "Team portrait 4", "focus": [0.50, 0.34], "zoom": 0.84 },
+  "blog1":        { "file": "blog-1.jpg",             "size": [1200, 750], "pexels": 5355709,  "by": "Tima Miroshnichenko", "title": "Dentist explaining an X-ray to a patient", "focus": [0.50, 0.55], "zoom": 1 },
+  "blog2":        { "file": "blog-2.jpg",             "size": [1200, 750], "pexels": 5355899,  "by": "Tima Miroshnichenko", "title": "Tooth shade guide", "focus": [0.50, 0.55], "zoom": 1 },
+  "blog3":        { "file": "blog-3.jpg",             "size": [1200, 750], "pexels": 4239018,  "by": "Kaboompics.com", "title": "Bamboo toothbrushes in a bathroom", "focus": [0.50, 0.50], "zoom": 1 }
+}

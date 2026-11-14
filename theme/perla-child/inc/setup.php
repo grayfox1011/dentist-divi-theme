@@ -296,7 +296,7 @@ function perla_child_setup_screen() {
 		<?php elseif ( $is_done ) : ?>
 			<div class="notice notice-success inline">
 				<p><strong><?php esc_html_e( 'Your site is ready.', 'perla-child' ); ?></strong>
-				<?php esc_html_e( 'The demo site is installed: replace the sample texts and placeholder images with your own.', 'perla-child' ); ?></p>
+				<?php esc_html_e( 'The demo site is installed: replace the sample texts and the demo photos with your own.', 'perla-child' ); ?></p>
 				<?php if ( ! $report['created'] && ! $report['kept'] && ! $report['notes'] ) : ?>
 					<p><?php esc_html_e( 'The last run found nothing to add: everything is already in place.', 'perla-child' ); ?></p>
 				<?php endif; ?>
@@ -329,7 +329,7 @@ function perla_child_setup_screen() {
 
 		<?php if ( ! $problem ) : ?>
 			<h2><?php echo esc_html( $is_done ? __( 'Run the set-up again', 'perla-child' ) : __( 'Install the demo site', 'perla-child' ) ); ?></h2>
-			<p><?php esc_html_e( 'Perla adds the pages (Home, About, Services, one page for each treatment, Blog and Contact), the header and footer, the blog post template, the 404 page, the main menu and three sample blog posts.', 'perla-child' ); ?></p>
+			<p><?php esc_html_e( 'Perla adds the pages (Home, About, Services, one page for each treatment, Blog and Contact) with their demo photos, the header and footer, the blog post template, the 404 page, the main menu and three sample blog posts.', 'perla-child' ); ?></p>
 			<p><?php esc_html_e( 'Only what is missing is added. Pages, menus and templates that are already on your site are never changed or deleted.', 'perla-child' ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="<?php echo esc_attr( PERLA_CHILD_SETUP_ACTION ); ?>">
@@ -365,7 +365,7 @@ function perla_child_setup_screen() {
 			<ol>
 				<li><?php esc_html_e( 'Clinic name, phone, email, address and colours: open any page with the Divi builder, then open the Variable Manager. Change them once and they update on every page.', 'perla-child' ); ?></li>
 				<li><?php esc_html_e( 'Logo: go to Divi > Theme Builder, open the Global Header, click the menu and replace the logo image.', 'perla-child' ); ?></li>
-				<li><?php esc_html_e( 'Photos: click any placeholder image in the builder and choose your own photo.', 'perla-child' ); ?></li>
+				<li><?php esc_html_e( 'Photos: the demo photos are stock pictures of models. Click any of them in the builder and choose a photo of your own clinic and team. The before / after pair is an illustration, not a real case: replace it with your own cases, or delete that section.', 'perla-child' ); ?></li>
 				<li><?php esc_html_e( 'Contact form: open the Contact page, click the form and enter the email address that should receive the requests.', 'perla-child' ); ?></li>
 			</ol>
 		<?php endif; ?>

@@ -1,11 +1,14 @@
 # Perla – tema Divi 5 per studi dentistici
 
 Child theme per **Divi 5** pensato per essere venduto come template (Etsy). Si installa come un
-normale tema e **costruisce da solo il sito demo**: pagine, header, footer, menu, colori e
-articoli di esempio. Tutto il design è fatto con **soli moduli standard di Divi 5**: chi lo
-compra modifica ogni cosa dal Visual Builder, senza plugin aggiuntivi e senza codice. Le pagine
-hanno **animazioni allo scorrimento fatte con GSAP** e **scorrimento fluido con Lenis**, che si
-spengono con una casella.
+normale tema e **costruisce da solo il sito demo**: pagine, header, footer, menu, colori,
+fotografie e articoli di esempio. Tutto il design è fatto con **soli moduli standard di Divi 5**:
+chi lo compra modifica ogni cosa dal Visual Builder, senza plugin aggiuntivi e senza codice. Le
+pagine hanno **animazioni allo scorrimento fatte con GSAP** e **scorrimento fluido con Lenis**,
+che si spengono con una casella.
+
+Il sito demo è scritto e illustrato come quello di uno studio vero: fotografie al posto dei
+segnaposto, testi concreti, una pagina diversa per ogni trattamento, articoli completi.
 
 Il nome "Perla" e lo studio demo "Perla Dental Studio" sono segnaposto: si cambiano in
 `src/tokens.js` (nome, colori, font, contatti) e `src/assets/logo.png` (logo dell'header).
@@ -18,8 +21,9 @@ Il nome "Perla" e lo studio demo "Perla Dental Studio" sono segnaposto: si cambi
 | `theme/perla-child/inc/` | L'installazione automatica del sito demo, la schermata "Perla Setup", il caricamento delle animazioni. |
 | `theme/perla-child/assets/js/` | Lo script delle animazioni (`perla-motion.js`), GSAP e Lenis (`vendor/`). |
 | `theme/perla-child/demo/` | I layout Divi e i contenuti che il tema installa (generati da `src/`). |
-| `src/` | Il generatore dei layout: colori, variabili, sezioni, pagine. |
-| `tools/` | Validatore dello schema Divi e script WP-CLI per l'ambiente locale. |
+| `theme/perla-child/demo/images/` | Le 18 foto demo e `CREDITS.txt` con autore e fonte di ciascuna. |
+| `src/` | Il generatore dei layout: colori, variabili, sezioni, pagine, testi, elenco delle foto. |
+| `tools/` | Validatore dello schema Divi, script che prepara le foto, script WP-CLI per l'ambiente locale. |
 | `bin/` | `setup.sh` (ambiente di sviluppo) e `package.sh` (file da caricare su Etsy). |
 | `docs/` | Guida per l'acquirente, consigli di vendita, anteprime. |
 
@@ -38,16 +42,73 @@ Anteprime del sito reale in [`docs/previews/`](docs/previews/).
 ### Come è fatto il design
 
 - **Colori globali** e **variabili di design** di Divi 5 (Variable Manager): colori, raggi,
-  spaziature, dimensioni dei testi, nome dello studio, telefono, email, indirizzo. Si cambiano
-  una volta e si aggiornano ovunque.
+  spaziature, dimensioni dei testi, nome dello studio, telefono, email, indirizzo, orari. Si
+  cambiano una volta e si aggiornano ovunque: header, footer, schede sotto la hero, pagina
+  Contatti.
+- Un campo contiene **o testo o una variabile, mai tutti e due**. Sul sito Divi sostituisce la
+  variabile anche in mezzo a una frase, ma nel Visual Builder (5.15.1) mostra solo la variabile e
+  perde le parole intorno: il generatore quindi non li mescola.
 - **Colori principali e font** (primario, secondario, titoli, testo, link, i due font): Divi li
   tiene nel Theme Customizer. Li imposta il child theme (`theme/perla-child/defaults.php`,
   generato da `src/tokens.js`), sostituendo solo i valori vuoti o ancora uguali a quelli di serie
   di Divi: colori e font scelti dal proprietario del sito non vengono toccati.
 - Font: Plus Jakarta Sans (titoli) e Inter (testi), entrambi Google Fonts già presenti in Divi.
 - Dimensioni fluide con `clamp()`: il layout si adatta da solo a tablet e telefono.
-- Le immagini sono **segnaposto SVG** incorporati nei layout: nessun problema di licenza e
-  nessun file da caricare. Vanno sostituite con foto vere.
+- Le recensioni mostrano le **iniziali** in un cerchio invece di una foto: non servono volti di
+  pazienti, e non si mette la faccia di una persona reale accanto a una frase inventata.
+
+## Foto demo
+
+Le 18 foto sono in `theme/perla-child/demo/images/` (circa 1 MB in tutto): hero, studio, team,
+una per ogni pagina trattamento, la coppia prima/dopo, quattro ritratti, tre immagini per gli
+articoli. Quasi tutte vengono dallo stesso servizio fotografico, così lo studio, la dentista e la
+luce sono gli stessi da una pagina all'altra, come nel sito di una clinica vera.
+
+**Da dove vengono.** Tutte da Pexels. La pagina della licenza (<https://www.pexels.com/license/>)
+dice che le foto sono gratuite, che l'attribuzione non è richiesta, che si possono modificare, e
+tra gli usi di esempio cita "a template you sell". Vieta di rivendere copie non modificate, di
+ripubblicarle su altri siti di foto, di mostrare persone riconoscibili in modo offensivo e di
+far sembrare che persone o marchi raccomandino il tuo prodotto. Ho controllato la pagina di ogni
+foto: tutte risultano con licenza "Free", nessuna è indicata come editoriale o sponsorizzata.
+Autore e indirizzo di ciascuna sono in `demo/images/CREDITS.txt` (generato dalla build) e nella
+descrizione di ogni immagine nella Libreria media.
+
+**Come arrivano sul sito.** I layout puntano al file dentro la cartella del tema
+(`/wp-content/themes/perla-child/demo/images/…`) e ne riportano larghezza e altezza. Quando il
+tema installa il sito demo copia ogni foto nella **Libreria media** e riscrive l'indirizzo e l'ID
+nei moduli immagine: WordPress aggiunge così il caricamento differito e la priorità alla foto
+della hero. Non vengono generate miniature (le foto sono già della misura giusta), quindi
+l'installazione resta veloce. Se la cartella `uploads` non è scrivibile la pagina mostra la foto
+dalla cartella del tema e la schermata di setup lo segnala.
+
+**Cambiarne una.** L'elenco è `src/photos.json`: file, misura, numero della foto su Pexels,
+autore, titolo, punto da tenere al centro e ingrandimento. `python3 tools/photos.py` scarica gli
+originali (in `.photos-cache/`, non versionata), li ritaglia e li esporta; poi `npm run build`
+riscrive i layout e i crediti. Servono Pillow e NumPy. Oppure basta sostituire il file con uno
+dello stesso nome e della stessa misura.
+
+**Due cose da sapere.**
+
+- La coppia **prima/dopo** è una sola foto: nel "prima" i denti sono stati scuriti con un
+  ritocco. Serve a far vedere lo slider, non è un caso clinico. La guida per l'acquirente lo dice
+  e chiede di sostituirla.
+- Le persone ritratte sono modelli di foto stock presentati come il team di uno studio
+  inventato. È l'uso normale di queste foto nei template, ma Pexels non pubblica le liberatorie
+  e io non posso verificarle: se preferisci non rischiare, sostituisci hero, team e ritratti con
+  foto tue o generate. Nelle recensioni non ci sono volti apposta.
+
+## Testi demo
+
+Lo studio è inventato ("Perla Dental Studio", Springfield, aperto nel 2010, quattro
+professionisti), ma i testi sono scritti come li scriverebbe uno studio vero: frasi concrete,
+orari, prezzi, cosa succede durante la visita. Ogni pagina trattamento ha il suo contenuto
+("What to expect", motivi per prenotare, dati in breve), il team ha una riga di presentazione a
+testa, le recensioni hanno lunghezze diverse, i tre articoli del blog sono completi (consigli
+generali e prudenti di igiene orale). Indirizzo, prefisso telefonico e mappa sono coerenti tra
+loro. Tutto si cambia in `src/content.js` e `src/tokens.js`.
+
+Recensioni, valutazione e numeri sono esempi: la guida chiede all'acquirente di sostituirli con
+dati veri prima di pubblicare.
 
 ## Installazione automatica del sito demo
 
@@ -62,7 +123,8 @@ Alla prima apertura della bacheca il tema:
 
 L'importazione aggiunge solo ciò che manca e non sovrascrive né cancella mai: una pagina che
 esiste già allo stesso indirizzo, il menu principale, i template del Theme Builder, gli articoli
-e i valori delle variabili restano come sono. Si può rilanciare quando si vuole (ricrea quello
+e i valori delle variabili restano come sono. Le foto vengono copiate nella Libreria media solo
+per le pagine che il tema crea davvero, e una foto già copiata viene riusata. Si può rilanciare quando si vuole (ricrea quello
 che è stato cancellato). Se WordPress è in una sottocartella o usa i permalink semplici, i link
 dei pulsanti vengono adattati agli indirizzi reali delle pagine.
 
@@ -167,9 +229,10 @@ npm run package    # crea in dist/ i file da caricare su Etsy
 | --- | --- |
 | `src/tokens.js` | Nome del tema, colori, font, variabili, contatti. |
 | `src/assets/logo.png` | Logo dell'header (PNG trasparente, alto 120 px). |
-| `src/content.js` | Testi demo: servizi (con i dati di ogni pagina servizio), team, recensioni, FAQ. |
+| `src/content.js` | Testi demo: servizi (con i testi di ogni pagina servizio), team, recensioni, FAQ, articoli del blog. |
+| `src/photos.json` | Le foto demo: file, misure, fonte, ritaglio (vedi "Foto demo"). |
 | `src/sections.js` | Le sezioni (hero, servizi, footer…). |
-| `src/pages.js` | Quali sezioni compongono ogni pagina, il menu, gli articoli di esempio. |
+| `src/pages.js` | Quali sezioni compongono ogni pagina e il menu. |
 | `src/ui.js` | Lo stile dei singoli moduli (pulsanti, card, titoli…). |
 
 Le modifiche fatte a mano nel Visual Builder restano nel sito in cui le fai: `npm run build`
@@ -196,8 +259,8 @@ secondo sito pulito in cui il tema non è montato ma caricato come zip.
 
 | Verifica | Esito |
 | --- | --- |
-| Sito nuovo: carico lo zip, clic su Attiva | Sito demo completo in circa 6 secondi, schermata "Your site is ready" |
-| Contenuti salvati | Le 11 pagine e i 4 layout del Theme Builder sono identici byte per byte ai file del tema |
+| Sito nuovo: carico lo zip, clic su Attiva | Sito demo completo in circa 3 secondi, foto comprese, schermata "Your site is ready" |
+| Contenuti salvati | I 4 layout del Theme Builder sono identici ai file del tema; nelle 11 pagine cambia solo l'indirizzo delle foto, che punta alla Libreria media |
 | Resa del sito pubblico: tutte le pagine, articolo, 404; pagine servizio anche su tablet e telefono | Controllata con schermate |
 | Menu a tendina su telefono, header fisso, mappa incorporata | Controllati |
 | Pagina creata dall'installazione aperta nel Visual Builder | Tutti i moduli, i colori e le variabili presenti |
@@ -213,7 +276,22 @@ secondo sito pulito in cui il tema non è montato ma caricato come zip.
 | Importazione manuale del file del Theme Builder, su sito pulito e sopra template già presenti | Riuscita; i template sostituiti restano come "Unassigned" |
 | `./bin/setup.sh` da zero e rilanciato | Riuscito |
 | Errori PHP nel log di WordPress durante tutte le prove | Nessuno |
-| Moduli conformi allo schema di Divi 5.4 (`npm run validate`) | 1079 moduli in 15 layout, nessun errore |
+| Moduli conformi allo schema di Divi 5.4 (`npm run validate`) | 1100 moduli in 15 layout, nessun errore |
+
+Foto e contenuti demo (versione 1.4):
+
+| Verifica | Esito |
+| --- | --- |
+| Libreria media dopo l'installazione | 18 immagini con titolo, testo alternativo e credito; nessuna miniatura rotta |
+| Immagini nelle pagine | Indirizzo della Libreria media, `width` e `height`, classe `wp-image-…`, caricamento differito; la foto della hero ha `fetchpriority="high"` |
+| Seconda esecuzione e "Restore the demo pages" | Le foto già copiate vengono riusate: restano 18 |
+| Cartella `uploads` non scrivibile (simulata) | Le pagine mostrano le foto dalla cartella del tema; la schermata di setup lo segnala |
+| Sito con la versione 1.3 aggiornato caricando lo zip | Resta com'era; dopo "Restore the demo pages" arrivano testi e foto nuovi. Dati dello studio e articoli già presenti non vengono toccati |
+| File per la Divi Library importato a mano | Gli 11 layout compaiono; una pagina creata da un layout mostra le foto dalla cartella del tema, con le misure |
+| Pagina aperta nel Visual Builder | Foto, schede con orari, telefono e indirizzo mostrano le stesse cose del sito |
+| Tutte le pagine su desktop; home, About e una pagina servizio su telefono; home su tablet | Controllate con schermate |
+| `tools/photos.py` | Rigenera i 18 file identici byte per byte, anche riscaricando l'originale |
+| Animazioni e scorrimento fluido rilanciati con foto e testi nuovi | 15 + 11 controlli superati |
 
 Animazioni (Chromium, sul sito di sviluppo e su un sito pulito installato dallo zip):
 
@@ -223,7 +301,7 @@ Animazioni (Chromium, sul sito di sviluppo e su un sito pulito installato dallo 
 | Sequenza di apertura, hero che si rimpicciolisce, titoli, card, immagini, pannello finale | Controllati fotogramma per fotogramma su desktop e telefono (vedi `docs/previews/animations.mp4`) |
 | "Riduci movimento" attivo | Nessuna animazione, tutto visibile |
 | JavaScript spento, oppure file di GSAP non caricabile | Tutto visibile (nel secondo caso dopo il timer di sicurezza) |
-| Pagina lenta, con l'evento di caricamento trattenuto 7 secondi | La hero parte subito e le sezioni compaiono scorrendo |
+| Pagina lenta, con la foto della hero trattenuta 7 secondi | I testi della hero partono subito, lo spazio della foto resta riservato e le sezioni compaiono scorrendo |
 | Pagina aperta su un'ancora e clic su "See pricing" | Arriva alla sezione giusta, con scorrimento animato |
 | Finestra ridimensionata sopra e sotto 981 px | L'effetto della hero si toglie e si rimette senza residui |
 | Visual Builder | Nessuno script di animazione caricato, pagina modificabile, le classi risultano negli attributi dei moduli |
@@ -254,6 +332,18 @@ contenuti più vecchi: su 5.15.1, aprendo e salvando la home nel builder, l'unic
 la conversione del maiuscolo delle etichette nel nuovo campo dedicato.
 
 Non verificato:
+
+- **Licenza delle foto.** Ho letto la pagina della licenza di Pexels e la pagina di ogni foto
+  (vedi "Foto demo"), ma non è un parere legale. Le liberatorie delle persone ritratte non sono
+  pubbliche e non le ho potute controllare.
+- **Larghezza e altezza delle foto nei layout su Divi 5.4–5.14.** Su 5.15.1 Divi le salva così
+  quando si sceglie un'immagine dalla libreria; sulle versioni precedenti non è stato provato.
+  Le misure arrivano comunque da WordPress tramite l'ID dell'immagine.
+- **Foto su un sito in una sottocartella.** Gli indirizzi vengono da `wp_get_attachment_url()`,
+  quindi dovrebbero essere giusti ovunque, ma è stato provato solo su siti alla radice. I layout
+  importati a mano dalla Divi Library, invece, cercano le foto in
+  `/wp-content/themes/perla-child/`: in una sottocartella, o con la cartella del tema rinominata,
+  non le trovano finché non si sostituiscono.
 
 - **Fluidità delle animazioni su dispositivi veri.** Questo ambiente non ha una scheda grafica:
   il browser disegna via software e i tempi di disegno non sono indicativi. È misurato solo il
@@ -292,4 +382,5 @@ l'inserzione, cose da controllare prima della pubblicazione. La guida per chi co
 - Divi è un marchio di Elegant Themes. Questo progetto non è affiliato né approvato da Elegant Themes.
 - Il design è originale: prende spunto dalla struttura di un kit Figma community, ma non ne riusa
   immagini, icone o testi.
-- Child theme sotto licenza GPL v2 o successiva.
+- Child theme sotto licenza GPL v2 o successiva. Le foto demo non sono GPL: restano sotto la
+  licenza di Pexels (vedi "Foto demo" e `theme/perla-child/demo/images/CREDITS.txt`).

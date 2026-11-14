@@ -3,8 +3,8 @@
  * Perla – Dental Clinic (Divi 5 child theme).
  *
  * The design is delivered as Divi 5 layouts. The child theme loads its stylesheet, sets the
- * brand colours and fonts, and installs the demo site: pages, header and footer, menu and
- * sample posts (see inc/setup.php and Appearance > Perla Setup).
+ * brand colours and fonts, and installs the demo site: pages with their photos, header and
+ * footer, menu and sample posts (see inc/setup.php and Appearance > Perla Setup).
  *
  * @package perla-child
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PERLA_CHILD_VERSION', '1.3.0' );
+define( 'PERLA_CHILD_VERSION', '1.4.0' );
 
 /**
  * Load the child theme stylesheet after Divi's own styles.

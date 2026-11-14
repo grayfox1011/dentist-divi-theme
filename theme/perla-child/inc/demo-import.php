@@ -3,7 +3,8 @@
  * Demo site importer.
  *
  * Builds the demo site from the files in /demo with WordPress' and Divi's own functions:
- * pages, design variables, Theme Builder templates, the main menu and a few sample posts.
+ * pages and their photos, design variables, Theme Builder templates, the main menu and a few
+ * sample posts.
  *
  * The importer only adds what is missing. Pages, menus, templates and settings that already
  * exist on the site are never overwritten or deleted, so it is safe to run more than once.
@@ -96,6 +97,151 @@ function perla_child_demo_find( $post_type, $mark ) {
 }
 
 /**
+ * Makes an address safe to write into the settings of a Divi module, the way WordPress does
+ * when it saves a block.
+ *
+ * @param string $url Address.
+ * @return string
+ */
+function perla_child_demo_escape( $url ) {
+	return str_replace( array( '--', '&' ), array( '\\u002d\\u002d', '\\u0026' ), $url );
+}
+
+/**
+ * Counts what happens to the demo photos during one set-up, for the report.
+ *
+ * @param string $what 'added' or 'failed'.
+ * @param int    $add  How many to add to the count.
+ * @return int The count so far.
+ */
+function perla_child_demo_photo_count( $what, $add = 0 ) {
+	static $counts = array(
+		'added'  => 0,
+		'failed' => 0,
+	);
+
+	$counts[ $what ] += $add;
+
+	return $counts[ $what ];
+}
+
+/**
+ * Adds one of the demo photos of the theme to the Media Library, or finds it there.
+ *
+ * The file is copied as it is. No smaller sizes are generated, so the set-up stays quick on
+ * any hosting: the photos are already as small as the layouts need them.
+ *
+ * @param string $file      File name in /demo/images.
+ * @param int    $parent_id Optional. Post the photo belongs to.
+ * @return array|null ID and address of the attachment, or null when the photo could not be added.
+ */
+function perla_child_demo_photo( $file, $parent_id = 0 ) {
+	static $details = null;
+	static $photos  = array();
+
+	if ( array_key_exists( $file, $photos ) ) {
+		return $photos[ $file ];
+	}
+
+	if ( null === $details ) {
+		$details  = array();
+		$manifest = perla_child_demo_read( 'manifest.json' );
+		foreach ( isset( $manifest['photos'] ) ? $manifest['photos'] : array() as $photo ) {
+			$details[ $photo['file'] ] = $photo;
+		}
+	}
+
+	$photos[ $file ] = null;
+	$mark            = 'image:' . $file;
+	$id              = perla_child_demo_find( 'attachment', $mark );
+
+	// A photo whose file has been deleted from the server is added again.
+	if ( $id && ! file_exists( (string) get_attached_file( $id ) ) ) {
+		$id = 0;
+	}
+
+	if ( ! $id ) {
+		$source = get_stylesheet_directory() . '/demo/images/' . $file;
+		$upload = is_readable( $source ) ? wp_upload_bits( 'perla-' . $file, null, file_get_contents( $source ) ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions -- Local file.
+		$type   = $upload && empty( $upload['error'] ) ? wp_check_filetype( $upload['file'] ) : null;
+		$size   = $type ? wp_getimagesize( $upload['file'] ) : null;
+
+		if ( ! $size || empty( $type['type'] ) ) {
+			perla_child_demo_photo_count( 'failed', 1 );
+			return null;
+		}
+
+		$title = isset( $details[ $file ]['title'] ) ? $details[ $file ]['title'] : $file;
+		$id    = wp_insert_attachment(
+			array(
+				'post_mime_type' => $type['type'],
+				'post_title'     => $title,
+				// Its own address, so the photo never takes one a page may want ("/team/").
+				'post_name'      => 'perla-photo-' . pathinfo( $file, PATHINFO_FILENAME ),
+				'post_content'   => isset( $details[ $file ]['credit'] ) ? $details[ $file ]['credit'] : '',
+				'post_status'    => 'inherit',
+			),
+			$upload['file'],
+			$parent_id
+		);
+
+		if ( ! $id || is_wp_error( $id ) ) {
+			perla_child_demo_photo_count( 'failed', 1 );
+			return null;
+		}
+
+		wp_update_attachment_metadata(
+			$id,
+			array(
+				'width'    => (int) $size[0],
+				'height'   => (int) $size[1],
+				'file'     => get_post_meta( $id, '_wp_attached_file', true ),
+				'filesize' => wp_filesize( $upload['file'] ),
+				'sizes'    => array(),
+			)
+		);
+		update_post_meta( $id, '_wp_attachment_image_alt', $title );
+		update_post_meta( $id, PERLA_CHILD_DEMO_META, $mark );
+		perla_child_demo_photo_count( 'added', 1 );
+	}
+
+	$photos[ $file ] = array(
+		'id'  => (int) $id,
+		'url' => wp_get_attachment_url( $id ),
+	);
+
+	return $photos[ $file ];
+}
+
+/**
+ * Points the pictures of a layout to their copies in the Media Library.
+ *
+ * The layouts are saved with the address of each photo inside the theme folder. WordPress
+ * needs the Media Library copy to know the size of a picture and to load it lazily. A photo
+ * that cannot be copied there keeps being shown from the theme folder.
+ *
+ * @param string $markup Divi layout.
+ * @return string
+ */
+function perla_child_demo_place_photos( $markup ) {
+	$result = preg_replace_callback(
+		'~"src":"/wp-content/themes/perla-child/demo/images/([a-z0-9-]+\.jpg)"~',
+		static function ( $match ) {
+			$photo = perla_child_demo_photo( $match[1] );
+
+			if ( $photo ) {
+				return '"src":"' . perla_child_demo_escape( $photo['url'] ) . '","id":"' . $photo['id'] . '"';
+			}
+
+			return '"src":"' . perla_child_demo_escape( get_stylesheet_directory_uri() . '/demo/images/' . $match[1] ) . '"';
+		},
+		$markup
+	);
+
+	return is_string( $result ) ? $result : $markup;
+}
+
+/**
  * Maps the addresses used by the demo buttons ("/contact/") to the real addresses on this site.
  *
  * They only differ when WordPress lives in a sub-folder, uses plain permalinks, or a page had
@@ -138,7 +284,7 @@ function perla_child_demo_localize( $markup, $links ) {
 		static function ( $match ) use ( $links, $home ) {
 			$link = isset( $links[ $match[2] ] ) ? $links[ $match[2] ] : $home . ltrim( $match[2], '/' );
 
-			return $match[1] . str_replace( array( '--', '&' ), array( '\\u002d\\u002d', '\\u0026' ), $link );
+			return $match[1] . perla_child_demo_escape( $link );
 		},
 		$markup
 	);
@@ -178,8 +324,9 @@ function perla_child_demo_import_pages( $manifest, $file, $update, &$report ) {
 		$ours = (bool) $id;
 
 		if ( $ours && $update ) {
-			$saved[ $key ] = '';
-			$restored[]    = $page['title'];
+			$layouts[ $page['layout'] ] = perla_child_demo_place_photos( $layouts[ $page['layout'] ] );
+			$saved[ $key ]              = '';
+			$restored[]                 = $page['title'];
 		}
 
 		if ( ! $id ) {
@@ -190,6 +337,8 @@ function perla_child_demo_import_pages( $manifest, $file, $update, &$report ) {
 				/* translators: 1: page title, 2: page address. */
 				$report['kept'][] = sprintf( __( 'Page "%1$s": your site already has a page at /%2$s/, so it was left as it is.', 'perla-child' ), $page['title'], $path );
 			} else {
+				$layouts[ $page['layout'] ] = perla_child_demo_place_photos( $layouts[ $page['layout'] ] );
+
 				// wp_slash() keeps the \uXXXX escapes of the Divi markup intact.
 				$id = wp_insert_post(
 					wp_slash(
@@ -492,8 +641,8 @@ function perla_child_demo_import_menu( $manifest, $ids, &$report ) {
 }
 
 /**
- * Creates a few sample posts with placeholder images, so the blog sections have something to
- * show. Skipped on sites that already have posts of their own.
+ * Creates a few sample posts with a photo each, so the blog sections have something to show.
+ * Skipped on sites that already have posts of their own.
  *
  * @param array $manifest Demo manifest.
  * @param array $report   Import report.
@@ -507,8 +656,6 @@ function perla_child_demo_import_posts( $manifest, &$report ) {
 		$report['kept'][] = __( 'Blog: your site already has posts, so no sample posts were added.', 'perla-child' );
 		return;
 	}
-
-	require_once ABSPATH . 'wp-admin/includes/image.php';
 
 	$category = term_exists( $manifest['category'], 'category' );
 	$category = $category ? $category : wp_insert_term( $manifest['category'], 'category' );
@@ -524,7 +671,7 @@ function perla_child_demo_import_posts( $manifest, &$report ) {
 					'post_status'   => 'publish',
 					'post_title'    => $post['title'],
 					'post_excerpt'  => $post['text'],
-					'post_content'  => "<!-- wp:paragraph -->\n<p>" . esc_html( $post['text'] ) . "</p>\n<!-- /wp:paragraph -->",
+					'post_content'  => $post['content'],
 					'post_category' => $category ? array( $category ) : array(),
 					// One second apart, so the posts keep this order.
 					'post_date'     => wp_date( 'Y-m-d H:i:s', $now - $index ),
@@ -540,37 +687,16 @@ function perla_child_demo_import_posts( $manifest, &$report ) {
 		update_post_meta( $post_id, PERLA_CHILD_DEMO_META, 'post' );
 		++$created;
 
-		// Featured image: a placeholder shipped with the theme.
-		$image = get_stylesheet_directory() . '/demo/images/' . basename( $post['image'] );
-		if ( ! is_readable( $image ) ) {
-			continue;
-		}
-
-		$upload = wp_upload_bits( 'perla-' . basename( $post['image'] ), null, file_get_contents( $image ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- Local file.
-		if ( ! empty( $upload['error'] ) ) {
-			continue;
-		}
-
-		$attachment_id = wp_insert_attachment(
-			array(
-				'post_mime_type' => 'image/jpeg',
-				'post_title'     => $post['title'],
-				'post_status'    => 'inherit',
-			),
-			$upload['file'],
-			$post_id
-		);
-
-		if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
-			wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
-			update_post_meta( $attachment_id, PERLA_CHILD_DEMO_META, 'image' );
-			set_post_thumbnail( $post_id, $attachment_id );
+		// Featured image: a demo photo shipped with the theme.
+		$photo = perla_child_demo_photo( basename( $post['image'] ), $post_id );
+		if ( $photo ) {
+			set_post_thumbnail( $post_id, $photo['id'] );
 		}
 	}
 
 	if ( $created ) {
 		/* translators: %d: number of posts. */
-		$report['created'][] = sprintf( __( '%d sample blog posts with placeholder images', 'perla-child' ), $created );
+		$report['created'][] = sprintf( __( '%d sample blog posts', 'perla-child' ), $created );
 	}
 }
 
@@ -630,6 +756,15 @@ function perla_child_import_demo( $args = array() ) {
 	perla_child_demo_import_posts( $manifest, $report );
 
 	kses_init();
+
+	$photos = perla_child_demo_photo_count( 'added' );
+	if ( $photos ) {
+		/* translators: %d: number of photos. */
+		$report['created'][] = sprintf( _n( '%d demo photo, in the Media Library', '%d demo photos, in the Media Library', $photos, 'perla-child' ), $photos );
+	}
+	if ( perla_child_demo_photo_count( 'failed' ) ) {
+		$report['notes'][] = __( 'Some demo photos could not be copied to the Media Library, so the pages show them from the theme folder. Check that WordPress can write to the wp-content/uploads folder, then use "Restore the demo pages".', 'perla-child' );
+	}
 
 	// Divi caches the CSS it generates for each page: start from a clean slate.
 	if ( class_exists( 'ET_Core_PageResource' ) ) {

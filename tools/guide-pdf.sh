@@ -29,6 +29,8 @@ cat > "$TMP/guide.html" <<'HTML'
   h3 { font-size: 11.5pt; color: #0b1b3f; margin: 14pt 0 4pt; break-after: avoid; }
   p, ul, ol { margin: 0 0 7pt; }
   li { margin-bottom: 2.5pt; }
+  ul.task-list { list-style: none; padding-left: 2pt; }
+  ul.task-list input { margin: 0 6pt 0 0; vertical-align: -1pt; }
   a { color: #1a66e8; text-decoration: none; }
   code { font: 9.5pt/1.3 Menlo, Consolas, monospace; background: #edf4ff; border-radius: 3px; padding: 1px 4px; }
   table { border-collapse: collapse; width: 100%; margin: 4pt 0 10pt; break-inside: avoid; }

@@ -55,16 +55,16 @@ const NUMBERS = {
 
 const STRINGS = {
   clinicName: { label: 'Clinic Name', value: BRAND.clinicName },
-  phone: { label: 'Phone Number', value: '(212) 555-0142' },
+  phone: { label: 'Phone Number', value: '(217) 555-0142' },
   email: { label: 'Email Address', value: 'smile@example.com' },
-  address: { label: 'Address', value: '128 Harbor Street, Suite 200, Springfield' },
-  hours: { label: 'Opening Hours (short)', value: 'Mon–Sat · 8am–7pm' },
+  address: { label: 'Address', value: '128 Harbor Street, Springfield, IL' },
+  hours: { label: 'Opening Hours (short)', value: 'Mon–Fri 8am–7pm · Sat 9am–2pm' },
   bookLabel: { label: 'Button – Book', value: 'Book a visit' },
 };
 
 const LINKS = {
   bookUrl: { label: 'Booking Page', value: '/contact/' },
-  phoneUrl: { label: 'Phone Link', value: 'tel:+12125550142' },
+  phoneUrl: { label: 'Phone Link', value: 'tel:+12175550142' },
   emailUrl: { label: 'Email Link', value: 'mailto:smile@example.com' },
 };
 

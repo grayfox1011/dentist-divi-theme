@@ -34,9 +34,10 @@ and then shows the **Perla Setup** screen with the list of what it created:
 - the header and footer, the blog post template and the 404 page
 - the main menu
 - the colours, fonts and design variables of the theme
-- three sample blog posts with placeholder images
+- three sample articles for the blog
+- 18 demo photos, added to your Media Library
 
-Open your site: it now looks like the demo, scroll animations included.
+Open your site: it now looks like the demo, photos and scroll animations included.
 
 ### If your site already has content
 
@@ -71,6 +72,9 @@ these once and they update in the header, the footer and every page:
 - Phone Link (`tel:+1...`) and Email Link (`mailto:...`)
 - Booking Page (where the "Book a visit" buttons go)
 
+The cards under the first section of the Home page and the list on the Contact page show the
+same variables, so they update too.
+
 ### Your logo
 
 Go to **Divi → Theme Builder**, open the **Global Header**, click the Menu module and replace the
@@ -92,8 +96,9 @@ Three ready-made palettes you can type in:
 
 ### Photos
 
-The layouts use light placeholder images, so nothing has to be uploaded during set-up. Click any
-image and replace it with your own photo. Recommended sizes:
+The demo photos are in your **Media Library**. They are stock pictures of models, there to show
+how the pages look: replace them with photos of your own clinic and team. Click a photo in the
+builder and choose another one. Sizes that fit the layouts:
 
 | Where | Size |
 | --- | --- |
@@ -101,14 +106,32 @@ image and replace it with your own photo. Recommended sizes:
 | Treatment pages | 960 × 860 px |
 | Team members | 640 × 760 px |
 | Before / after | 960 × 720 px, both the same size |
-| Review avatars | 120 × 120 px |
+| Blog posts (featured image) | 1200 × 750 px |
+
+Good to know about the demo photos:
+
+- **Before / after.** The two pictures are one photo, retouched to show how the slider works.
+  They are not a real case. Use photos of your own patients, with their consent, or delete the
+  section.
+- **Where they come from.** All of them come from Pexels and are used under the
+  [Pexels licence](https://www.pexels.com/license/). The file `demo/images/CREDITS.txt` inside
+  the theme lists each photo with its photographer and source. Each photo also carries its credit
+  in the Media Library.
+- Once you have replaced a demo photo you can delete it from the Media Library.
+
+### Team and reviews
+
+The team, the reviews, the star rating and the numbers are examples written for an invented
+clinic. Put in your own before the site goes live: your real team, reviews your patients have
+actually written, your own figures. The round badge on each review shows the initials of the
+person: change the two letters, no photo needed.
 
 ### Treatment pages
 
 Each treatment has its own page under **Pages → Services**: General Dentistry, Cosmetic Dentistry,
-Dental Implants, Teeth Whitening, Orthodontics and Emergency Care. Change the texts and the
-"At a glance" facts on each one. Dental Implants also shows a price table: delete that section if
-you do not publish prices.
+Dental Implants, Teeth Whitening, Orthodontics and Emergency Care. Each page has its own photo and
+texts: change them, the "At a glance" facts and the prices to match what you offer. Dental
+Implants also shows a price table: delete that section if you do not publish prices.
 
 Do you not offer a treatment? Move its page to the trash, then remove its card on the Home and
 Services pages and its link in the footer.
@@ -178,7 +201,8 @@ To remove an animation from a module, delete that attribute.
 
 You do not need these files for a normal set-up. They are useful in two cases.
 
-**To build more pages from the Perla layouts**, add them to your Divi Library:
+**To build more pages from the Perla layouts**, add them to your Divi Library. (Layouts added
+this way show the demo photos straight from the theme folder.)
 
 1. Go to **Divi → Divi Library** and click **Import & Export**.
 2. Open the **Import** tab, choose `Perla-Pages-for-Divi-Library.json` and click
@@ -210,6 +234,8 @@ them, or assign them again if you prefer yours.
   the Theme Builder, type "sticky" in the settings search box and set the sticky position to
   *Do Not Stick*.
 - **Blog cards** show your real posts. Add a featured image to each post for the best result.
+- **Sample articles.** The three articles are examples of how a post looks. Rewrite them or
+  delete them: they are general dental advice, not written for your patients.
 - **Blog posts** do not repeat the featured image at the top. To show it, open the "All Posts"
   template in the Theme Builder and enable the image in the Post Title module.
 - **Updating Divi** is safe: the layouts are standard Divi content, and newer Divi versions
@@ -218,7 +244,19 @@ them, or assign them again if you prefer yours.
   with uploaded*. Your pages stay exactly as you edited them. If you would rather have the new
   version of the demo pages, use **Appearance → Perla Setup → Restore the demo pages**: it replaces
   the changes you made to the pages Perla created, so use it before you start editing or on pages
-  you are happy to redo.
+  you are happy to redo. Coming from a version older than 1.4? Restoring is also what brings in
+  the demo photos. The sample articles are left as they are: to get the new ones, move the three
+  old ones to the Trash and click **Run the set-up again**.
+
+## Before you go live
+
+- [ ] Clinic details changed in the Variable Manager
+- [ ] Your logo, your colours
+- [ ] Demo photos replaced with your own, the before / after pair included
+- [ ] Team, reviews, rating, numbers and prices replaced with real ones
+- [ ] Email address set in the contact form, and a test message received
+- [ ] Your address on the map
+- [ ] Privacy policy and Terms pages published, sample articles rewritten or deleted
 
 ## Need help?
 

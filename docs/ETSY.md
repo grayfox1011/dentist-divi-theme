@@ -10,19 +10,20 @@ dati di mercato: conviene confrontarle con le inserzioni simili già presenti su
    provato per intero su Divi 5.15.1 (vedi il README). Divi esce con aggiornamenti frequenti:
    prima di pubblicare, e poi a ogni versione importante, ripeti la prova su un sito pulito:
    carica `perla-child.zip`, attivalo e controlla che compaia "Your site is ready".
-2. **Sostituisci i segnaposto con foto vere** per le immagini dell'inserzione e per la demo.
-   Verifica la licenza: deve consentire l'uso commerciale e, se vuoi includere le foto nel
-   pacchetto, anche la ridistribuzione. Per foto con persone riconoscibili serve la liberatoria.
-   In alternativa lascia i segnaposto nel prodotto e usa le foto solo nella demo, scrivendolo
-   chiaramente ("immagini non incluse").
+2. **Decidi se tenere le foto demo.** Dalla versione 1.4 il tema include 18 fotografie prese
+   da Pexels (vedi "Già incluso: foto e testi" e "Aspetti legali"). Sono pronte anche per le
+   immagini dell'inserzione. Se preferisci le tue, sostituisci i file in
+   `theme/perla-child/demo/images/` con altri dello stesso nome e della stessa misura, oppure
+   cambia `src/photos.json` e lancia `tools/photos.py`.
 3. **Metti online una demo.** Un link a un sito funzionante è ciò che più convince chi compra un
    template: basta un sottodominio con WordPress, Divi e il tema importato.
 4. **Scegli nome, autore e logo definitivi**: `src/tokens.js`, `theme/perla-child/style.css` e
    `src/assets/logo.png`, poi `npm run package`. I file da caricare su Etsy sono quelli in
    `dist/`: `perla-child.zip` (il tema), la guida in PDF e i due file JSON facoltativi. Etsy
    accetta fino a 5 file per inserzione.
-5. **Aggiorna `theme/perla-child/screenshot.png`** (1200 × 900 px): è l'anteprima che WordPress
-   mostra in Aspetto → Temi. Quella attuale è ricavata dalla home con i segnaposto.
+5. **Controlla `theme/perla-child/screenshot.png`** (1200 × 900 px): è l'anteprima che WordPress
+   mostra in Aspetto → Temi. Quella attuale è la parte alta della home con le foto demo: va
+   rifatta se cambi nome, logo o foto.
 
 ## Già incluso: installazione automatica
 
@@ -34,6 +35,19 @@ un'immagine dedicata ("Install. Activate. Done.").
 
 Sui siti che hanno già contenuti il tema non tocca nulla e chiede conferma con un pulsante.
 Meno passaggi manuali dovrebbero voler dire meno richieste di assistenza e meno rimborsi.
+
+## Già incluso: foto e testi da sito vero
+
+Dalla versione 1.4 il sito demo non ha più segnaposto. Ci sono 18 fotografie (quasi tutte dallo
+stesso servizio fotografico, quindi stesso studio e stesse persone in tutte le pagine), testi
+scritti come quelli di uno studio reale, sei pagine trattamento ognuna con foto e contenuto
+propri, tre articoli completi per il blog. Le foto finiscono nella Libreria media dell'acquirente
+durante l'installazione.
+
+Per chi compra un template la prima impressione è quasi tutto: un sito che sembra già finito si
+vende meglio di uno pieno di riquadri grigi, e le immagini dell'inserzione si fanno da sole
+(`docs/previews/`). Nell'inserzione conviene dire chiaramente che le foto sono dimostrative e
+vanno sostituite con quelle dello studio.
 
 ## Già incluso: animazioni allo scorrimento (GSAP)
 
@@ -118,6 +132,7 @@ permette un prezzo più alto.
 > WHAT YOU GET
 > - One-step set-up: activate the theme and the whole demo site is created for you
 > - 11 pages: Home, About, Services, 6 treatment pages (one with a price table), Blog, Contact
+> - Demo photos and real-sounding sample texts included, so the site looks finished from day one
 > - Global header and footer, blog post template and 404 page
 > - Before/after smile slider, team, reviews, FAQ, pricing and appointment form sections
 > - Global colours, fonts and design variables: change your brand once, update everywhere
@@ -131,7 +146,8 @@ permette un prezzo più alto.
 > PLEASE NOTE
 > - Requires the Divi theme version 5.4 or newer (sold separately by Elegant Themes) and a
 >   self-hosted WordPress site.
-> - Demo photos are not included. The layouts ship with placeholders in the right sizes.
+> - The demo photos (stock pictures from Pexels) and the sample texts, reviews and prices are
+>   placeholders: replace them with your own before your site goes live.
 > - This is a digital download. No physical item will be shipped.
 
 **Immagini** (in quest'ordine):
@@ -144,7 +160,7 @@ permette un prezzo più alto.
 6. Personalizzazione: stesso layout in tre palette
 7. Lo slider prima/dopo e il modulo di prenotazione
 8. "Come funziona": installa, attiva, fatto (con la schermata "Your site is ready")
-9. Requisiti: serve Divi 5, foto non incluse
+9. Requisiti: serve Divi 5; foto e testi demo da sostituire con i propri
 10. Assistenza e aggiornamenti
 
 Le anteprime in `docs/previews/` sono un buon punto di partenza per le immagini 2, 4, 5 e 8
@@ -165,8 +181,23 @@ recensioni negative per questo tipo di prodotto.
 - Usa "for Divi" o "per Divi" e aggiungi la dicitura che non sei affiliato a Elegant Themes.
 - Non riutilizzare immagini, icone o testi del kit Figma: il design di Perla è originale e ne
   riprende solo l'impostazione generale.
-- Il child theme è GPL. I layout e le foto che aggiungi possono avere la licenza che scegli:
-  indicala nel pacchetto.
+- Il child theme è GPL. I layout possono avere la licenza che scegli: indicala nel pacchetto.
+- **Foto demo.** Vengono tutte da Pexels. La pagina della licenza
+  (<https://www.pexels.com/license/>) dice che sono gratuite, che l'attribuzione non è richiesta
+  e che si possono modificare, e tra gli esempi di uso cita "a template you sell". Vieta di
+  vendere copie non modificate, di ripubblicarle su altri siti di foto, di mostrare persone
+  riconoscibili in modo offensivo e di far sembrare che persone o marchi raccomandino un
+  prodotto. Le foto sono incluse ritagliate e ridimensionate, come parte del template, con
+  l'elenco di autori e fonti in `demo/images/CREDITS.txt`. Tre cose restano una tua scelta:
+  - le persone ritratte sono modelli presentati come il team di uno studio inventato. È l'uso
+    abituale nei template, ma Pexels non garantisce le liberatorie. Se vuoi azzerare il rischio,
+    sostituisci le foto in cui si riconosce una persona: sono una decina (hero, foto del team,
+    i quattro ritratti, tre pagine trattamento, un articolo);
+  - la coppia prima/dopo è una foto sola con i denti scuriti da un ritocco. La guida lo dice
+    all'acquirente e gli chiede di sostituirla: non presentarla mai come un caso reale;
+  - le licenze dei siti di foto cambiano: rileggi la pagina di Pexels prima di pubblicare.
+- **Recensioni e numeri demo.** Sono inventati, come lo studio. Vanno bene in una demo; la guida
+  chiede all'acquirente di sostituirli con dati veri prima di andare online.
 - **GSAP.** Lo zip contiene i file di GSAP 3.15.1 (gsap, ScrollTrigger, SplitText) così come
   sono distribuiti, con la loro nota di copyright. La licenza standard di GSAP (in vigore dal
   30 aprile 2025, <https://gsap.com/standard-license>) dice che l'uso commerciale è gratuito,

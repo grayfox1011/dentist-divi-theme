@@ -4,7 +4,8 @@
  *
  *   pages.json          every page layout, in Divi 5's own Divi Library export format
  *   theme-builder.json  header, footer, blog post and 404 templates, in Divi's Theme Builder format
- *   manifest.json       what the child theme creates on a site: pages, menu, sample posts
+ *   manifest.json       what the child theme creates on a site: pages, menu, photos, sample posts
+ *   images/CREDITS.txt  where each demo photo comes from
  *
  * The two Divi files can also be imported by hand through the Divi admin.
  *
@@ -16,6 +17,7 @@ const path = require('path');
 const { serialize, countBlocks, BUILDER_VERSION } = require('./lib/d5');
 const tokens = require('./tokens');
 const { PAGES, MENU, THEME, POSTS } = require('./pages');
+const photos = require('./photos');
 
 const THEME_DIR = path.join(__dirname, '..', 'theme', 'perla-child');
 const OUT = path.join(THEME_DIR, 'demo');
@@ -27,6 +29,12 @@ const write = (file, data) => { fs.mkdirSync(path.dirname(file), { recursive: tr
 
 /** Colours and variables shared by every export file. The theme uses no presets, so that list is empty. */
 const shared = () => ({ presets: [], global_colors: tokens.exportGlobalColors(), global_variables: tokens.exportGlobalVariables() });
+
+/** A sample article as WordPress block markup: ['p', text] is a paragraph, ['h', text] a heading. */
+const escapeHtml = text => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const article = body => body.map(([type, text]) => (type === 'h'
+  ? `<!-- wp:heading -->\n<h2 class="wp-block-heading">${escapeHtml(text)}</h2>\n<!-- /wp:heading -->`
+  : `<!-- wp:paragraph -->\n<p>${escapeHtml(text)}</p>\n<!-- /wp:paragraph -->`)).join('\n\n');
 
 const term = (name, slug, taxonomy) => ({ name, slug, taxonomy, parent: 0, all_parents: [], description: '' });
 
@@ -95,9 +103,16 @@ function build() {
   write(path.join(OUT, 'manifest.json'), {
     pages: PAGES.map(page => ({ key: page.key, layout: layoutSlug(page), title: page.page.title, slug: page.page.slug, parent: page.page.parent || '', front: Boolean(page.page.front) })),
     menu: MENU,
-    posts: POSTS,
+    photos: photos.manifest(),
+    posts: POSTS.map(post => ({ title: post.title, text: post.text, image: post.image, content: article(post.body) })),
     category: 'Oral health',
   });
+
+  // The demo photos must be where the layouts expect them, and their sources are listed next to them.
+  for (const p of Object.values(photos.PHOTOS)) {
+    if (!fs.existsSync(path.join(OUT, 'images', p.file))) throw new Error(`Missing demo photo: demo/images/${p.file}`);
+  }
+  fs.writeFileSync(path.join(OUT, 'images', 'CREDITS.txt'), photos.credits());
 
   // 4. Brand colours and fonts. Divi stores these in the Theme Customizer and leaves them out of
   //    layout imports, so the child theme applies them when it is activated.

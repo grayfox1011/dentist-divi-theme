@@ -56,7 +56,7 @@ echo "==> Activating the Perla child theme"
 wp theme activate perla-child
 wp rewrite structure '/%postname%/' >/dev/null
 
-echo "==> Building the demo site (pages, header and footer, menu, sample posts)"
+echo "==> Building the demo site (pages and photos, header and footer, menu, sample posts)"
 wp --user=admin eval-file /project/tools/import-demo.php
 
 cat <<MSG

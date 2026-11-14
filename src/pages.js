@@ -23,20 +23,20 @@ const PAGES = [
   },
   {
     key: 'about', layoutTitle: 'About', page: { title: 'About', slug: 'about' },
-    build: () => [s.pageHero({ eyebrow: 'About us', title: 'Dentistry with a personal touch', text: 'Meet the people behind the smiles and find out what makes our studio different.' }), s.story(), s.stats({ bg: c('white') }), s.values(), s.team(), s.testimonials(), s.cta()],
+    build: () => [s.pageHero({ eyebrow: 'About us', title: 'A small studio, on purpose', text: 'Sixteen years, one address and a team that has barely changed. Here is who we are.' }), s.story(), s.stats({ bg: c('white') }), s.values(), s.team(), s.testimonials(), s.cta()],
   },
   {
     key: 'services', layoutTitle: 'Services', page: { title: 'Services', slug: 'services' },
-    build: () => [s.pageHero({ eyebrow: 'Treatments', title: 'Everything your smile needs', text: 'Preventive, restorative and cosmetic dentistry from one experienced team.' }), s.services({ cta: false }), s.steps({ bg: c('white') }), s.smileGallery({ bg: c('mist') }), s.faq({ bg: c('white') }), s.cta()],
+    build: () => [s.pageHero({ eyebrow: 'Treatments', title: 'What we can do for you', text: 'Six kinds of treatment, one team. The prices are a guide: you get an exact quote after your examination.' }), s.services({ cta: false }), s.steps({ bg: c('white') }), s.smileGallery({ bg: c('mist') }), s.faq({ bg: c('white') }), s.cta()],
   },
   ...C.SERVICES.map(servicePage),
   {
     key: 'blog', layoutTitle: 'Blog', page: { title: 'Blog', slug: 'blog' },
-    build: () => [s.pageHero({ eyebrow: 'Journal', title: 'Advice for a healthy smile', text: 'Practical tips and answers to common questions from our dental team.' }), s.blogList(), s.cta()],
+    build: () => [s.pageHero({ eyebrow: 'Journal', title: 'Notes from the studio', text: 'Short answers to the questions we are asked most, written by the team.' }), s.blogList(), s.cta()],
   },
   {
     key: 'contact', layoutTitle: 'Contact', page: { title: 'Contact', slug: 'contact' },
-    build: () => [s.pageHero({ eyebrow: 'Contact', title: 'Book your visit', text: 'Call, email or send us a message. We will find a time that works for you.' }), s.contactMain(), s.map(), s.faq()],
+    build: () => [s.pageHero({ eyebrow: 'Contact', title: 'Come and see us', text: 'Call, email or use the form. We answer every message within one business day.' }), s.contactMain(), s.map(), s.faq()],
   },
 ];
 
@@ -51,11 +51,4 @@ const THEME = {
   notFound: { title: 'Perla – 404 Page', build: s.notFound },
 };
 
-/** Sample articles created on a new site so the blog sections have something to show. */
-const POSTS = [
-  { title: 'How often should you really visit the dentist?', text: 'Most people benefit from a check-up and professional cleaning every six months. Regular visits let us spot small problems before they become big ones, and keep your gums healthy.', image: 'blog-1.jpg' },
-  { title: 'Teeth whitening: what to expect from your first session', text: 'Professional whitening is quick, safe and comfortable. Here is how the treatment works, how long the results last and how to look after your brighter smile.', image: 'blog-2.jpg' },
-  { title: 'Five habits for healthier gums', text: 'Healthy gums are the foundation of a healthy smile. A few small changes to your daily routine can make a real difference.', image: 'blog-3.jpg' },
-];
-
-module.exports = { PAGES, MENU, THEME, POSTS };
+module.exports = { PAGES, MENU, THEME, POSTS: C.POSTS };

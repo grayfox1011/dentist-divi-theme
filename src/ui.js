@@ -222,8 +222,11 @@ function linkButton(label, url, o = {}) {
   return block('divi/button', merge(root(o, { padding: pad }), { button: btn }, o.align ? at('module.advanced.alignment', S(o.align)) : {}, o.attrs));
 }
 
+/** A picture as Divi stores it: a plain address, or { src, width, height } (see photos.js). */
+const picture = (src, alt) => ({ ...(typeof src === 'string' ? { src } : src), alt: alt || '' });
+
 function image(src, o = {}) {
-  const img = { innerContent: rv({ src, alt: o.alt || '', ...(o.link ? { linkUrl: o.link } : {}) }), decoration: { border: G({ radius: corners(o.radius === undefined ? v('radiusL') : o.radius) }), boxShadow: o.shadow ? G(SHADOWS[o.shadow]) : undefined } };
+  const img = { innerContent: rv({ ...picture(src, o.alt), ...(o.link ? { linkUrl: o.link } : {}) }), decoration: { border: G({ radius: corners(o.radius === undefined ? v('radiusL') : o.radius) }), boxShadow: o.shadow ? G(SHADOWS[o.shadow]) : undefined } };
   const adv = { sizing: G({ width: o.width, maxWidth: o.maxWidth, height: o.height, maxHeight: o.maxHeight }), align: S(o.align), spacing: o.margin ? G({ margin: o.margin }) : undefined };
   return block('divi/image', merge(root(o), { image: img, module: { advanced: adv } }, o.attrs));
 }
@@ -237,6 +240,12 @@ function icon(unicode, o = {}) {
   return block('divi/icon', merge(root(o, merge(badge, { alignSelf: o.alignSelf || 'flex-start' })), { icon: ic }, o.attrs));
 }
 
+/**
+ * A field holds either words or one variable of the Variable Manager, never both: the Visual
+ * Builder shows only the variable when the two are mixed, while the site shows everything.
+ */
+const isVariable = text => /^\$variable\(.*\)\$$/.test(text);
+
 /** Blurb with an icon, a title and a short text. */
 function blurb(o = {}) {
   const placement = o.placement || 'top';
@@ -247,7 +256,7 @@ function blurb(o = {}) {
       decoration: merge(deco({ bg: o.iconBg === undefined ? c('tint') : o.iconBg, padding: box(o.iconPad || '16px'), radius: o.iconRadius || '16px' }), { sizing: G({ iconFontSize: o.iconSize || '26px' }) }),
     },
     title: { innerContent: rv({ text: o.title, ...(o.link ? { url: o.link } : {}) }), decoration: { font: font({ level: o.level || 'h3', size: o.titleSize || v('h3'), weight: '700', color: o.titleColor || c('heading'), lineHeight: '1.25em', letterSpacing: '-0.01em', align: o.align || 'left' }) } },
-    content: { innerContent: rv(o.text ? `<p>${o.text}</p>` : ''), decoration: { bodyFont: { body: font({ size: o.textSize || v('bodySize'), color: o.textColor || c('body'), lineHeight: '1.65em', align: o.align || 'left' }) } } },
+    content: { innerContent: rv(!o.text ? '' : isVariable(o.text) ? o.text : `<p>${o.text}</p>`), decoration: { bodyFont: { body: font({ size: o.textSize || v('bodySize'), color: o.textColor || c('body'), lineHeight: '1.65em', align: o.align || 'left' }) } } },
     contentContainer: { decoration: { sizing: G({ maxWidth: '100%' }) } },
     module: { advanced: { text: { text: G({ orientation: o.align || 'left' }) } } },
   };
@@ -369,8 +378,8 @@ function social(networks, o = {}) {
 
 function beforeAfter(before, after, o = {}) {
   const attrs = {
-    beforeImage: { innerContent: rv({ src: before, alt: 'Before treatment' }) },
-    afterImage: { innerContent: rv({ src: after, alt: 'After treatment' }) },
+    beforeImage: { innerContent: rv(picture(before, o.beforeAlt || 'Before treatment')) },
+    afterImage: { innerContent: rv(picture(after, o.afterAlt || 'After treatment')) },
     beforeLabel: { innerContent: rv('Before') },
     afterLabel: { innerContent: rv('After') },
     slider: { advanced: { color: rv(c('white')), arrowColor: rv(c('primary')) } },
@@ -385,7 +394,7 @@ function beforeAfter(before, after, o = {}) {
 function postTitle(o = {}) {
   const attrs = {
     title: { decoration: { font: font({ level: 'h1', size: 'clamp(34px, 4.4vw, 56px)', weight: '800', color: c('heading'), lineHeight: '1.1em', letterSpacing: '-0.025em', align: o.align || 'center' }) } },
-    meta: { advanced: { showMeta: rv('on'), showAuthor: rv('on'), showDate: rv('on'), showCategories: rv('on'), showCommentsCount: rv('off') }, decoration: { font: font({ size: v('small'), color: c('body'), lineHeight: '1.6em', align: o.align || 'center' }) } },
+    meta: { advanced: { showMeta: rv('on'), showAuthor: rv('off'), showDate: rv('on'), showCategories: rv('on'), showCommentsCount: rv('off') }, decoration: { font: font({ size: v('small'), color: c('body'), lineHeight: '1.6em', align: o.align || 'center' }) } },
     featuredImage: { advanced: { enabled: rv('off') } },
     module: { advanced: { text: { text: G({ orientation: o.align || 'center' }) } } },
   };

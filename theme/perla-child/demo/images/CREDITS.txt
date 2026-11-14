@@ -1,0 +1,33 @@
+Demo photos of the Perla theme
+==============================
+
+These pictures are placeholders. Replace them with photos of your own clinic and team.
+
+They come from Pexels and are used under the Pexels licence (https://www.pexels.com/license/):
+free to use, attribution not required. They have been cropped and resized. Read the licence
+before you use them anywhere else. They are not covered by the GPL licence of the theme code.
+
+smile-before.jpg is the same photo as smile-after.jpg with the teeth retouched to look
+darker. It only shows how the before / after slider works: it is not a real clinical case.
+
+The people shown are models. Do not present them as members of your team or as your patients.
+
+File                     Photographer           Source
+hero.jpg                 Tima Miroshnichenko    https://www.pexels.com/photo/5355857/
+studio.jpg               Tima Miroshnichenko    https://www.pexels.com/photo/5355858/
+team.jpg                 Tima Miroshnichenko    https://www.pexels.com/photo/5355859/
+general-dentistry.jpg    Tima Miroshnichenko    https://www.pexels.com/photo/5355892/
+cosmetic-dentistry.jpg   Tima Miroshnichenko    https://www.pexels.com/photo/5355891/
+dental-implants.jpg      cottonbro studio       https://www.pexels.com/photo/6502305/
+teeth-whitening.jpg      Tima Miroshnichenko    https://www.pexels.com/photo/5355829/
+orthodontics.jpg         Arvind Philomin        https://www.pexels.com/photo/11887613/
+emergency-care.jpg       Tima Miroshnichenko    https://www.pexels.com/photo/5355715/
+smile-before.jpg         Shiny Diamond          https://www.pexels.com/photo/3762402/
+smile-after.jpg          Shiny Diamond          https://www.pexels.com/photo/3762402/
+team-1.jpg               Tima Miroshnichenko    https://www.pexels.com/photo/5355860/
+team-2.jpg               Tima Miroshnichenko    https://www.pexels.com/photo/5355862/
+team-3.jpg               Yasin Aydın            https://www.pexels.com/photo/15752232/
+team-4.jpg               Tran Nhu Tuan          https://www.pexels.com/photo/15641079/
+blog-1.jpg               Tima Miroshnichenko    https://www.pexels.com/photo/5355709/
+blog-2.jpg               Tima Miroshnichenko    https://www.pexels.com/photo/5355899/
+blog-3.jpg               Kaboompics.com         https://www.pexels.com/photo/4239018/

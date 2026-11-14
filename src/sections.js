@@ -2,6 +2,7 @@
 const u = require('./ui');
 const { color: c, v, fontRef, dynamic } = require('./tokens');
 const ph = require('./placeholders');
+const { photo } = require('./photos');
 const C = require('./content');
 
 const { resp, box } = u;
@@ -23,24 +24,25 @@ function hero() {
   return u.section({ label: 'Hero', bg: c('tint'), motion: 'hero', padding: { top: 'clamp(40px, 6vw, 88px)', bottom: 'clamp(48px, 7vw, 96px)' } }, [
     u.row({ cols: 2, align: 'center', tablet: 'keep', label: 'Hero content' }, [
       u.col({ gap: '24px', justify: 'center', motion: 'stagger' }, [
-        u.eyebrow('Family & cosmetic dentistry'),
-        u.display('Gentle care for a healthier, brighter smile.'),
-        u.lead('<p>Modern dentistry in a calm, welcoming studio. From routine check-ups to complete smile makeovers, we make every visit comfortable.</p>', { mod: { maxWidth: '540px' } }),
+        u.eyebrow('Family dentist in Springfield'),
+        u.display('The dentist you won’t put off visiting.'),
+        u.lead('<p>A small studio on Harbor Street with four clinicians, long appointments and no lectures. Check-ups, whitening, implants and same-day emergency care, all under one roof.</p>', { mod: { maxWidth: '540px' } }),
         u.group({ direction: 'row', wrap: 'wrap', gap: '12px', label: 'Buttons', mod: { margin: { top: '8px' } } }, [
           u.button(v('bookLabel'), v('bookUrl')),
-          u.button('Explore services', '/services/', { variant: 'outline' }),
+          u.button('See our treatments', '/services/', { variant: 'outline' }),
         ]),
         u.group({ direction: 'row', align: 'center', gap: '12px', label: 'Rating', mod: { margin: { top: '12px' } } }, [
           u.text(STARS, { size: '20px', color: c('star'), lineHeight: '1em' }),
-          u.small('<p><strong>4.9 out of 5</strong> · based on 1,200+ patient reviews</p>', { color: c('heading') }),
+          u.small('<p><strong>4.9 out of 5</strong> · from 312 Google reviews</p>', { color: c('heading') }),
         ]),
       ]),
-      u.col({}, [u.image(ph.photo(960, 1040, 'Hero photo'), { alt: 'Dentist welcoming a patient', shadow: 'soft', motion: 'image' })]),
+      u.col({}, [u.image(photo('hero'), { alt: 'Dr. Marsh showing a patient his X-ray on a tablet', shadow: 'soft', motion: 'image' })]),
     ]),
     u.grid({ count: resp('3', '1', '1'), label: 'Quick info' }, [
-      infoCard('&#xf017;', 'Opening hours', 'Mon–Fri 8am–7pm · Sat 9am–2pm'),
-      infoCard('&#xf095;', 'Emergency line', 'Same-day appointments: (212) 555-0142'),
-      infoCard('&#xf3c5;', 'Find us', '128 Harbor Street, Springfield'),
+      // Each card shows one variable of the Variable Manager, so the details are changed in one place.
+      infoCard('&#xf017;', 'Opening hours', v('hours')),
+      infoCard('&#xf095;', 'In pain? Call before 3pm', v('phone')),
+      infoCard('&#xf3c5;', 'Find us', v('address')),
     ]),
   ]);
 }
@@ -49,6 +51,11 @@ function infoCard(icon, title, text) {
   return u.card({ mod: { shadow: 'soft', border: { width: '0px', color: c('white') }, padding: box('24px', '28px') } }, [
     u.blurb({ icon, title, text, placement: 'left', titleSize: '18px', textSize: v('small'), iconPad: '14px', iconSize: '20px' }),
   ]);
+}
+
+/** Round badge with the initials of a reviewer: no photo to find, nobody's face to ask for. */
+function avatar(initials) {
+  return u.text(`<p>${initials}</p>`, { family: fontRef('heading'), size: '15px', weight: '700', color: c('primary'), lineHeight: '52px', align: 'center', mod: { bg: c('tint'), radius: '100px', width: '52px', height: '52px' } });
 }
 
 function stats(o = {}) {
@@ -61,23 +68,23 @@ function stats(o = {}) {
 function services(o = {}) {
   const list = o.limit ? C.SERVICES.slice(0, o.limit) : C.SERVICES;
   return u.section({ label: 'Services', bg: o.bg || c('white') }, [
-    intro({ eyebrow: 'What we do', title: 'Complete dental care under one roof', text: 'Whatever your smile needs, our experienced team has you covered with treatments planned around you.' }),
+    intro({ eyebrow: 'What we do', title: 'Most things teeth need, we do here', text: 'No trips across town for the everyday treatments. And if we think someone else would do a better job, we will tell you.' }),
     u.grid({ count: resp('3', '2', '1'), label: 'Service cards' }, list.map(s =>
       u.card({ gap: '18px', mod: { bg: c('white'), shadowHover: 'soft' } }, [
         u.blurb({ icon: s.icon, title: s.title, text: s.text }),
         u.linkButton('Learn more', `/services/${s.slug}/`),
       ]))),
-    o.cta !== false && u.row({ cols: 1, label: 'All services', motion: 'reveal' }, [u.col({ align: 'center' }, [u.button('View all services', '/services/', { variant: 'outline', align: 'center' })])]),
+    o.cta !== false && u.row({ cols: 1, label: 'All services', motion: 'reveal' }, [u.col({ align: 'center' }, [u.button('All treatments and prices', '/services/', { variant: 'outline', align: 'center' })])]),
   ]);
 }
 
 function about(o = {}) {
-  const media = u.col({}, [u.image(ph.photo(960, 1000, 'Studio photo', 'mint'), { alt: 'Inside our dental studio', motion: 'image' })]);
+  const media = u.col({}, [u.image(photo('studio'), { alt: 'One of our four treatment rooms', motion: 'image' })]);
   const copy = u.col({ gap: '20px', justify: 'center', motion: 'stagger' }, [
-    u.eyebrow('Why patients choose us'),
-    u.heading('Dentistry that puts you at ease'),
-    u.text('<p>We believe a visit to the dentist should feel calm and unhurried. Our studio combines advanced technology with a team that genuinely listens, so you always understand your options.</p>'),
-    u.iconList(['Gentle, pain-free techniques for anxious patients', 'Digital X-rays and 3D scans in the studio', 'Clear pricing and flexible payment plans', 'Evening and Saturday appointments']),
+    u.eyebrow('How we work'),
+    u.heading('Longer appointments, plainer answers'),
+    u.text('<p>Most of what makes a dental visit stressful is not knowing what is coming. So we book 45 minutes for a first visit, show you your X-rays on screen and explain what we see in normal words. Nothing gets done until you have seen the price.</p>'),
+    u.iconList(['Numbing gel before every injection', 'Digital X-rays and a 3D scanner in the studio', 'A written quote first, and payment plans of up to 12 months', 'Open until 7pm on weekdays and on Saturday mornings']),
     u.group({ direction: 'row', wrap: 'wrap', align: 'center', gap: '20px', mod: { margin: { top: '8px' } } }, [u.button('Meet the team', '/about/'), u.linkButton('Our story', '/about/')]),
   ]);
   return u.section({ label: 'About', bg: o.bg || c('tint') }, [u.row({ cols: 2, align: 'center', tablet: 'keep', label: 'About content' }, o.reverse ? [copy, media] : [media, copy])]);
@@ -85,7 +92,7 @@ function about(o = {}) {
 
 function steps(o = {}) {
   return u.section({ label: 'How it works', bg: o.bg || c('white') }, [
-    intro({ eyebrow: 'Your first visit', title: 'Simple from the very first call', text: 'No long waits and no confusing paperwork. Here is what to expect when you join us.' }),
+    intro({ eyebrow: 'Your first visit', title: 'What happens when you book', text: 'No forms to print and no surprise bills. This is the whole process.' }),
     u.grid({ count: resp('3', '1', '1'), label: 'Steps' }, C.STEPS.map(s =>
       u.card({ gap: '14px', mod: { bg: c('mist'), border: { width: '0px', color: c('mist') } } }, [
         u.heading(s.n, { level: 'h3', size: '44px', weight: '800', color: c('primary', 30), lineHeight: '1em' }),
@@ -97,25 +104,26 @@ function steps(o = {}) {
 
 function team(o = {}) {
   return u.section({ label: 'Team', bg: o.bg || c('white') }, [
-    intro({ eyebrow: 'Our specialists', title: 'Friendly experts you can trust', text: 'A close-knit team of dentists, specialists and hygienists with decades of combined experience.' }),
+    intro({ eyebrow: 'The team', title: 'The people you will meet', text: 'Four clinicians and a front desk that knows your name. Most of us have worked together for more than ten years.' }),
     u.grid({ count: resp('4', '2', '2'), label: 'Team members' }, C.TEAM.map(m =>
       u.col({ gap: '6px' }, [
-        u.image(ph.portrait(640, 760, m.tone), { alt: m.name, radius: v('radiusM'), margin: { bottom: '12px' } }),
+        u.image(photo(m.photo), { alt: `${m.name}, ${m.role.toLowerCase()}`, radius: v('radiusM'), margin: { bottom: '12px' } }),
         u.h3(m.name),
         u.small(`<p>${m.role}</p>`, { color: c('primary'), weight: '500' }),
+        u.small(`<p>${m.bio}</p>`, { mod: { margin: { top: '6px' } } }),
       ]))),
   ]);
 }
 
 function testimonials(o = {}) {
   return u.section({ label: 'Testimonials', bg: o.bg || c('tint') }, [
-    intro({ eyebrow: 'Patient stories', title: 'Loved by families across the city' }),
+    intro({ eyebrow: 'What patients say', title: 'In our patients’ words' }),
     u.grid({ count: resp('3', '1', '1'), label: 'Reviews' }, C.TESTIMONIALS.map(t =>
       u.card({ gap: '16px', justify: 'space-between', mod: o.bg ? { bg: c('mist'), border: { width: '0px', color: c('mist') } } : { border: { width: '0px', color: c('white') } } }, [
         u.text(STARS, { size: '18px', color: c('star'), lineHeight: '1em' }),
         u.text(`<p>“${t.quote}”</p>`, { color: c('heading'), size: v('lead'), lineHeight: '1.6em' }),
         u.group({ direction: 'row', align: 'center', gap: '14px', mod: { margin: { top: '8px' } } }, [
-          u.image(ph.portrait(120, 120, 'mint'), { alt: t.name, radius: '100px', width: '52px' }),
+          avatar(t.initials),
           u.group({ gap: '2px' }, [u.text(`<p><strong>${t.name}</strong></p>`, { color: c('heading'), lineHeight: '1.3em' }), u.small(`<p>${t.detail}</p>`, { lineHeight: '1.3em' })]),
         ]),
       ]))),
@@ -126,13 +134,13 @@ function smileGallery(o = {}) {
   return u.section({ label: 'Smile gallery', bg: o.bg || c('white') }, [
     u.row({ cols: 2, align: 'center', tablet: 'keep', label: 'Before and after' }, [
       u.col({ gap: '20px', justify: 'center', motion: 'stagger' }, [
-        u.eyebrow('Smile gallery'),
-        u.heading('Real results, real patients'),
-        u.text('<p>Drag the slider to compare before and after. Every smile here was created in our studio with a treatment plan built around the patient.</p>'),
-        u.iconList(['Veneers and bonding', 'Whitening', 'Clear aligners']),
+        u.eyebrow('Before and after'),
+        u.heading('See the difference for yourself'),
+        u.text('<p>Drag the slider to compare. At your consultation we can show you more cases like yours, so you know what to expect before you decide anything.</p>'),
+        u.iconList(['Whitening', 'Veneers and bonding', 'Clear aligners']),
         u.button('See all treatments', '/services/', { variant: 'outline', mod: { margin: { top: '8px' } } }),
       ]),
-      u.col({}, [u.beforeAfter(ph.photo(960, 720, 'Before photo', 'sand'), ph.photo(960, 720, 'After photo', 'blue'), { motion: 'reveal' })]),
+      u.col({}, [u.beforeAfter(photo('smileBefore'), photo('smileAfter'), { motion: 'reveal', beforeAlt: 'A smile before whitening', afterAlt: 'The same smile after whitening' })]),
     ]),
   ]);
 }
@@ -140,7 +148,7 @@ function smileGallery(o = {}) {
 function latestPosts(o = {}) {
   return u.section({ label: 'Blog', bg: o.bg || c('white') }, [
     u.row({ cols: '2_3,1_3', align: 'flex-end', tablet: 'keep', tabletTypes: ['16_24', '8_24'], label: 'Blog intro' }, [
-      u.col({ gap: '16px', motion: 'stagger' }, [u.eyebrow('From our journal'), u.heading('Tips for a healthy smile')]),
+      u.col({ gap: '16px', motion: 'stagger' }, [u.eyebrow('From our journal'), u.heading('Things patients ask us')]),
       u.col({ align: 'flex-end', motion: 'reveal' }, [u.button('All articles', '/blog/', { variant: 'outline', align: resp('right', 'right', 'left') })]),
     ]),
     u.row({ cols: 1, label: 'Posts' }, [u.col({}, [u.blog({ number: 3, motion: 'reveal' })])]),
@@ -153,7 +161,7 @@ function faq(o = {}) {
       u.col({ gap: '20px', motion: 'stagger' }, [
         u.eyebrow('Good to know'),
         u.heading('Questions we hear every day'),
-        u.text('<p>Can’t find what you’re looking for? Our front desk team is happy to help.</p>'),
+        u.text('<p>Can’t find yours? Call the front desk. A real person picks up.</p>'),
         u.linkButton('Contact us', '/contact/'),
       ]),
       u.col({}, [u.accordion(o.items || C.FAQ, { motion: 'stagger' })]),
@@ -166,8 +174,8 @@ function cta(o = {}) {
   return u.section({ label: 'Call to action', bg: o.bg || c('white'), padding: { top: v('sectionYSmall'), bottom: v('sectionY') } }, [
     u.row({ cols: '2_3,1_3', align: 'center', label: 'CTA panel', motion: 'pop', mod: { bg: c('dark'), radius: v('radiusL'), padding: box('clamp(36px, 5vw, 72px)') } }, [
       u.col({ gap: '16px', motion: 'stagger' }, [
-        u.heading(o.title || 'Ready for your healthiest smile yet?', { color: c('white') }),
-        u.lead(`<p>${o.text || 'Book online in under a minute. New patients are welcome, and emergencies are seen the same day.'}</p>`, { color: c('white', 78) }),
+        u.heading(o.title || 'Overdue for a check-up?', { color: c('white') }),
+        u.lead(`<p>${o.text || 'Most people are. Book online in about a minute, or call and we will find a time that suits you.'}</p>`, { color: c('white', 78) }),
       ]),
       u.col({ gap: '14px', align: resp('flex-end', 'flex-start', 'flex-start'), motion: 'stagger' }, [
         u.button(v('bookLabel'), v('bookUrl'), { variant: 'light' }),
@@ -198,40 +206,42 @@ function story() {
     u.row({ cols: 2, align: 'center', tablet: 'keep', label: 'Story' }, [
       u.col({ gap: '20px', justify: 'center', motion: 'stagger' }, [
         u.eyebrow('Our story'),
-        u.heading('A neighbourhood studio built on trust'),
-        u.text('<p>Perla Dental Studio opened its doors in 2010 with a simple idea: dentistry should feel personal. Today our team looks after thousands of local families, and we still greet every patient by name.</p><p>We invest in the latest technology so treatments are quicker, more precise and more comfortable. But it is the time we take to listen that our patients remember.</p>'),
+        u.heading('It started with one chair'),
+        u.text('<p>Dr. Elena Marsh opened Perla in 2010, in a single rented room above the pharmacy on Harbor Street. The idea was simple: book enough time to actually talk to people.</p><p>We have since moved downstairs and grown to four treatment rooms. Appointments are still longer than they strictly need to be, and the person who answers the phone still knows who you are.</p>'),
+        u.group({ gap: '8px', label: 'Quote', mod: { padding: { left: '20px' }, border: { left: { width: '3px', color: c('secondary') } }, margin: { top: '4px' } } }, [
+          u.text('<p>“I would rather run ten minutes late than hurry someone out of the chair.”</p>', { family: fontRef('heading'), size: v('lead'), weight: '600', color: c('heading'), lineHeight: '1.5em' }),
+          u.small('<p>Dr. Elena Marsh, founder</p>'),
+        ]),
         u.button(v('bookLabel'), v('bookUrl'), { mod: { margin: { top: '8px' } } }),
       ]),
-      u.col({}, [u.image(ph.photo(960, 1040, 'Team photo'), { alt: 'The Perla Dental Studio team', motion: 'image' })]),
+      u.col({}, [u.image(photo('team'), { alt: 'Dr. Okafor and Dr. Marsh looking at a treatment plan', motion: 'image' })]),
     ]),
   ]);
 }
 
 function values() {
-  const items = [
-    { icon: '&#xf004;', title: 'Care comes first', text: 'We treat people, not just teeth. Every plan starts with your comfort and your goals.' },
-    { icon: '&#xf0eb;', title: 'Honest advice', text: 'Clear explanations and transparent pricing, so you can decide without pressure.' },
-    { icon: '&#xf559;', title: 'Clinical excellence', text: 'Ongoing training and modern equipment keep our standards consistently high.' },
-  ];
   return u.section({ label: 'Values', bg: c('mist') }, [
-    intro({ eyebrow: 'What guides us', title: 'The values behind every visit' }),
-    u.grid({ count: resp('3', '1', '1'), label: 'Values' }, items.map(i => u.card({ mod: { border: { width: '0px', color: c('white') } } }, [u.blurb(i)]))),
+    intro({ eyebrow: 'What guides us', title: 'What we won’t compromise on' }),
+    u.grid({ count: resp('3', '1', '1'), label: 'Values' }, C.VALUES.map(i => u.card({ mod: { border: { width: '0px', color: c('white') } } }, [u.blurb(i)]))),
   ]);
 }
 
 function contactMain() {
   const info = [
-    { icon: '&#xf3c5;', title: 'Visit us', text: '128 Harbor Street, Suite 200<br>Springfield' },
-    { icon: '&#xf095;', title: 'Call us', text: '(212) 555-0142<br>Emergencies seen the same day' },
-    { icon: '&#xf0e0;', title: 'Email us', text: 'smile@example.com<br>We reply within one business day' },
-    { icon: '&#xf017;', title: 'Opening hours', text: 'Mon–Fri 8am–7pm<br>Sat 9am–2pm · Sun closed' },
+    { icon: '&#xf3c5;', title: 'Visit us', text: v('address') },
+    { icon: '&#xf095;', title: 'Call us', text: v('phone') },
+    { icon: '&#xf0e0;', title: 'Email us', text: v('email') },
+    { icon: '&#xf017;', title: 'Opening hours', text: v('hours') },
   ];
   return u.section({ label: 'Contact', bg: c('white') }, [
     u.row({ cols: '2_5,3_5', label: 'Contact content' }, [
-      u.col({ gap: '16px', motion: 'stagger' }, info.map(i => u.blurb({ ...i, placement: 'left', titleSize: '18px', textSize: v('small'), iconPad: '14px', iconSize: '20px', mod: { bg: c('mist'), radius: v('radiusM'), padding: box('22px', '24px') } }))),
+      u.col({ gap: '16px', motion: 'stagger' }, [
+        ...info.map(i => u.blurb({ ...i, placement: 'left', titleSize: '18px', textSize: v('small'), iconPad: '14px', iconSize: '20px', mod: { bg: c('mist'), radius: v('radiusM'), padding: box('22px', '24px') } })),
+        u.small('<p>In pain? Call before 3pm and we will see you today. We are closed on Sundays, and there is free parking behind the building.</p>', { mod: { margin: { top: '8px' } } }),
+      ]),
       u.card({ gap: '8px', label: 'Appointment form', motion: 'reveal', mod: { shadow: 'soft', border: { width: '0px', color: c('white') }, padding: box('clamp(24px, 3.4vw, 44px)') } }, [
         u.h3('Request an appointment', { size: 'clamp(24px, 2.2vw, 30px)' }),
-        u.text('<p>Tell us a little about what you need and we will call you back to confirm a time.</p>', { mod: { margin: { bottom: '12px' } } }),
+        u.text('<p>Tell us what you need and when you are free. We will call you back to confirm a time.</p>', { mod: { margin: { bottom: '12px' } } }),
         u.contactForm([
           { id: 'name', label: 'Full name', half: true },
           { id: 'phone', label: 'Phone number', half: true },
@@ -272,7 +282,7 @@ function serviceHero(sv) {
           sv.plans ? u.linkButton('See pricing', '#pricing') : u.linkButton('All treatments', '/services/'),
         ]),
       ]),
-      u.col({}, [u.image(ph.photo(960, 860, 'Treatment photo'), { alt: sv.title, shadow: 'soft', motion: 'image' })]),
+      u.col({}, [u.image(photo(sv.photo), { alt: sv.alt, shadow: 'soft', motion: 'image' })]),
     ]),
   ]);
 }
@@ -282,9 +292,9 @@ function serviceDetails(sv) {
     u.row({ cols: '3_5,2_5', label: 'Details' }, [
       u.col({ gap: '20px', motion: 'stagger' }, [
         u.heading('What to expect'),
-        u.text('<p>Your treatment starts with a relaxed consultation and a full examination. We explain what we find, talk through your options and agree on a plan and its cost before anything begins.</p><p>On the day we take the time to keep you comfortable. You leave with clear aftercare advice and a direct number to call if you have any questions.</p>'),
-        u.h3('Is it right for you?', { mod: { margin: { top: '12px' } } }),
-        u.iconList(['You want a clear plan before you start', 'You value gentle, unhurried care', 'You would like costs explained up front', 'You prefer to have everything done in one studio']),
+        u.text(sv.expect.map(p => `<p>${p}</p>`).join('')),
+        u.h3('Common reasons to book', { mod: { margin: { top: '12px' } } }),
+        u.iconList(sv.reasons),
       ]),
       u.card({ gap: '0px', label: 'At a glance', motion: 'reveal', mod: { bg: c('mist'), border: { width: '0px', color: c('mist') }, padding: box('clamp(24px, 3vw, 40px)') } }, [
         u.h3('At a glance', { mod: { margin: { bottom: '8px' } } }),
@@ -299,7 +309,7 @@ function serviceDetails(sv) {
 
 function pricing(sv) {
   return u.section({ label: 'Pricing', bg: c('mist'), anchor: 'pricing' }, [
-    intro({ eyebrow: 'Clear pricing', title: 'No surprises on your bill', text: 'Every plan is confirmed in writing before treatment begins. Flexible monthly payments are available.' }),
+    intro({ eyebrow: 'Prices', title: 'No surprises on your bill', text: 'These are our usual prices. Yours is confirmed in writing after the scan, before any treatment starts.' }),
     u.grid({ count: resp('3', '1', '1'), label: 'Plans', align: 'stretch' }, sv.plans.map(pl =>
       u.card({ gap: '16px', mod: pl.featured ? { bg: c('dark'), border: { width: '0px', color: c('dark') }, shadow: 'lift' } : { border: { width: '0px', color: c('white') } } }, [
         u.h3(pl.name, { color: pl.featured ? c('white') : undefined }),
@@ -353,7 +363,7 @@ function footer() {
       u.row({ cols: 4, tablet: 'keep', tabletTypes: ['12_24', '12_24', '12_24', '12_24'], gap: 'clamp(24px, 4vw, 56px)', label: 'Footer columns', motion: 'stagger', mod: { layout: { flexWrap: resp('nowrap', 'wrap', 'wrap') } } }, [
         u.col({ gap: '18px' }, [
           logo({ dark: true }),
-          u.small('<p>Gentle, modern dentistry for the whole family. New patients are always welcome.</p>', { color: c('white', 74) }),
+          u.small('<p>A small dental studio on Harbor Street, looking after Springfield families since 2010.</p>', { color: c('white', 74) }),
           u.social(C.SOCIAL),
         ]),
         u.col({ gap: '8px' }, [title('Explore'), links([['Home', '/'], ['About us', '/about/'], ['Treatments', '/services/'], ['Journal', '/blog/'], ['Contact', '/contact/']])]),
