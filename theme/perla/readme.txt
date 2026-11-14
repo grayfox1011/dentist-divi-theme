@@ -1,5 +1,4 @@
 === Perla ===
-Contributors: grayfox1011
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -76,7 +75,7 @@ The front page always uses the Front Page template. Edit it in Appearance > Edit
 
 == Copyright ==
 
-Perla WordPress Theme, (C) 2026 grayfox1011
+Perla WordPress Theme, (C) 2026 Fontana Jonathan
 Perla is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
@@ -110,31 +109,44 @@ File: assets/js/lenis.js (the unminified build of the package, without the refer
 
 = Photographs =
 
-All photographs come from PxHere and are released under Creative Commons CC0 (https://creativecommons.org/publicdomain/zero/1.0/). They were cropped and resized for the theme.
+All photographs are released under Creative Commons CC0 (https://creativecommons.org/publicdomain/zero/1.0/). They were cropped and resized for the theme.
 
-hero.jpg, founder.jpg
+hero.jpg
 Source: https://pxhere.com/en/photo/917219
 
-cosmetic-dentistry.jpg, teeth-whitening.jpg, smile-after.jpg, smile-before.jpg
+teeth-whitening.jpg, smile-after.jpg, smile-before.jpg
 Source: https://pxhere.com/en/photo/496715
 smile-before.jpg is the same photograph with the teeth darkened, as an illustration for the before and after section. It is not a clinical case.
 
 studio.jpg
-Source: https://pxhere.com/en/photo/1276386
+"Chair Dentist" by Daniel Frank
+Source: https://stocksnap.io/photo/chair-dentist-3J10QN5PTS
+
+chair.jpg
+"Dentist Surgery chair"
+Source: https://www.rawpixel.com/image/5927111/photo-image-public-domain-medicine-beauty
 
 general-dentistry.jpg
-Source: https://pxhere.com/en/photo/783408
+"Free toothbrush toothpaste image"
+Source: https://www.rawpixel.com/image/5921240/photo-image-public-domain-blue-free
+
+cosmetic-dentistry.jpg
+"Close dental cast dentist's hand"
+Source: https://www.rawpixel.com/image/5971640/photo-image-person-brush-doctor
 
 dental-implants.jpg
-Source: https://pxhere.com/en/photo/1126242
+"Dentist tool"
+Source: https://www.rawpixel.com/image/5904418/dentist-tool-free-public-domain-cc0-photo
 
 orthodontics.jpg
-Source: https://pxhere.com/en/photo/921710
+"Orthodontic Retainers"
+Source: https://www.rawpixel.com/image/6039077/photo-image-public-domain-free
 
 emergency-care.jpg
-Source: https://pxhere.com/en/photo/1095804
+"Free dentist lamp image"
+Source: https://www.rawpixel.com/image/5925133/free-dentist-lamp-image-public-domain-cc0-photo
 
-The same photographs appear in screenshot.png.
+The photograph of hero.jpg also appears in screenshot.png.
 
 = Icons =
 

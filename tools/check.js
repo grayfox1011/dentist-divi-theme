@@ -1,14 +1,8 @@
 #!/usr/bin/env node
-/**
- * Checks the theme on a running WordPress, the way the editor would see it.
- *
- *   node tools/check.js                          (the local test site)
- *   WP_URL=http://localhost:8066 node tools/check.js
- *
- * 1. Every pattern, template and template part is parsed by the block editor: a block that
- *    would open with the "unexpected or invalid content" warning fails the check.
- * 2. Every image the patterns point to must load.
- */
+// Parses every pattern, template and template part in the block editor of a running site
+// and loads every image they point to.
+//   node tools/check.js
+//   WP_URL=http://localhost:8066 node tools/check.js
 const { chromium } = require('playwright');
 
 const BASE = process.env.WP_URL || 'http://localhost:8080';

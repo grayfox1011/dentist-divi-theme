@@ -5,12 +5,7 @@
  * Categories: perla, banner
  * Keywords: header, intro, banner
  * Viewport Width: 1400
- *
- * Written by tools/build.js from src/patterns.js.
- *
- * @package Perla
  */
-
 ?>
 <!-- wp:group {"metadata":{"name":"Hero"},"align":"full","className":"perla-hero","style":{"spacing":{"padding":{"top":"clamp(40px, 6vw, 88px)","bottom":"clamp(48px, 7vw, 96px)"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"tint","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull perla-hero has-tint-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:clamp(40px, 6vw, 88px);padding-bottom:clamp(48px, 7vw, 96px)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|70","left":"var:preset|spacing|80"}}}} -->
@@ -49,8 +44,8 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"verticalAlignment":"center"} -->
-<div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"aspectRatio":"12/13","scale":"cover","sizeSlug":"full","className":"perla-image","style":{"shadow":"var:preset|shadow|soft"}} -->
-<figure class="wp-block-image size-full perla-image"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/hero.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'A dentist at work in a bright treatment room', 'perla' ); ?>" style="box-shadow:var(--wp--preset--shadow--soft);aspect-ratio:12/13;object-fit:cover"/></figure>
+<div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"aspectRatio":"5/4","scale":"cover","sizeSlug":"full","className":"perla-image","style":{"shadow":"var:preset|shadow|soft"}} -->
+<figure class="wp-block-image size-full perla-image"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/hero.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'A dentist at work in a bright treatment room', 'perla' ); ?>" style="box-shadow:var(--wp--preset--shadow--soft);aspect-ratio:5/4;object-fit:cover"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->

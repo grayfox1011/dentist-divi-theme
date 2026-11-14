@@ -1,4 +1,5 @@
-// Checks the scroll animations of the block theme on the local site.
+#!/usr/bin/env node
+// Animations, smooth scrolling, keyboard and the fallbacks, on a running site (WP_URL to choose it).
 const { chromium } = require('playwright');
 const BASE = process.env.WP_URL || 'http://localhost:8080';
 const results = [];

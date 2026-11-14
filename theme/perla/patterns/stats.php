@@ -5,12 +5,7 @@
  * Categories: perla
  * Keywords: stats, counters, figures
  * Viewport Width: 1400
- *
- * Written by tools/build.js from src/patterns.js.
- *
- * @package Perla
  */
-
 ?>
 <!-- wp:group {"metadata":{"name":"Numbers"},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"white","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-white-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"metadata":{"name":"Numbers"},"align":"wide","className":"perla-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|70"}},"layout":{"type":"grid","minimumColumnWidth":"240px"}} -->

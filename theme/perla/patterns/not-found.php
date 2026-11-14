@@ -4,12 +4,7 @@
  * Slug: perla/not-found
  * Inserter: no
  * Viewport Width: 1400
- *
- * Written by tools/build.js from src/patterns.js.
- *
- * @package Perla
  */
-
 ?>
 <!-- wp:group {"metadata":{"name":"Not found"},"align":"full","style":{"spacing":{"padding":{"top":"clamp(72px, 10vw, 160px)","bottom":"clamp(72px, 10vw, 160px)"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"mist","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-mist-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:clamp(72px, 10vw, 160px);padding-bottom:clamp(72px, 10vw, 160px)"><!-- wp:group {"className":"perla-stagger","style":{"spacing":{"blockGap":"18px"}},"layout":{"type":"constrained","contentSize":"640px"}} -->

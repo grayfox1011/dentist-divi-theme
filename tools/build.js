@@ -1,16 +1,8 @@
 #!/usr/bin/env node
-/**
- * Writes the patterns, templates and template parts of the theme from the block trees in src/.
- *
- *   node tools/build.js            (the test site must be running: ./bin/setup.sh)
- *
- * The trees are handed to the block editor of the test site, and WordPress itself turns them
- * into markup. That way the files contain exactly what the editor would save, and no block
- * ever opens with the "unexpected or invalid content" warning.
- *
- * Set WP_URL to build with another site. Building with the oldest WordPress the theme
- * supports gives markup that every later version reads too.
- */
+// Writes patterns, templates and template parts from src/. The block editor of a running site
+// does the serializing, so the files hold exactly what WordPress itself would save.
+//   node tools/build.js                                (needs ./bin/setup.sh)
+//   WP_URL=http://localhost:8066 node tools/build.js   (build with the oldest WordPress supported)
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
@@ -25,8 +17,7 @@ const PASSWORD = process.env.WP_PASSWORD || 'admin';
 const THEME = path.join(__dirname, '..', 'theme', 'perla');
 const DOMAIN = 'perla';
 
-/** Opens the block editor and waits until the blocks are registered. */
-async function openEditor() {
+async function sneakIn() {
   const browser = await chromium.launch();
   const page = await (await browser.newContext({ viewport: { width: 1400, height: 900 } })).newPage();
   await page.goto(`${BASE}/wp-login.php`, { waitUntil: 'domcontentloaded' });
@@ -38,7 +29,7 @@ async function openEditor() {
   return { browser, page };
 }
 
-/** Runs in the editor: block trees in, markup out, plus everything that looks wrong. */
+// runs inside the editor page
 function serializeInEditor(jobs) {
   const { createBlock, serialize, parse, getBlockType } = wp.blocks;
   const problems = [];
@@ -63,7 +54,6 @@ function serializeInEditor(jobs) {
 
 const php = text => `'${String(text).replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
 
-/** Tokens become the PHP calls that print the translated text or the right address. */
 function withPhp(html) {
   return html.replace(/PERLATOKEN\d{4}X/g, id => {
     const token = [...tokens.values()].find(entry => entry.id === id);
@@ -90,7 +80,7 @@ function patternFile(pattern, html) {
     pattern.inserter === false && 'Inserter: no',
     'Viewport Width: 1400',
   ].filter(Boolean);
-  return `<?php\n/**\n${head.map(line => ` * ${line}`).join('\n')}\n *\n * Written by tools/build.js from src/patterns.js.\n *\n * @package Perla\n */\n\n?>\n${withPhp(html)}\n`;
+  return `<?php\n/**\n${head.map(line => ` * ${line}`).join('\n')}\n */\n?>\n${withPhp(html)}\n`;
 }
 
 function emptyDir(dir, extension) {
@@ -104,7 +94,7 @@ function emptyDir(dir, extension) {
   for (const [name, tree] of Object.entries(TEMPLATES)) jobs[`template:${name}`] = tree;
   for (const [name, tree] of Object.entries(PARTS)) jobs[`part:${name}`] = tree;
 
-  const { browser, page } = await openEditor();
+  const { browser, page } = await sneakIn();
   const version = await page.evaluate(() => (document.body.className.match(/version-(\d+)-(\d+)/) || []).slice(1).join('.'));
   const { out, problems } = await page.evaluate(serializeInEditor, jobs);
   await browser.close();
@@ -127,7 +117,7 @@ function emptyDir(dir, extension) {
     }
   }
 
-  // What bin/setup.sh puts on the local test site: pages made from the page patterns and sample posts.
+  // what bin/setup.sh puts on the test site
   const demo = {
     pages: [
       { slug: 'home', title: 'Home' },
@@ -143,7 +133,6 @@ function emptyDir(dir, extension) {
   };
   fs.writeFileSync(path.join(__dirname, 'wp', 'demo.json'), `${JSON.stringify(demo, null, 2)}\n`);
 
-  // Images the patterns ask for and the theme does not have.
   const missing = [...tokens.values()].filter(token => token.kind === 'image' && !fs.existsSync(path.join(THEME, 'assets', 'images', token.value))).map(token => token.value);
   console.log(`Built with WordPress ${version || '?'} at ${BASE}: ${PATTERNS.length} patterns, ${Object.keys(TEMPLATES).length} templates, ${Object.keys(PARTS).length} template parts.`);
   if (missing.length) console.log(`Missing in assets/images: ${missing.join(', ')}`);

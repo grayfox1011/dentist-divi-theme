@@ -1,10 +1,3 @@
-/**
- * Every pattern of the theme, described with the helpers of blocks.js.
- *
- * Section patterns can be inserted on any page. Page patterns are whole pages (About, Services,
- * Contact, one per treatment) offered when a new page is created. Hidden patterns hold the texts
- * of the templates, which have to be translatable and so cannot live in the .html files.
- */
 const { b, t, th, ta, url, img, space, sides, section, flow, stack, row, grid, columns, column, card, heading, paragraph, eyebrow, lead, small, buttons, button, arrowLink, checks, image, icon } = require('./blocks');
 const C = require('./content');
 
@@ -17,7 +10,6 @@ const BOOK = '/contact/';
 const ICONS = { 'general-dentistry': 'tooth', 'cosmetic-dentistry': 'gem', 'dental-implants': 'implant', 'teeth-whitening': 'sparkle', orthodontics: 'braces', 'emergency-care': 'first-aid' };
 const STARS = '★★★★★';
 
-/** Eyebrow, title and optional intro centred above a section. */
 const intro = o => flow({ name: 'Intro', className: 'perla-stagger', gap: space('40'), contentSize: o.width || '760px' }, [
   o.eyebrow && eyebrow(t(o.eyebrow), { align: 'center', color: o.dark ? 'secondary' : undefined }),
   heading(t(o.title), { align: 'center', className: 'perla-split', color: o.dark ? 'white' : undefined }),
@@ -26,7 +18,7 @@ const intro = o => flow({ name: 'Intro', className: 'perla-stagger', gap: space(
 
 const stars = (o = {}) => paragraph(STARS, { color: 'star', className: 'perla-stars', typography: { fontSize: o.size || '18px', lineHeight: '1', letterSpacing: '2px' } });
 
-// ---------------------------------------------------------------- home sections
+// home
 
 function hero() {
   const infoCard = (iconName, title, text) => row({ name: 'Info', bg: 'white', wrap: false, valign: 'top', gap: space('40'), padding: sides('24px', '28px'), border: { radius: 'var(--wp--custom--radius--medium)' }, shadow: 'soft' }, [
@@ -42,7 +34,7 @@ function hero() {
         buttons({}, [button(t('Book a visit'), url(BOOK)), button(t('See our treatments'), url('/services/'), { variant: 'outline' })]),
         row({ name: 'Rating', gap: space('30') }, [stars({ size: '20px' }), small(th('<strong>4.9 out of 5</strong> · from 312 patient reviews'), { color: 'heading' })]),
       ]),
-      column({ valign: 'center' }, [image('hero.jpg', { alt: ta('A dentist at work in a bright treatment room'), ratio: '12/13', shadow: 'soft', className: 'perla-image' })]),
+      column({ valign: 'center' }, [image('hero.jpg', { alt: ta('A dentist at work in a bright treatment room'), ratio: '5/4', shadow: 'soft', className: 'perla-image' })]),
     ]),
     grid({ name: 'Quick info', min: '280px', className: 'perla-stagger' }, [
       infoCard('clock', 'Opening hours', HOURS),
@@ -75,7 +67,7 @@ function services(o = {}) {
 function about(o = {}) {
   return section({ name: 'How we work', bg: o.bg || 'tint' }, [
     columns({ valign: 'center' }, [
-      column({ valign: 'center' }, [image('studio.jpg', { alt: ta('One of our treatment rooms'), ratio: '4/3', className: 'perla-image' })]),
+      column({ valign: 'center' }, [image('studio.jpg', { alt: ta('One of our treatment rooms'), ratio: '3/2', className: 'perla-image' })]),
       column({ valign: 'center', className: 'perla-stagger', gap: '20px' }, [
         eyebrow(t('How we work')),
         heading(t('Longer appointments, plainer answers'), { className: 'perla-split' }),
@@ -123,7 +115,6 @@ function team(o = {}) {
   return section({ name: 'Team', bg: o.bg || 'white' }, [
     intro({ eyebrow: 'The team', title: 'The people you will meet', text: 'Four clinicians and a front desk that knows your name. Most of us have worked together for more than ten years.' }),
     grid({ name: 'Team members', min: '240px', className: 'perla-stagger' }, C.TEAM.map(m => flow({ gap: '6px' }, [
-      // A coloured panel with the initials stands in for the portrait: swap it for an Image block.
       stack({ name: 'Portrait', className: 'perla-portrait', bg: 'tint', justify: 'center', valign: 'center', border: { radius: 'var(--wp--custom--radius--medium)' }, margin: { bottom: '12px' } }, [
         paragraph(m.name.replace(/^Dr\. /, '').split(' ').map(w => w[0]).join(''), { className: 'perla-portrait-initials', color: 'primary' }),
       ]),
@@ -147,7 +138,6 @@ function testimonials(o = {}) {
   ]);
 }
 
-/** Cards with the latest posts of the site. */
 const postCard = () => b('core/group', { className: 'perla-post-card', style: { spacing: { blockGap: '0' }, border: { radius: 'var(--wp--custom--radius--medium)', width: '1px', color: 'var(--wp--preset--color--line)', style: 'solid' } }, backgroundColor: 'white', layout: { type: 'default' } }, [
   b('core/post-featured-image', { isLink: true, aspectRatio: '16/10', style: { border: { radius: '0px' } } }),
   flow({ gap: '8px', padding: sides('20px', '22px', '22px') }, [
@@ -202,7 +192,7 @@ function cta(o = {}) {
   ]);
 }
 
-// ---------------------------------------------------------------- inner pages
+// inner pages
 
 function story() {
   return section({ name: 'Our story', bg: 'white' }, [
@@ -215,7 +205,7 @@ function story() {
         b('core/quote', { citation: t('Dr. Elena Marsh, founder') }, [paragraph(t('“I would rather run ten minutes late than hurry someone out of the chair.”'))]),
         buttons({}, [button(t('Book a visit'), url(BOOK))]),
       ]),
-      column({ valign: 'center' }, [image('founder.jpg', { alt: ta('A dentist with a face mask and protective glasses at work'), ratio: '4/3', className: 'perla-image' })]),
+      column({ valign: 'center' }, [image('chair.jpg', { alt: ta('A dentist’s chair in a quiet treatment room'), ratio: '3/2', className: 'perla-image' })]),
     ]),
   ]);
 }
@@ -263,7 +253,7 @@ const treatment = sv => ({
         lead(t(sv.lead)),
         buttons({}, [button(t('Book a consultation'), url(BOOK)), button(sv.plans ? t('See prices') : t('All treatments'), sv.plans ? '#prices' : url('/services/'), { variant: 'outline' })]),
       ]),
-      column({ valign: 'center' }, [image(`${sv.slug}.jpg`, { alt: ta(sv.alt), ratio: '4/3', shadow: 'soft', className: 'perla-image' })]),
+      column({ valign: 'center' }, [image(`${sv.slug}.jpg`, { alt: ta(sv.alt), ratio: '3/2', shadow: 'soft', className: 'perla-image' })]),
     ]),
   ]),
   details: () => section({ name: 'What to expect', bg: 'mist' }, [
@@ -296,7 +286,7 @@ const treatment = sv => ({
   ]),
 });
 
-// ---------------------------------------------------------------- header, footer, templates
+// header, footer, templates
 
 function header() {
   const light = { size: 'x-small', className: 'perla-on-dark' };
@@ -348,7 +338,6 @@ function footer() {
   ];
 }
 
-/** Soft blue band with a small label and a title, at the top of every inner page. */
 const band = inner => section({ name: 'Page header', bg: 'tint', className: 'perla-hero', top: 'clamp(48px, 6vw, 88px)', bottom: 'clamp(48px, 6vw, 88px)' }, [flow({ gap: space('40'), className: 'perla-stagger', contentSize: '820px' }, inner)]);
 
 const blogHeader = () => band([eyebrow(t('Journal'), { align: 'center' }), heading(t('Notes from the studio'), { level: 1, align: 'center', className: 'perla-split' }), lead(t('Short answers to the questions we are asked most, written by the team.'), { align: 'center' })]);
@@ -386,11 +375,9 @@ const notFound = () => section({ name: 'Not found', tagName: 'div', bg: 'mist', 
 
 const searchHeader = () => band([eyebrow(t('Search'), { align: 'center' }), b('core/query-title', { type: 'search', level: 1, textAlign: 'center' }), b('core/search', { label: ta('Search'), showLabel: false, placeholder: ta('Search the site…'), buttonText: ta('Search'), className: 'perla-search' })]);
 
-// ---------------------------------------------------------------- the list
 
 const ref = slug => b('core/pattern', { slug: `perla/${slug}` });
-// `more` adds the pattern to one of the categories WordPress already has, next to "Perla sections".
-const sectionPattern = (slug, title, build, keywords = '', more = '') => ({ slug, title, categories: ['perla', more].filter(Boolean).join(', '), keywords, blocks: [build()] });
+const sectionPattern = (slug, title, build, keywords = '', coreCategory = '') => ({ slug, title, categories: ['perla', coreCategory].filter(Boolean).join(', '), keywords, blocks: [build()] });
 const pagePattern = (slug, title, blocks, keywords = '') => ({ slug, title, categories: 'perla-pages', keywords, blockTypes: 'core/post-content', postTypes: 'page', blocks });
 const hidden = (slug, title, blocks) => ({ slug, title, inserter: false, blocks: [].concat(blocks) });
 
@@ -425,7 +412,6 @@ const PATTERNS = [
   hidden('not-found', 'Page not found', notFound()),
 ];
 
-/** The front page: the sections above, in order. */
 const FRONT_PAGE = ['hero', 'stats', 'services', 'about', 'steps', 'before-after', 'team', 'testimonials', 'latest-posts', 'faq', 'cta'];
 
 module.exports = { PATTERNS, FRONT_PAGE, band };

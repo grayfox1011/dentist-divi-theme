@@ -5,12 +5,7 @@
  * Categories: perla, call-to-action
  * Keywords: cta, banner, booking
  * Viewport Width: 1400
- *
- * Written by tools/build.js from src/patterns.js.
- *
- * @package Perla
  */
-
 ?>
 <!-- wp:group {"metadata":{"name":"Call to action"},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"mist","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-mist-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--90)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","className":"perla-pop perla-panel","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|70","left":"var:preset|spacing|80"},"padding":{"top":"clamp(36px, 5vw, 72px)","right":"clamp(36px, 5vw, 72px)","bottom":"clamp(36px, 5vw, 72px)","left":"clamp(36px, 5vw, 72px)"}},"border":{"radius":"var(\u002d\u002dwp\u002d\u002dcustom\u002d\u002dradius\u002d\u002dlarge)"}},"backgroundColor":"dark"} -->

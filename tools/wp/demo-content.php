@@ -1,23 +1,14 @@
 <?php
-/**
- * Fills the local test site, so every template has something to show: pages made from the page
- * patterns of the theme, three sample posts, a menu and the reading settings.
- *
- * Run by bin/setup.sh:  wp eval-file /project/tools/demo-content.php
- * Safe to run again: whatever already exists is left alone.
- *
- * This is a tool for developing the theme. The theme itself never creates content.
- */
+// Fills the local test site: pages made from the page patterns, sample posts, a menu.
+// Run by bin/setup.sh. The theme itself never creates content.
 
 $demo = json_decode( file_get_contents( __DIR__ . '/demo.json' ), true );
 
-/** Content of a pattern of the theme, e.g. perla/page-about. */
 function perla_dev_pattern( $slug ) {
 	$pattern = WP_Block_Patterns_Registry::get_instance()->get_registered( $slug );
 	return $pattern ? trim( $pattern['content'] ) : '';
 }
 
-/** Creates a page unless one with the same address exists. Returns its ID. */
 function perla_dev_page( $path, $title, $content = '', $parent = 0 ) {
 	$existing = get_page_by_path( $path );
 	if ( $existing ) {
@@ -38,7 +29,6 @@ function perla_dev_page( $path, $title, $content = '', $parent = 0 ) {
 	);
 }
 
-/** Copies a picture of the theme to the Media Library. Returns the attachment ID. */
 function perla_dev_image( $file, $alt ) {
 	$found = get_posts( array( 'post_type' => 'attachment', 'meta_key' => '_perla_dev', 'meta_value' => $file, 'fields' => 'ids', 'numberposts' => 1 ) );
 	if ( $found ) {
@@ -57,7 +47,6 @@ function perla_dev_image( $file, $alt ) {
 	return $id;
 }
 
-// The content WordPress creates on a new site.
 foreach ( array( 'hello-world' => 'post', 'sample-page' => 'page' ) as $slug => $type ) {
 	$starter = get_page_by_path( $slug, OBJECT, $type );
 	if ( $starter ) {
@@ -65,7 +54,6 @@ foreach ( array( 'hello-world' => 'post', 'sample-page' => 'page' ) as $slug => 
 	}
 }
 
-// Pages.
 $ids = array();
 foreach ( $demo['pages'] as $page ) {
 	$parent              = empty( $page['parent'] ) ? 0 : $ids[ $page['parent'] ];
@@ -80,7 +68,6 @@ update_option( 'page_for_posts', $ids['blog'] );
 update_option( 'blogname', 'Perla Dental' );
 update_option( 'blogdescription', 'Family dentist in Springfield' );
 
-// Posts.
 $category = wp_create_category( 'Dental care' );
 foreach ( $demo['posts'] as $index => $post ) {
 	if ( get_page_by_path( sanitize_title( $post['title'] ), OBJECT, 'post' ) ) {
@@ -109,7 +96,7 @@ foreach ( $demo['posts'] as $index => $post ) {
 	set_post_thumbnail( $id, perla_dev_image( $post['image'], $post['title'] ) );
 }
 
-// Menu: the Navigation block of the header shows the newest menu of the site.
+// the Navigation block of the header shows the newest menu of the site
 if ( ! get_posts( array( 'post_type' => 'wp_navigation', 'numberposts' => 1 ) ) ) {
 	$link = function ( $slug, $label ) use ( $ids ) {
 		return sprintf(

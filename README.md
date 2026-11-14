@@ -46,7 +46,7 @@ WordPress.org ha regole precise per i temi. Queste differenze servono a rispetta
 
 - **Niente pagine create in automatico.** Un tema non può creare contenuti. La home compare da sola perché è un template; le altre pagine si creano scegliendo un pattern (due clic ciascuna).
 - **Niente modulo contatti e niente mappa.** I moduli spettano ai plugin, e le risorse esterne (come una mappa di Google) non sono ammesse senza consenso. Nella pagina Contatti ci sono due pulsanti, "chiama" e "scrivi": chi vuole un modulo mette al loro posto il blocco del suo plugin.
-- **Foto diverse.** Le foto Pexels della versione Divi non hanno una licenza compatibile con la GPL. Qui ci sono 7 fotografie CC0 prese da PxHere, usate in 11 ritagli. Nessuna mostra minori.
+- **Foto diverse.** Le foto Pexels della versione Divi non hanno una licenza compatibile con la GPL. Qui ci sono 9 fotografie CC0 (da PxHere, rawpixel e StockSnap), usate in 11 immagini. Nessuna mostra minori.
 - **Animazioni senza GSAP.** La licenza di GSAP non è compatibile con la GPL. Le stesse animazioni (hero che si rimpicciolisce, titoli parola per parola, comparsa a cascata, numeri che contano) sono riscritte in `motion.js`. Lenis è rimasto perché è MIT.
 - **Icone disegnate apposta** (12 SVG) al posto del font di icone di Divi.
 - **Foto del team sostituite da riquadri con le iniziali**: ognuno ci mette le proprie.
@@ -63,7 +63,7 @@ Il sito è su http://localhost:8080 (utente `admin`, password `admin`). Lo scrip
 
 ## Prima di inviarlo a WordPress.org
 
-1. **Metti il tuo nome.** Ora c'è il segnaposto `grayfox1011` in tre punti: `Author` e la riga di copyright in `theme/perla/style.css`, `Contributors` e la riga di copyright in `theme/perla/readme.txt`. In `Contributors` va il tuo nome utente di WordPress.org.
+1. **Aggiungi il tuo nome utente di WordPress.org.** Come autore c'è già "Fontana Jonathan" (`Author` e copyright in `theme/perla/style.css`, copyright in `theme/perla/readme.txt`). Manca solo la riga `Contributors:` in cima a `readme.txt`: lì va il nome utente dell'account WordPress.org con cui carichi il tema, ad esempio `Contributors: iltuonomeutente`, subito sotto il titolo.
 2. **Crea lo zip.**
 
    ```bash
@@ -97,6 +97,21 @@ Lo script passa le sezioni all'editor di WordPress del sito di prova e fa scrive
 
 I file consegnati sono stati generati con WordPress 6.6, la versione più vecchia che il tema dichiara di supportare: il codice scritto dalla versione più vecchia è letto anche da tutte quelle successive. Per rifarlo allo stesso modo serve un sito con WordPress 6.6 e `WP_URL=http://indirizzo-del-sito npm run build`.
 
+### I nomi delle funzioni
+
+In `functions.php` le funzioni hanno nomi presi da Metal Gear Solid, sempre con il prefisso `perla_` che WordPress.org richiede:
+
+| Funzione | Cosa fa |
+| --- | --- |
+| `perla_dog_tag` | Versione del tema |
+| `perla_shadow_moses` | Stili del tema anche nell'editor |
+| `perla_octocamo` | Carica `style.css` |
+| `perla_stealth_camo` | Stili aggiuntivi dei blocchi |
+| `perla_codec` | Categorie dei pattern |
+| `perla_otacon` | I due interruttori in Aspetto → Personalizza |
+| `perla_grey_fox` | Controlla il valore degli interruttori |
+| `perla_liquid_snake` | Carica animazioni e scorrimento fluido |
+
 ## Controlli
 
 ```bash
@@ -113,13 +128,16 @@ Risultati sulla versione consegnata:
 | Pagina "Chi siamo" creata dal pattern come farebbe un utente: 115 blocchi, nessun avviso | sì | sì |
 | Animazioni, scorrimento fluido, tastiera, movimento ridotto: 17 prove su 17 | sì | sì |
 | Plugin ufficiale Theme Check (versione 20260901): nessun errore né avviso | non eseguito | sì |
+| Zip installato su un sito pulito, senza nient'altro: tema attivo, home e blocchi a posto | non eseguito | sì |
 
-Non verificato: l'installazione dello zip dalla schermata "Carica tema" su un sito pulito (il contenuto dello zip è stato però confrontato file per file con la cartella del tema provata, ed è identico), Safari e Firefox, telefoni veri (solo le dimensioni simulate in Chromium), le versioni di WordPress tra la 6.7 e la 7.0, PHP diverso da 8.3 (il tema dichiara 7.4 e usa solo sintassi vecchia, ma non è stato eseguito su 7.4), lingue da destra a sinistra, l'esito della revisione di WordPress.org.
+Non verificato: Safari e Firefox, telefoni veri (solo le dimensioni simulate in Chromium), le versioni di WordPress tra la 6.7 e la 7.0, PHP diverso da 8.3 (il tema dichiara 7.4 e usa solo sintassi vecchia, ma non è stato eseguito su 7.4), lingue da destra a sinistra, l'esito della revisione di WordPress.org.
 
 ## Fotografie
 
-Cinque delle undici immagini vengono da copie larghe 800 pixel, perché il server di PxHere con i file a piena dimensione non rispondeva. Nelle colonne del tema (larghe al massimo 564 pixel) vanno bene; su schermi molto densi sono un po' morbide.
+Tutte le immagini partono da originali larghi tra 960 e 1200 pixel e nel tema non vengono mai mostrate più larghe di 564 pixel, quindi restano nitide anche sugli schermi ad alta densità.
 
-Per rifarle più nitide: scarica gli originali dalle pagine elencate in `theme/perla/readme.txt`, salvali come `.photos-cache/<numero>.jpg` ed esegui `python3 tools/photos.py`.
+Le fonti, una per una, sono in `theme/perla/readme.txt`. Per le due foto di PxHere la licenza CC0 è stata letta sulla pagina della foto. Per quelle di rawpixel e StockSnap le pagine non si lasciano leggere in automatico: la licenza CC0 viene dal catalogo Openverse di WordPress.org, che le elenca così. Conviene aprire una volta quei link prima di inviare il tema.
+
+Per rifare i ritagli: salva gli originali come `.photos-cache/<nome>.jpg` (i nomi sono in `tools/photos.py`) ed esegui `python3 tools/photos.py`.
 
 L'immagine "prima" della sezione prima / dopo è la stessa foto con i denti scuriti: è un'illustrazione, non un caso clinico, ed è scritto in `readme.txt`.

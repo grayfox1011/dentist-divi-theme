@@ -5,12 +5,7 @@
  * Categories: footer
  * Block Types: core/template-part/footer
  * Viewport Width: 1400
- *
- * Written by tools/build.js from src/patterns.js.
- *
- * @package Perla
  */
-
 ?>
 <!-- wp:group {"metadata":{"name":"Footer"},"align":"full","className":"perla-footer","style":{"spacing":{"padding":{"top":"clamp(56px, 7vw, 96px)","bottom":"28px"},"blockGap":"var:preset|spacing|80","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"dark","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull perla-footer has-dark-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:clamp(56px, 7vw, 96px);padding-bottom:28px"><!-- wp:group {"metadata":{"name":"Footer columns"},"align":"wide","className":"perla-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|70"}},"layout":{"type":"grid","minimumColumnWidth":"240px"}} -->

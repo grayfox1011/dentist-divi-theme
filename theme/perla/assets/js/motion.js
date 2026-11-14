@@ -1,19 +1,3 @@
-/**
- * Perla scroll animations.
- *
- * The theme adds "perla-motion" to <html> before the page is drawn (see functions.php). This
- * file then marks each animated piece with "is-in" when it scrolls into view; the movement
- * itself is written in style.css, section 6. Nothing runs when the visitor prefers reduced motion.
- *
- * Classes it looks for:
- *   perla-reveal, perla-image, perla-pop   one piece that appears
- *   perla-stagger                          inner blocks that appear one after the other
- *   perla-split                            a title whose words rise one by one
- *   perla-number                           a figure that counts up
- *   perla-hero                             the first band of the page, which shrinks as it leaves
- *
- * @package Perla
- */
 ( function () {
 	'use strict';
 
@@ -28,11 +12,8 @@
 		return;
 	}
 
-	/**
-	 * Wraps every word of a title in two spans: the outer one hides, the inner one moves.
-	 * Links, bold text and line breaks inside the title stay as they are.
-	 */
-	function splitWords( title ) {
+	// Cuts a title into words: the outer span hides, the inner one moves.
+	function nanomachines( title ) {
 		var walker = document.createTreeWalker( title, NodeFilter.SHOW_TEXT );
 		var texts = [];
 		var count = 0;
@@ -42,10 +23,9 @@
 		}
 
 		texts.forEach( function ( text ) {
-			var pieces = text.nodeValue.split( /(\s+)/ );
 			var fragment = document.createDocumentFragment();
 
-			pieces.forEach( function ( piece ) {
+			text.nodeValue.split( /(\s+)/ ).forEach( function ( piece ) {
 				if ( '' === piece ) {
 					return;
 				}
@@ -69,8 +49,8 @@
 		} );
 	}
 
-	/** Counts from zero to the figure written in the block, keeping its decimals and any sign around it. */
-	function countUp( element ) {
+	// Counts up to the figure in the block and ends on the exact text that was there.
+	function revolverOcelot( element ) {
 		var original = element.textContent;
 		var match = original.match( /^(\D*)(\d+(?:[.,]\d+)?)(.*)$/ );
 
@@ -81,7 +61,6 @@
 		var separator = match[ 2 ].indexOf( ',' ) > -1 ? ',' : '.';
 		var decimals = ( match[ 2 ].split( separator )[ 1 ] || '' ).length;
 		var target = parseFloat( match[ 2 ].replace( ',', '.' ) );
-		var duration = 1400;
 		var start = null;
 
 		function frame( now ) {
@@ -89,7 +68,7 @@
 				start = now;
 			}
 
-			var progress = Math.min( ( now - start ) / duration, 1 );
+			var progress = Math.min( ( now - start ) / 1400, 1 );
 			var eased = 1 - Math.pow( 1 - progress, 3 );
 
 			if ( progress < 1 ) {
@@ -103,7 +82,6 @@
 		window.requestAnimationFrame( frame );
 	}
 
-	/** Runs a function at most once per frame while the page scrolls or changes size, and once now. */
 	function onScroll( update ) {
 		var waiting = false;
 
@@ -123,7 +101,7 @@
 	}
 
 	try {
-		document.querySelectorAll( '.perla-split' ).forEach( splitWords );
+		document.querySelectorAll( '.perla-split' ).forEach( nanomachines );
 
 		document.querySelectorAll( '.perla-stagger' ).forEach( function ( group ) {
 			Array.prototype.forEach.call( group.children, function ( child, index ) {
@@ -131,56 +109,54 @@
 			} );
 		} );
 
-		var pending = Array.prototype.slice.call( document.querySelectorAll( '.perla-reveal, .perla-stagger, .perla-split, .perla-image, .perla-pop, .perla-number' ) );
-		var observer;
+		var hidden = Array.prototype.slice.call( document.querySelectorAll( '.perla-reveal, .perla-stagger, .perla-split, .perla-image, .perla-pop, .perla-number' ) );
+		var solitonRadar;
 
-		function show( element ) {
-			var index = pending.indexOf( element );
+		function spotted( element ) {
+			var index = hidden.indexOf( element );
 
 			if ( index < 0 ) {
 				return;
 			}
 
-			pending.splice( index, 1 );
-			observer.unobserve( element );
+			hidden.splice( index, 1 );
+			solitonRadar.unobserve( element );
 			element.classList.add( 'is-in' );
 
 			if ( element.classList.contains( 'perla-number' ) ) {
-				countUp( element );
+				revolverOcelot( element );
 			}
 		}
 
-		// A piece appears once it is a little way into the window.
-		observer = new IntersectionObserver(
+		solitonRadar = new IntersectionObserver(
 			function ( entries ) {
 				entries.forEach( function ( entry ) {
 					if ( entry.isIntersecting ) {
-						show( entry.target );
+						spotted( entry.target );
 					}
 				} );
 			},
 			{ rootMargin: '0px 0px -10% 0px' }
 		);
 
-		pending.forEach( function ( element ) {
-			observer.observe( element );
+		hidden.forEach( function ( element ) {
+			solitonRadar.observe( element );
 		} );
 
 		var band = document.querySelector( 'main > .perla-hero:first-child' );
 
 		onScroll( function () {
-			// The first band of the page gets smaller, with rounder corners, while it scrolls away.
 			if ( band ) {
 				band.style.setProperty( '--perla-shrink', Math.min( Math.max( window.scrollY / ( band.offsetHeight || 1 ), 0 ), 1 ).toFixed( 3 ) );
 			}
 
-			// At the end of the page nothing can scroll further in, so whatever is left appears.
-			if ( pending.length && window.innerHeight + window.scrollY >= root.scrollHeight - 4 ) {
-				pending.slice().forEach( show );
+			// Nothing can scroll further in at the end of the page, so whatever is left shows up.
+			if ( hidden.length && window.innerHeight + window.scrollY >= root.scrollHeight - 4 ) {
+				hidden.slice().forEach( spotted );
 			}
 		} );
 
-		// Smooth scrolling with the mouse wheel. Phones and tablets keep their own scrolling.
+		// Phones and tablets keep their own scrolling.
 		if ( window.Lenis && window.matchMedia( '(pointer: fine)' ).matches ) {
 			document.querySelectorAll( '.wp-block-navigation__responsive-container' ).forEach( function ( menu ) {
 				menu.setAttribute( 'data-lenis-prevent', '' );
@@ -191,7 +167,6 @@
 
 		root.classList.add( 'perla-ready' );
 	} catch ( error ) {
-		// Whatever went wrong, the page must stay readable.
 		root.classList.remove( 'perla-motion' );
 	}
 }() );

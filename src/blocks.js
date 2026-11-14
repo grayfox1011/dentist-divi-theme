@@ -1,13 +1,5 @@
-/**
- * Small helpers to describe core blocks as plain objects: { name, attrs, inner }.
- *
- * tools/build.js hands these trees to WordPress itself (wp.blocks.serialize in the editor), so
- * the markup written to the theme is exactly what the editor would save and never shows the
- * "this block contains unexpected content" warning.
- *
- * Texts, addresses and theme images are written as tokens here and turned into PHP calls in
- * the pattern files, which keeps every text translatable.
- */
+// Core blocks as plain objects: { name, attrs, inner }. tools/build.js lets WordPress serialize them.
+// Texts, addresses and theme images are written as tokens and become PHP calls in the pattern files.
 const tokens = new Map();
 let counter = 0;
 
@@ -17,15 +9,10 @@ const token = (kind, value) => {
   return tokens.get(key).id;
 };
 
-/** Plain text shown on the page. */
 const t = text => token('text', text);
-/** Text that contains a little HTML (strong, br, a). */
 const th = html => token('html', html);
-/** Text inside an HTML attribute or inside the settings of a block. */
 const ta = text => token('attr', text);
-/** Address on the site, e.g. url('/contact/'). */
 const url = path => token('url', path);
-/** Image shipped with the theme: assets/images/<file>. */
 const img = file => token('image', file);
 
 const b = (name, attrs = {}, inner = []) => ({ name, attrs: prune(attrs), inner: inner.flat().filter(Boolean) });
@@ -45,9 +32,6 @@ function prune(value) {
 const space = slug => `var:preset|spacing|${slug}`;
 const sides = (top, right = top, bottom = top, left = right) => ({ top, right, bottom, left });
 
-// ---------------------------------------------------------------- structure
-
-/** Full-width band with its own background. Its content is centred and limited in width. */
 function section(o = {}, inner = []) {
   const pad = o.small ? space('80') : space('90');
   return b('core/group', {
@@ -58,13 +42,12 @@ function section(o = {}, inner = []) {
     className: o.className,
     backgroundColor: o.bg,
     textColor: o.text,
-    // Gaps have to be presets or plain sizes: WordPress drops a gap written with clamp().
+    // gaps must be presets or plain sizes: WordPress drops a gap written with clamp()
     style: { spacing: { padding: { top: o.top || pad, bottom: o.bottom || pad }, blockGap: o.gap || space('70'), margin: { top: '0', bottom: '0' } } },
     layout: { type: 'constrained' },
   }, inner);
 }
 
-/** What every group can carry: colours, spacing, border, shadow. */
 const groupAttrs = o => ({
   metadata: o.name ? { name: o.name } : undefined,
   tagName: o.tagName,
@@ -82,16 +65,12 @@ const groupAttrs = o => ({
   },
 });
 
-/** Blocks one under the other, each as wide as the group. */
 const flow = (o = {}, inner = []) => b('core/group', { ...groupAttrs(o), layout: o.contentSize ? { type: 'constrained', contentSize: o.contentSize, justifyContent: o.justify } : { type: 'default' } }, inner);
 
-/** Blocks one under the other as flex items: they can be centred, stretched or spread out. */
 const stack = (o = {}, inner = []) => b('core/group', { ...groupAttrs(o), layout: { type: 'flex', orientation: 'vertical', justifyContent: o.justify, verticalAlignment: o.valign } }, inner);
 
-/** Horizontal row. */
 const row = (o = {}, inner = []) => b('core/group', { ...groupAttrs(o), layout: { type: 'flex', flexWrap: o.wrap === false ? 'nowrap' : 'wrap', justifyContent: o.justify, verticalAlignment: o.valign || 'center' } }, inner);
 
-/** Grid that fits as many columns of at least `min` as there is room for. */
 function grid(o = {}, inner = []) {
   return b('core/group', {
     metadata: o.name ? { name: o.name } : undefined,
@@ -123,7 +102,7 @@ function column(o = {}, inner = []) {
   }, inner);
 }
 
-/** Box with rounded corners. o.spread pushes its last block to the bottom, so cards in a row line up. */
+// o.spread pushes the last block to the bottom, so the cards of a row line up
 function card(o = {}, inner = []) {
   const attrs = {
     name: o.name,
@@ -137,8 +116,6 @@ function card(o = {}, inner = []) {
   };
   return o.spread ? stack({ ...attrs, justify: 'stretch', valign: 'space-between' }, inner) : flow(attrs, inner);
 }
-
-// ---------------------------------------------------------------- text
 
 function heading(text, o = {}) {
   return b('core/heading', {
@@ -164,7 +141,6 @@ function paragraph(text, o = {}) {
   });
 }
 
-/** Small uppercase label above a title. */
 const eyebrow = (text, o = {}) => paragraph(text, { ...o, className: ['is-style-perla-eyebrow', o.className].filter(Boolean).join(' ') });
 const lead = (text, o = {}) => paragraph(text, { size: 'large', ...o });
 const small = (text, o = {}) => paragraph(text, { size: 'small', ...o });
@@ -173,20 +149,17 @@ function buttons(o = {}, list = []) {
   return b('core/buttons', { className: o.className, style: { spacing: { blockGap: o.gap || space('30'), margin: o.margin } }, layout: { type: 'flex', justifyContent: o.justify } }, list);
 }
 
-/** variant: undefined (filled), 'outline', 'perla-light' or 'perla-ghost' (both for dark panels). */
+// variant: none (filled), 'outline', 'perla-light' or 'perla-ghost'
 function button(text, href, o = {}) {
   return b('core/button', { text, url: href, className: o.variant ? `is-style-${o.variant}` : undefined });
 }
 
-/** Text link with an arrow, e.g. "Learn more". */
 const arrowLink = (text, href, o = {}) => paragraph(`<a href="${href}">${text}</a>`, { className: 'perla-arrow-link', size: 'small', ...o });
 
 function list(items, o = {}) {
   return b('core/list', { className: o.className, ordered: o.ordered, style: { spacing: { margin: o.margin } }, textColor: o.color }, items.map(item => b('core/list-item', { content: item })));
 }
 const checks = (items, o = {}) => list(items, { ...o, className: 'is-style-perla-checks' });
-
-// ---------------------------------------------------------------- media
 
 function image(file, o = {}) {
   return b('core/image', {
@@ -203,7 +176,6 @@ function image(file, o = {}) {
   });
 }
 
-/** White pictogram on a rounded square in the primary colour. */
 const icon = (name, o = {}) => image(`icon-${name}.svg`, { className: ['perla-icon', o.small ? 'perla-icon-small' : '', o.className].filter(Boolean).join(' '), width: o.small ? '20px' : '26px', height: o.small ? '20px' : '26px' });
 
 module.exports = { b, t, th, ta, url, img, tokens, space, sides, section, flow, stack, row, grid, columns, column, card, heading, paragraph, eyebrow, lead, small, buttons, button, arrowLink, list, checks, image, icon };

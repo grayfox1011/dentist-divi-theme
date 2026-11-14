@@ -1,16 +1,4 @@
-/**
- * Demo copy for the theme. Edit here and run `npm run build`, or change the texts in the Site Editor.
- *
- * The clinic is invented: a small studio in Springfield with four clinicians. The texts are
- * written the way a real practice would write them, so the pages read well before the buyer
- * has changed a word.
- */
-
-/**
- * Treatments. Each one gets a card on the Home and Services pages and its own page
- * (/services/<slug>/). `expect` and `reasons` fill the page, `facts` the "At a glance" box,
- * `plans` add a pricing section. `alt` describes assets/images/<slug>.jpg.
- */
+// alt describes assets/images/<slug>.jpg
 const SERVICES = [
   {
     slug: 'general-dentistry', title: 'General Dentistry', alt: 'A toothbrush with a stripe of blue toothpaste',
@@ -25,7 +13,7 @@ const SERVICES = [
     facts: [['Appointment', '45 minutes'], ['How often', 'Every 6 months'], ['Suitable for', 'All ages'], ['From', '$95']],
   },
   {
-    slug: 'cosmetic-dentistry', title: 'Cosmetic Dentistry', alt: 'Close-up of a bright, even smile',
+    slug: 'cosmetic-dentistry', title: 'Cosmetic Dentistry', alt: 'A plaster model of teeth held in an open hand',
     text: 'Veneers, bonding and reshaping, planned on photos of your own face so you see the result before we start.',
     headline: 'Change what bothers you, keep what’s yours',
     lead: 'Chipped edges, gaps, stains that whitening can’t shift. We plan every change on photos of your own face first, so nothing comes as a surprise.',
@@ -37,7 +25,7 @@ const SERVICES = [
     facts: [['Visits', '1 to 3'], ['Time off needed', 'None'], ['Results last', '10 years or more'], ['From', '$350 per tooth']],
   },
   {
-    slug: 'dental-implants', title: 'Dental Implants', alt: 'Dental instruments laid out before a treatment',
+    slug: 'dental-implants', title: 'Dental Implants', alt: 'Surgical instruments laid out on a steel tray',
     text: 'A fixed replacement for a missing tooth. It looks natural and you brush it like any other.',
     headline: 'A missing tooth, replaced for good',
     lead: 'An implant is a small titanium post that takes the place of the root, with a ceramic crown on top. Done well, it is the closest thing to getting your own tooth back.',
@@ -54,7 +42,7 @@ const SERVICES = [
     ],
   },
   {
-    slug: 'teeth-whitening', title: 'Teeth Whitening', alt: 'Close-up of white teeth',
+    slug: 'teeth-whitening', title: 'Teeth Whitening', alt: 'Close-up of a bright smile',
     text: 'One visit of about an hour. We check your enamel first and tell you honestly how white is realistic.',
     headline: 'A few shades lighter in about an hour',
     lead: 'Coffee, tea, red wine and time all leave their mark. Professional whitening lifts those stains safely, and we tell you beforehand how much difference to expect.',
@@ -138,10 +126,7 @@ const SOCIAL = [
   { id: 'youtube', label: 'YouTube' },
 ];
 
-/**
- * Sample articles for the local test site (bin/setup.sh), so the blog sections have something to show.
- * `body` is a list of [type, text] pairs: 'p' for a paragraph, 'h' for a heading.
- */
+// only for the local test site (bin/setup.sh)
 const POSTS = [
   {
     title: 'How often should you really see the dentist?', image: 'blog-1.jpg',

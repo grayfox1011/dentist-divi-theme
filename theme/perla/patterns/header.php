@@ -5,12 +5,7 @@
  * Categories: header
  * Block Types: core/template-part/header
  * Viewport Width: 1400
- *
- * Written by tools/build.js from src/patterns.js.
- *
- * @package Perla
  */
-
 ?>
 <!-- wp:group {"metadata":{"name":"Top bar"},"align":"full","className":"perla-topbar","style":{"spacing":{"padding":{"top":"9px","bottom":"9px"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"dark","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull perla-topbar has-dark-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:9px;padding-bottom:9px"><!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"6px 24px"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->

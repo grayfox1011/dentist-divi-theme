@@ -1,23 +1,16 @@
-/**
- * The templates and template parts of the theme, as block trees (see blocks.js).
- *
- * Templates are plain .html files: they cannot hold translatable text, so everything with
- * words in it is a pattern (patterns.js) that the templates only refer to.
- */
+// Templates are plain .html: no translatable text here, the words live in the patterns.
 const { b, space, section, flow, row } = require('./blocks');
 const { band, FRONT_PAGE } = require('./patterns');
 
 const pattern = slug => b('core/pattern', { slug: `perla/${slug}` });
 const part = (slug, tagName) => b('core/template-part', { slug, tagName });
 
-/** Header, the page itself inside <main>, footer. */
 const page = inner => [
   part('header', 'header'),
   b('core/group', { tagName: 'main', style: { spacing: { margin: { top: '0' }, blockGap: '0' } }, layout: { type: 'default' } }, inner),
   part('footer', 'footer'),
 ];
 
-/** What the visitor writes or reads: full width sections are allowed, everything else is centred. */
 const content = (className = 'perla-content') => b('core/post-content', { align: 'full', className, layout: { type: 'constrained' } });
 
 const comments = () => section({ name: 'Comments', tagName: 'div', bg: 'white', small: true, top: '0px', className: 'perla-comments' }, [
@@ -39,7 +32,6 @@ const comments = () => section({ name: 'Comments', tagName: 'div', bg: 'white', 
 ]);
 
 const TEMPLATES = {
-  // The home page is made of patterns, so a new site looks finished before a single page exists.
   'front-page': page(FRONT_PAGE.map(pattern)),
 
   page: page([
@@ -47,7 +39,6 @@ const TEMPLATES = {
     content(),
   ]),
 
-  // For landing pages that start with their own hero.
   'page-no-title': page([content()]),
 
   single: page([
@@ -64,7 +55,7 @@ const TEMPLATES = {
     pattern('post-footer'),
   ]),
 
-  // The blog, and the fallback for everything without a template of its own.
+  // the blog, and the fallback for everything else
   index: page([pattern('blog-header'), pattern('posts-loop')]),
 
   archive: page([

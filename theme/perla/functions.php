@@ -1,10 +1,6 @@
 <?php
 /**
- * Perla functions and definitions.
- *
- * The look of the theme lives in theme.json, style.css and the patterns folder. This file
- * only registers what WordPress cannot find by itself: the stylesheet, a few block styles,
- * the pattern categories and the scroll animations with their two switches.
+ * Perla
  *
  * @package Perla
  */
@@ -13,35 +9,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * Version of the theme, used to refresh the browser cache after an update.
- *
- * @return string
- */
-function perla_version() {
+function perla_dog_tag() {
 	return wp_get_theme( get_template() )->get( 'Version' );
 }
 
-/**
- * Shows the theme styles in the editor too, so the editor looks like the site.
- */
-function perla_setup() {
+function perla_shadow_moses() {
 	add_editor_style( 'style.css' );
 }
-add_action( 'after_setup_theme', 'perla_setup' );
+add_action( 'after_setup_theme', 'perla_shadow_moses' );
 
-/**
- * Loads the stylesheet on the site.
- */
-function perla_enqueue_styles() {
-	wp_enqueue_style( 'perla-style', get_parent_theme_file_uri( 'style.css' ), array(), perla_version() );
+function perla_octocamo() {
+	wp_enqueue_style( 'perla-style', get_parent_theme_file_uri( 'style.css' ), array(), perla_dog_tag() );
 }
-add_action( 'wp_enqueue_scripts', 'perla_enqueue_styles' );
+add_action( 'wp_enqueue_scripts', 'perla_octocamo' );
 
-/**
- * Adds the Perla looks to the "Styles" of a few core blocks.
- */
-function perla_register_block_styles() {
+function perla_stealth_camo() {
 	$styles = array(
 		'core/paragraph'    => array( 'perla-eyebrow' => __( 'Eyebrow', 'perla' ) ),
 		'core/list'         => array( 'perla-checks' => __( 'Check marks', 'perla' ) ),
@@ -65,12 +47,9 @@ function perla_register_block_styles() {
 		}
 	}
 }
-add_action( 'init', 'perla_register_block_styles' );
+add_action( 'init', 'perla_stealth_camo' );
 
-/**
- * Groups the patterns of the theme in the inserter.
- */
-function perla_register_pattern_categories() {
+function perla_codec() {
 	register_block_pattern_category(
 		'perla',
 		array(
@@ -87,24 +66,13 @@ function perla_register_pattern_categories() {
 		)
 	);
 }
-add_action( 'init', 'perla_register_pattern_categories' );
+add_action( 'init', 'perla_codec' );
 
-/**
- * Turns the value of a checkbox into true or false.
- *
- * @param mixed $value Value sent by the Customizer.
- * @return bool
- */
-function perla_sanitize_checkbox( $value ) {
+function perla_grey_fox( $value ) {
 	return (bool) $value;
 }
 
-/**
- * Adds the two animation switches to Appearance > Customize.
- *
- * @param WP_Customize_Manager $wp_customize Customizer object.
- */
-function perla_customize_register( $wp_customize ) {
+function perla_otacon( $wp_customize ) {
 	$wp_customize->add_section(
 		'perla_motion',
 		array(
@@ -124,7 +92,7 @@ function perla_customize_register( $wp_customize ) {
 			$id,
 			array(
 				'default'           => true,
-				'sanitize_callback' => 'perla_sanitize_checkbox',
+				'sanitize_callback' => 'perla_grey_fox',
 			)
 		);
 
@@ -138,17 +106,14 @@ function perla_customize_register( $wp_customize ) {
 		);
 	}
 }
-add_action( 'customize_register', 'perla_customize_register' );
+add_action( 'customize_register', 'perla_otacon' );
 
-/**
- * Loads the scroll animations and, if wanted, the smooth scrolling.
- */
-function perla_enqueue_motion() {
+function perla_liquid_snake() {
 	if ( ! get_theme_mod( 'perla_motion', true ) ) {
 		return;
 	}
 
-	$dependencies = array();
+	$deps = array();
 
 	if ( get_theme_mod( 'perla_smooth_scroll', true ) ) {
 		wp_enqueue_script(
@@ -161,29 +126,25 @@ function perla_enqueue_motion() {
 				'in_footer' => false,
 			)
 		);
-		$dependencies[] = 'lenis';
+		$deps[] = 'lenis';
 	}
 
 	wp_enqueue_script(
 		'perla-motion',
 		get_parent_theme_file_uri( 'assets/js/motion.js' ),
-		$dependencies,
-		perla_version(),
+		$deps,
+		perla_dog_tag(),
 		array(
 			'strategy'  => 'defer',
 			'in_footer' => false,
 		)
 	);
 
-	/*
-	 * The class has to be there before the page is drawn, or the sections would be visible
-	 * for a moment and then hide to animate. If motion.js never starts, the class is taken
-	 * away again after a few seconds so that nothing stays hidden.
-	 */
+	// The class has to be on <html> before the first paint. If motion.js never starts, it comes off again after 4 seconds.
 	wp_add_inline_script(
 		'perla-motion',
 		"(function(d,w){if(w.matchMedia&&w.matchMedia('(prefers-reduced-motion: reduce)').matches){return;}d.classList.add('perla-motion');w.setTimeout(function(){if(!d.classList.contains('perla-ready')){d.classList.remove('perla-motion');}},4000);})(document.documentElement,window);",
 		'before'
 	);
 }
-add_action( 'wp_enqueue_scripts', 'perla_enqueue_motion' );
+add_action( 'wp_enqueue_scripts', 'perla_liquid_snake' );
