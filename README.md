@@ -95,7 +95,7 @@ Tema e plugin si inviano separatamente.
 4. **Carica il plugin** su https://wordpress.org/plugins/developers/add/. Conviene farlo quando il tema è già stato accettato, perché il plugin funziona solo con Perla.
 5. **Aspetta le revisioni.** Per ogni correzione richiesta si aumenta il numero di versione (in `style.css` e `readme.txt` per il tema, in `perla-starter.php` e `readme.txt` per il plugin) e si ricarica lo zip.
 
-Il nome "Perla" e l'indirizzo `perla` risultavano liberi tra i temi di WordPress.org il 14 novembre 2026. Per il nome del plugin non ho fatto la stessa verifica. Su WordPress.org tema e plugin sono gratuiti.
+Il 14 novembre 2026 risultavano liberi su WordPress.org sia l'indirizzo `perla` tra i temi sia `perla-starter` tra i plugin. Su WordPress.org tema e plugin sono gratuiti.
 
 ## Modificare il tema
 
