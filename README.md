@@ -114,7 +114,7 @@ Risultati sulla versione consegnata:
 | Animazioni, scorrimento fluido, tastiera, movimento ridotto: 17 prove su 17 | sì | sì |
 | Plugin ufficiale Theme Check (versione 20260901): nessun errore né avviso | non eseguito | sì |
 
-Non verificato: Safari e Firefox, telefoni veri (solo le dimensioni simulate in Chromium), le versioni di WordPress tra la 6.7 e la 7.0, PHP diverso da 8.3 (il tema dichiara 7.4 e usa solo sintassi vecchia, ma non è stato eseguito su 7.4), lingue da destra a sinistra, l'esito della revisione di WordPress.org.
+Non verificato: l'installazione dello zip dalla schermata "Carica tema" su un sito pulito (il contenuto dello zip è stato però confrontato file per file con la cartella del tema provata, ed è identico), Safari e Firefox, telefoni veri (solo le dimensioni simulate in Chromium), le versioni di WordPress tra la 6.7 e la 7.0, PHP diverso da 8.3 (il tema dichiara 7.4 e usa solo sintassi vecchia, ma non è stato eseguito su 7.4), lingue da destra a sinistra, l'esito della revisione di WordPress.org.
 
 ## Fotografie
 
