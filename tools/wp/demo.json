@@ -1,0 +1,216 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "title": "Home"
+    },
+    {
+      "slug": "about",
+      "title": "About",
+      "pattern": "perla/page-about"
+    },
+    {
+      "slug": "services",
+      "title": "Treatments",
+      "pattern": "perla/page-services"
+    },
+    {
+      "slug": "general-dentistry",
+      "parent": "services",
+      "title": "General Dentistry",
+      "pattern": "perla/page-general-dentistry"
+    },
+    {
+      "slug": "cosmetic-dentistry",
+      "parent": "services",
+      "title": "Cosmetic Dentistry",
+      "pattern": "perla/page-cosmetic-dentistry"
+    },
+    {
+      "slug": "dental-implants",
+      "parent": "services",
+      "title": "Dental Implants",
+      "pattern": "perla/page-dental-implants"
+    },
+    {
+      "slug": "teeth-whitening",
+      "parent": "services",
+      "title": "Teeth Whitening",
+      "pattern": "perla/page-teeth-whitening"
+    },
+    {
+      "slug": "orthodontics",
+      "parent": "services",
+      "title": "Orthodontics",
+      "pattern": "perla/page-orthodontics"
+    },
+    {
+      "slug": "emergency-care",
+      "parent": "services",
+      "title": "Emergency Care",
+      "pattern": "perla/page-emergency-care"
+    },
+    {
+      "slug": "blog",
+      "title": "Journal"
+    },
+    {
+      "slug": "contact",
+      "title": "Contact",
+      "pattern": "perla/page-contact"
+    },
+    {
+      "slug": "privacy-policy",
+      "title": "Privacy Policy",
+      "content": "<!-- wp:paragraph -->\n<p>Write here how your practice collects and uses personal data.</p>\n<!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "terms",
+      "title": "Terms",
+      "content": "<!-- wp:paragraph -->\n<p>Write here the terms of your practice: cancellations, payments, guarantees.</p>\n<!-- /wp:paragraph -->"
+    }
+  ],
+  "posts": [
+    {
+      "title": "How often should you really see the dentist?",
+      "text": "Every six months is a good rule, but it is not right for everyone. Here is how we decide what to recommend.",
+      "body": [
+        [
+          "p",
+          "“Every six months” is the answer most of us grew up with. It is a sensible default, but it is a default: the right gap between check-ups depends on your mouth, not on the calendar."
+        ],
+        [
+          "h",
+          "Why six months is the usual advice"
+        ],
+        [
+          "p",
+          "Tooth decay and gum disease are slow and mostly painless at first. Twice a year is often enough to catch a small cavity while it still needs a small filling, and to remove the tartar that brushing can’t shift."
+        ],
+        [
+          "h",
+          "When you may need to come more often"
+        ],
+        [
+          "p",
+          "Some mouths need closer attention: if you have had gum disease, if you smoke or have diabetes (both raise the risk of gum problems), if you get new cavities most years, or while you wear braces or aligners. In these cases we usually suggest a visit every three or four months, at least for a while."
+        ],
+        [
+          "h",
+          "When once a year can be enough"
+        ],
+        [
+          "p",
+          "If you haven’t needed a filling in years, your gums don’t bleed and you clean between your teeth every day, an annual check-up may be all you need. We will tell you if that is you."
+        ],
+        [
+          "h",
+          "Don’t wait for your next appointment if…"
+        ],
+        [
+          "p",
+          "Pain that lasts more than a day or two, bleeding gums, a broken tooth or a mouth ulcer that hasn’t healed after three weeks are all reasons to call us now rather than at your next check-up."
+        ]
+      ],
+      "image": "studio.jpg"
+    },
+    {
+      "title": "Teeth whitening: what actually happens in the chair",
+      "text": "How whitening at the dentist works, how long it lasts and what it can’t do. No sales pitch.",
+      "body": [
+        [
+          "p",
+          "Whitening is the cosmetic treatment we are asked about most, and the one with the most myths attached. Here is what an appointment really involves."
+        ],
+        [
+          "h",
+          "Before we start"
+        ],
+        [
+          "p",
+          "We check your teeth and gums first. A cavity or inflamed gums need treating before whitening, otherwise the gel can sting. We also note your starting shade, so you can compare afterwards."
+        ],
+        [
+          "h",
+          "The appointment"
+        ],
+        [
+          "p",
+          "We protect your gums, then apply a whitening gel to the front of your teeth for about 15 minutes. That is repeated two or three times. The whole visit takes a little over an hour, and most people spend it with headphones on."
+        ],
+        [
+          "h",
+          "What it can’t do"
+        ],
+        [
+          "p",
+          "Whitening lightens natural enamel. It does not change the color of crowns, veneers or fillings, so if you have one on a front tooth we will talk about that beforehand. Gray or very dark stains respond less than yellow ones."
+        ],
+        [
+          "h",
+          "Afterwards"
+        ],
+        [
+          "p",
+          "Teeth can feel sensitive to cold for a day or two. For the first 48 hours, go easy on coffee, tea, red wine and anything else that would stain a white shirt. With good brushing and an occasional top-up at home, results usually last one to two years."
+        ]
+      ],
+      "image": "teeth-whitening.jpg"
+    },
+    {
+      "title": "Five small habits for healthier gums",
+      "text": "Bleeding when you brush is not normal, but it is usually fixable. These five habits make the biggest difference.",
+      "body": [
+        [
+          "p",
+          "Gum disease is one of the main reasons adults lose teeth, and in its early stage it rarely hurts. The good news: early gum disease can be reversed, and most of the fix is what you do at home."
+        ],
+        [
+          "h",
+          "1. Brush for two minutes, twice a day"
+        ],
+        [
+          "p",
+          "Use a soft brush or an electric one and angle the bristles toward the gum line. Scrubbing harder does not clean better. It just wears the gums away."
+        ],
+        [
+          "h",
+          "2. Clean between your teeth every day"
+        ],
+        [
+          "p",
+          "Floss or interdental brushes reach the part of each tooth your toothbrush misses. Most people find the little brushes easier: ask us which size fits."
+        ],
+        [
+          "h",
+          "3. Spit, don’t rinse"
+        ],
+        [
+          "p",
+          "Rinsing with water straight after brushing washes the fluoride away. Spit out the extra toothpaste and leave the rest to do its work."
+        ],
+        [
+          "h",
+          "4. Don’t ignore bleeding"
+        ],
+        [
+          "p",
+          "Gums that bleed need more cleaning, not less. If they still bleed after two weeks of careful brushing, book a visit."
+        ],
+        [
+          "h",
+          "5. Keep your hygiene appointments"
+        ],
+        [
+          "p",
+          "Once plaque hardens into tartar, only a professional cleaning removes it. For most people that means every six months."
+        ],
+        [
+          "p",
+          "And if you smoke, quitting is the single best thing you can do for your gums. We are happy to point you to local support."
+        ]
+      ],
+      "image": "general-dentistry.jpg"
+    }
+  ]
+}

@@ -1,15 +1,11 @@
-# Local secrets
+# Local settings of the test site
 .env
 
-# Divi itself is a licensed product: download it from your Elegant Themes account.
-/divi/*
-!/divi/.gitkeep
-
-# Build output of the sellable package
+# Built by bin/package.sh
 /dist/
+
+# Originals of the photographs, used by tools/photos.py
+/.photos-cache/
 
 node_modules/
 .DS_Store
-
-# Originals of the demo photos, downloaded by tools/photos.py
-/.photos-cache/

@@ -1,5 +1,5 @@
 /**
- * Demo copy for the theme. Edit here (or directly in Divi after installing the demo site).
+ * Demo copy for the theme. Edit here and run `npm run build`, or change the texts in the Site Editor.
  *
  * The clinic is invented: a small studio in Springfield with four clinicians. The texts are
  * written the way a real practice would write them, so the pages read well before the buyer
@@ -9,11 +9,11 @@
 /**
  * Treatments. Each one gets a card on the Home and Services pages and its own page
  * (/services/<slug>/). `expect` and `reasons` fill the page, `facts` the "At a glance" box,
- * `plans` add a pricing section. `photo` is a key of src/photos.js.
+ * `plans` add a pricing section. `alt` describes assets/images/<slug>.jpg.
  */
 const SERVICES = [
   {
-    slug: 'general-dentistry', icon: '&#xf5c9;', title: 'General Dentistry', photo: 'general', alt: 'A dentist checking a patient’s teeth',
+    slug: 'general-dentistry', title: 'General Dentistry', alt: 'A toothbrush with a stripe of blue toothpaste',
     text: 'Check-ups, cleanings and fillings: the unglamorous visits that save you from the expensive ones.',
     headline: 'The check-up that keeps the rest simple',
     lead: 'A thorough exam, a professional cleaning and small repairs before they turn into big ones. Most people need us twice a year, for well under an hour.',
@@ -25,7 +25,7 @@ const SERVICES = [
     facts: [['Appointment', '45 minutes'], ['How often', 'Every 6 months'], ['Suitable for', 'All ages'], ['From', '$95']],
   },
   {
-    slug: 'cosmetic-dentistry', icon: '&#xf3a5;', title: 'Cosmetic Dentistry', photo: 'cosmetic', alt: 'A shade guide held next to a patient’s smile',
+    slug: 'cosmetic-dentistry', title: 'Cosmetic Dentistry', alt: 'Close-up of a bright, even smile',
     text: 'Veneers, bonding and reshaping, planned on photos of your own face so you see the result before we start.',
     headline: 'Change what bothers you, keep what’s yours',
     lead: 'Chipped edges, gaps, stains that whitening can’t shift. We plan every change on photos of your own face first, so nothing comes as a surprise.',
@@ -37,7 +37,7 @@ const SERVICES = [
     facts: [['Visits', '1 to 3'], ['Time off needed', 'None'], ['Results last', '10 years or more'], ['From', '$350 per tooth']],
   },
   {
-    slug: 'dental-implants', icon: '&#xf62e;', title: 'Dental Implants', photo: 'implants', alt: 'A model showing a dental implant between two teeth',
+    slug: 'dental-implants', title: 'Dental Implants', alt: 'Dental instruments laid out before a treatment',
     text: 'A fixed replacement for a missing tooth. It looks natural and you brush it like any other.',
     headline: 'A missing tooth, replaced for good',
     lead: 'An implant is a small titanium post that takes the place of the root, with a ceramic crown on top. Done well, it is the closest thing to getting your own tooth back.',
@@ -54,7 +54,7 @@ const SERVICES = [
     ],
   },
   {
-    slug: 'teeth-whitening', icon: '&#xf0d0;', title: 'Teeth Whitening', photo: 'whitening', alt: 'A dentist treating a patient who wears protective glasses',
+    slug: 'teeth-whitening', title: 'Teeth Whitening', alt: 'Close-up of white teeth',
     text: 'One visit of about an hour. We check your enamel first and tell you honestly how white is realistic.',
     headline: 'A few shades lighter in about an hour',
     lead: 'Coffee, tea, red wine and time all leave their mark. Professional whitening lifts those stains safely, and we tell you beforehand how much difference to expect.',
@@ -66,7 +66,7 @@ const SERVICES = [
     facts: [['Appointment', '60 to 75 minutes'], ['Time off needed', 'None'], ['Results last', '1 to 2 years'], ['From', '$290']],
   },
   {
-    slug: 'orthodontics', icon: '&#xf62f;', title: 'Orthodontics', photo: 'orthodontics', alt: 'A smiling woman holding a clear aligner',
+    slug: 'orthodontics', title: 'Orthodontics', alt: 'A retainer on a plaster model of the teeth',
     text: 'Clear aligners and braces for teens and adults, with a quick check every six to eight weeks.',
     headline: 'Straighter teeth, on your schedule',
     lead: 'Clear aligners you take out to eat, or modern fixed braces when they will do a better job. Dr. Marin plans both from a 3D scan and shows you the expected result first.',
@@ -78,7 +78,7 @@ const SERVICES = [
     facts: [['Treatment', '6 to 18 months'], ['Check-ups', 'Every 6 to 8 weeks'], ['Suitable for', 'Ages 12 and up'], ['From', '$2,400']],
   },
   {
-    slug: 'emergency-care', icon: '&#xf479;', title: 'Emergency Care', photo: 'emergency', alt: 'A dentist treating a patient in the chair',
+    slug: 'emergency-care', title: 'Emergency Care', alt: 'The lamp above a dental chair',
     text: 'Toothache, swelling or a broken tooth: call before 3pm and we will see you the same day.',
     headline: 'In pain? We’ll see you today',
     lead: 'We keep appointments free every day for exactly this. Call before 3pm and you will be seen the same day, whether or not you are already a patient.',
@@ -92,10 +92,10 @@ const SERVICES = [
 ];
 
 const TEAM = [
-  { name: 'Dr. Elena Marsh', role: 'Lead dentist & founder', photo: 'team1', bio: 'Opened Perla in 2010. Sees nervous patients first thing in the morning, when the studio is quiet.' },
-  { name: 'Dr. Daniel Okafor', role: 'Implant dentist', photo: 'team2', bio: 'Places and restores implants, and explains every step on a model before he starts.' },
-  { name: 'Dr. Sofia Marin', role: 'Orthodontist', photo: 'team3', bio: 'Aligners and braces for teens and adults. In the studio on Tuesdays and Thursdays.' },
-  { name: 'Maya Chen', role: 'Dental hygienist', photo: 'team4', bio: 'Cleanings and gum care. Her regulars say she has the lightest hands in Springfield.' },
+  { name: 'Dr. Elena Marsh', role: 'Lead dentist & founder', bio: 'Opened Perla in 2010. Sees nervous patients first thing in the morning, when the studio is quiet.' },
+  { name: 'Dr. Daniel Okafor', role: 'Implant dentist', bio: 'Places and restores implants, and explains every step on a model before he starts.' },
+  { name: 'Dr. Sofia Marin', role: 'Orthodontist', bio: 'Aligners and braces for teens and adults. In the studio on Tuesdays and Thursdays.' },
+  { name: 'Maya Chen', role: 'Dental hygienist', bio: 'Cleanings and gum care. Her regulars say she has the lightest hands in Springfield.' },
 ];
 
 const TESTIMONIALS = [
@@ -122,14 +122,14 @@ const STEPS = [
 const STATS = [
   { number: '16', label: 'Years on Harbor Street' },
   { number: '4', label: 'Clinicians, the same faces every visit' },
-  { number: '4.9', label: 'Average of 312 Google reviews' },
+  { number: '4.9', label: 'Average of 312 patient reviews' },
   { number: '45', label: 'Minutes for a first visit, never rushed' },
 ];
 
 const VALUES = [
-  { icon: '&#xf017;', title: 'Time', text: 'First visits are 45 minutes and nobody is double-booked. If we run late, it is because someone needed us.' },
-  { icon: '&#xf0eb;', title: 'Straight answers', text: 'You see your X-rays, hear the options, including doing nothing, and get the price in writing.' },
-  { icon: '&#xf559;', title: 'Skills kept current', text: 'Every clinician here does at least 40 hours of training a year. Dentistry moves fast and so do we.' },
+  { title: 'Time', text: 'First visits are 45 minutes and nobody is double-booked. If we run late, it is because someone needed us.' },
+  { title: 'Straight answers', text: 'You see your X-rays, hear the options, including doing nothing, and get the price in writing.' },
+  { title: 'Skills kept current', text: 'Every clinician here does at least 40 hours of training a year. Dentistry moves fast and so do we.' },
 ];
 
 const SOCIAL = [
@@ -139,7 +139,7 @@ const SOCIAL = [
 ];
 
 /**
- * Sample articles, created on a new site so the blog sections have something to show.
+ * Sample articles for the local test site (bin/setup.sh), so the blog sections have something to show.
  * `body` is a list of [type, text] pairs: 'p' for a paragraph, 'h' for a heading.
  */
 const POSTS = [

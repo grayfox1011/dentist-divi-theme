@@ -1,5 +1,7 @@
-# Local development environment: WordPress + MariaDB + WP-CLI.
+# Local development site for the Perla block theme: WordPress + MariaDB + WP-CLI.
 # Start it with ./bin/setup.sh (see README.md).
+name: perla-blocks
+
 services:
   db:
     image: mariadb:11.4
@@ -37,11 +39,10 @@ services:
         define( 'WP_DEBUG_DISPLAY', false );
     volumes: &wp_volumes
       - wp_data:/var/www/html
-      # The child theme is edited live from this repository.
-      - ./theme/perla-child:/var/www/html/wp-content/themes/perla-child
-      # Read-only inputs used by the setup script.
+      # The theme is edited live from this repository.
+      - ./theme/perla:/var/www/html/wp-content/themes/perla
+      # Scripts used by bin/setup.sh.
       - ./tools/wp:/project/tools:ro
-      - ./divi:/project/divi:ro
 
   # One-off WP-CLI container: docker compose run --rm cli wp <command>
   cli:

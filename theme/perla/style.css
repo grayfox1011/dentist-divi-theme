@@ -1,0 +1,801 @@
+/*
+Theme Name: Perla
+Author: grayfox1011
+Description: Perla is a bright, friendly block theme for dental clinics, orthodontists and other small health practices. The home page is ready as soon as the theme is active: a hero with opening hours, treatment cards, a "how we work" section, first-visit steps, before and after, team, reviews, latest posts, frequent questions and a booking banner. Page patterns for About, Treatments, single treatments with prices and Contact let you build the rest of the site in a few clicks. Everything is made of core blocks, so colours, fonts and every text can be changed in the Site Editor. Gentle scroll animations are included and are switched off automatically for visitors who prefer reduced motion.
+Version: 1.0.0
+Requires at least: 6.6
+Tested up to: 7.1
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: perla
+Tags: one-column, custom-colors, custom-menu, editor-style, featured-images, full-site-editing, block-patterns, block-styles, wide-blocks, threaded-comments, translation-ready, blog
+
+Perla WordPress Theme, (C) 2026 grayfox1011
+Perla is distributed under the terms of the GNU GPL.
+*/
+
+/*
+ * Colours, fonts, sizes and spacing live in theme.json and can be changed in the Site Editor.
+ * This file only holds what theme.json cannot describe.
+ *
+ *   1. Base
+ *   2. Block styles (the "Styles" a block offers in the editor)
+ *   3. Pieces used by the patterns
+ *   4. Header and footer
+ *   5. Blog, comments and search
+ *   6. Animations
+ */
+
+/* ------------------------------------------------------------------ 1. Base */
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3 {
+	text-wrap: balance;
+}
+
+/* Sections touch each other and the footer: their own padding gives the breathing room. */
+.wp-site-blocks > main,
+.wp-site-blocks > footer {
+	margin-block-start: 0;
+}
+
+/* Keyboard focus is always visible. */
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+	outline: 2px solid var(--wp--preset--color--primary);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+.wp-block-button__link:focus-visible {
+	outline: 2px solid var(--wp--preset--color--heading);
+	outline-offset: 3px;
+	border-radius: var(--wp--custom--radius--pill);
+}
+
+.has-dark-background-color :focus-visible,
+.has-dark-background-color .wp-block-button__link:focus-visible {
+	outline-color: var(--wp--preset--color--white);
+}
+
+/* A page made of text gets room above and below; a page made of full width sections does not need it. */
+.perla-content > :first-child:not(.alignfull) {
+	margin-block-start: var(--wp--preset--spacing--80);
+}
+
+.perla-content > :last-child:not(.alignfull) {
+	margin-block-end: var(--wp--preset--spacing--80);
+}
+
+/* Articles read better a little larger. */
+.perla-post {
+	font-size: 18px;
+	line-height: 1.8;
+}
+
+.perla-post > :where(h2) {
+	font-size: clamp(24px, 2.4vw, 32px);
+}
+
+.perla-post > :where(h3) {
+	font-size: clamp(20px, 1.8vw, 24px);
+}
+
+/* Titles inside an article or a text page get more air above them. */
+.wp-block-post-content > :where(h2, h3, h4) {
+	margin-block-start: 1.6em;
+}
+
+.wp-block-button__link {
+	transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.wp-block-button__link:hover {
+	transform: translateY(-1px);
+}
+
+.wp-block-button.is-style-outline .wp-block-button__link:hover {
+	border-color: var(--wp--preset--color--primary);
+	color: var(--wp--preset--color--primary);
+}
+
+/* ------------------------------------------------------------------ 2. Block styles */
+
+/* Paragraph: small label above a title. */
+.is-style-perla-eyebrow {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	line-height: 1.4;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--primary);
+}
+
+/* List: check marks instead of bullets. */
+ul.is-style-perla-checks {
+	list-style: none;
+	padding-left: 0;
+}
+
+ul.is-style-perla-checks li {
+	position: relative;
+	padding-left: 34px;
+	color: var(--wp--preset--color--heading);
+	font-weight: 500;
+}
+
+ul.is-style-perla-checks li + li {
+	margin-top: 10px;
+}
+
+ul.is-style-perla-checks li::before {
+	content: "";
+	position: absolute;
+	top: 0.2em;
+	left: 0;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background: var(--wp--preset--color--secondary);
+}
+
+ul.is-style-perla-checks li::after {
+	content: "";
+	position: absolute;
+	top: calc(0.2em + 6px);
+	left: 7px;
+	width: 8px;
+	height: 5px;
+	border-left: 2px solid var(--wp--preset--color--white);
+	border-bottom: 2px solid var(--wp--preset--color--white);
+	transform: rotate(-45deg);
+}
+
+ul.is-style-perla-checks.has-white-color li {
+	color: var(--wp--preset--color--white);
+}
+
+/* Button: white, for dark panels. */
+.wp-block-button.is-style-perla-light .wp-block-button__link {
+	background-color: var(--wp--preset--color--white);
+	border-color: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--heading);
+}
+
+.wp-block-button.is-style-perla-light .wp-block-button__link:hover {
+	background-color: var(--wp--preset--color--tint);
+	border-color: var(--wp--preset--color--tint);
+}
+
+/* Button: outlined in white, for dark panels. */
+.wp-block-button.is-style-perla-ghost .wp-block-button__link {
+	background-color: transparent;
+	border-color: rgba(255, 255, 255, 0.4);
+	color: var(--wp--preset--color--white);
+}
+
+.wp-block-button.is-style-perla-ghost .wp-block-button__link:hover {
+	border-color: var(--wp--preset--color--white);
+}
+
+/* Details: a question that opens, drawn as a card. */
+.wp-block-details.is-style-perla-faq {
+	padding: 20px 24px;
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: var(--wp--custom--radius--medium);
+	background: var(--wp--preset--color--white);
+}
+
+.wp-block-details.is-style-perla-faq summary {
+	position: relative;
+	padding-right: 36px;
+	list-style: none;
+	cursor: pointer;
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 1.4;
+	color: var(--wp--preset--color--heading);
+}
+
+.wp-block-details.is-style-perla-faq summary::-webkit-details-marker {
+	display: none;
+}
+
+.wp-block-details.is-style-perla-faq summary::before,
+.wp-block-details.is-style-perla-faq summary::after {
+	content: "";
+	position: absolute;
+	top: 0.7em;
+	right: 4px;
+	width: 14px;
+	height: 2px;
+	margin-top: -1px;
+	border-radius: 2px;
+	background: var(--wp--preset--color--primary);
+	transition: transform 0.25s ease;
+}
+
+.wp-block-details.is-style-perla-faq summary::after {
+	transform: rotate(90deg);
+}
+
+.wp-block-details.is-style-perla-faq[open] summary::after {
+	transform: rotate(0deg);
+}
+
+.wp-block-details.is-style-perla-faq > :not(summary) {
+	margin-block: 12px 0;
+}
+
+/* Social icons: outlined circles, for the dark footer. */
+.wp-block-social-links.is-style-perla-social .wp-social-link {
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.24);
+	transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.wp-block-social-links.is-style-perla-social .wp-social-link:hover {
+	background: var(--wp--preset--color--primary);
+	border-color: var(--wp--preset--color--primary);
+	transform: none;
+}
+
+.wp-block-social-links.is-style-perla-social .wp-social-link a {
+	padding: 9px;
+}
+
+/* ------------------------------------------------------------------ 3. Pieces used by the patterns */
+
+/* Icon: a white drawing on a rounded square in the main colour. Replace the image to change it. */
+.wp-block-image.perla-icon {
+	flex-shrink: 0;
+	margin: 0;
+	line-height: 0;
+}
+
+.wp-block-image.perla-icon img {
+	box-sizing: content-box;
+	padding: 15px;
+	border-radius: 16px;
+	background: var(--wp--preset--color--primary);
+}
+
+.wp-block-image.perla-icon-small img {
+	padding: 12px;
+	border-radius: 12px;
+}
+
+.wp-block-image.perla-logo-mark img {
+	padding: 8px;
+	border-radius: 12px;
+}
+
+/* Link with an arrow. */
+.perla-arrow-link a {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-family: var(--wp--preset--font-family--heading);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.perla-arrow-link a::after {
+	content: "\2192";
+	transition: transform 0.2s ease;
+}
+
+.perla-arrow-link a:hover::after {
+	transform: translateX(4px);
+}
+
+/* Big figures: numbers, prices, step labels. */
+.perla-number {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: clamp(40px, 4.6vw, 62px);
+	font-variant-numeric: tabular-nums;
+	font-weight: 800;
+	letter-spacing: -0.03em;
+	line-height: 1;
+}
+
+.perla-price {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: clamp(34px, 3.4vw, 44px);
+	font-weight: 800;
+	letter-spacing: -0.03em;
+	line-height: 1;
+}
+
+.perla-step-number {
+	display: inline-block;
+	width: fit-content;
+	padding: 6px 14px;
+	border-radius: var(--wp--custom--radius--pill);
+	background: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--primary);
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 14px;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	line-height: 1.4;
+}
+
+.perla-stars {
+	white-space: nowrap;
+}
+
+/* Round badge with the initials of a reviewer. */
+.perla-initials {
+	display: grid;
+	flex-shrink: 0;
+	place-items: center;
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	background: var(--wp--preset--color--tint);
+	color: var(--wp--preset--color--primary);
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.has-tint-background-color .perla-initials {
+	background: var(--wp--preset--color--mist);
+}
+
+/* Stand-in for a portrait: swap the whole group for an Image block. */
+.perla-portrait {
+	aspect-ratio: 4 / 5;
+	background-image: radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 70%);
+}
+
+@media (max-width: 599px) {
+	.perla-portrait {
+		aspect-ratio: 3 / 2;
+	}
+}
+
+.perla-portrait-initials {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: clamp(40px, 5vw, 64px);
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	line-height: 1;
+	opacity: 0.55;
+}
+
+/* Text on the dark colour. */
+.perla-on-dark {
+	color: rgba(255, 255, 255, 0.74);
+}
+
+.perla-on-dark a,
+.perla-footer-phone a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.perla-on-dark a:hover,
+.perla-footer-phone a:hover {
+	color: var(--wp--preset--color--white);
+	text-decoration: underline;
+}
+
+.perla-footer-phone {
+	color: var(--wp--preset--color--white);
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 20px;
+	line-height: 1.4;
+}
+
+.perla-panel.has-dark-background-color p:not([class*="perla-"]):not(.has-text-color) {
+	color: rgba(255, 255, 255, 0.74);
+}
+
+.perla-panel.has-dark-background-color.wp-block-columns {
+	margin-block: 0;
+}
+
+.perla-panel-buttons {
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.perla-panel-buttons .wp-block-button,
+.perla-panel-buttons .wp-block-button__link {
+	width: 100%;
+}
+
+/* Before and after: the caption becomes a label on the picture. */
+.wp-block-image.perla-compare {
+	position: relative;
+	margin: 0;
+}
+
+.wp-block-image.perla-compare img {
+	display: block;
+	width: 100%;
+	border-radius: var(--wp--custom--radius--medium);
+}
+
+.wp-block-image.perla-compare figcaption {
+	position: absolute;
+	top: 14px;
+	left: 14px;
+	margin: 0;
+	padding: 5px 14px;
+	border-radius: var(--wp--custom--radius--pill);
+	background: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--heading);
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.5;
+}
+
+/* Rows of the "At a glance" box. */
+.perla-fact {
+	border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
+.perla-fact p {
+	margin: 0;
+}
+
+/* 404 */
+.perla-404 {
+	color: var(--wp--preset--color--primary);
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: clamp(88px, 14vw, 180px);
+	font-weight: 800;
+	letter-spacing: -0.04em;
+	line-height: 0.9;
+}
+
+/* ------------------------------------------------------------------ 4. Header and footer */
+
+.perla-topbar p {
+	margin: 0;
+	line-height: 1.5;
+}
+
+.perla-topbar .perla-on-dark a {
+	color: var(--wp--preset--color--white);
+}
+
+.perla-navbar {
+	border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
+.perla-navbar .wp-block-site-title {
+	margin: 0;
+	white-space: nowrap;
+}
+
+.perla-navbar .wp-block-navigation .wp-block-navigation-item__content {
+	padding-block: 6px;
+}
+
+.perla-navbar .wp-block-navigation .current-menu-item > .wp-block-navigation-item__content {
+	color: var(--wp--preset--color--primary);
+}
+
+.perla-navbar .wp-block-button__link {
+	padding: 12px 22px;
+	font-size: 15px;
+}
+
+/* The menu that opens on phones. */
+.wp-block-navigation__responsive-container.is-menu-open {
+	padding: 24px clamp(20px, 5vw, 72px);
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 22px;
+	font-weight: 700;
+}
+
+/* Sub menus. */
+.perla-navbar .wp-block-navigation:not(.has-background) .wp-block-navigation__submenu-container {
+	min-width: 230px;
+	padding: 8px;
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: var(--wp--custom--radius--small);
+	background: var(--wp--preset--color--white);
+	box-shadow: var(--wp--preset--shadow--soft);
+}
+
+.perla-navbar .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+	padding: 8px 12px;
+	border-radius: 8px;
+	font-size: 15px;
+}
+
+.perla-navbar .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover {
+	background: var(--wp--preset--color--mist);
+}
+
+/* Two helpers for any block: hidden on tablets and phones, or on phones only. */
+@media (max-width: 959px) {
+	.perla-hide-medium {
+		display: none !important;
+	}
+}
+
+@media (max-width: 781px) {
+	.perla-hide-small {
+		display: none !important;
+	}
+}
+
+.perla-footer .wp-block-site-title a,
+.perla-site-title-light a {
+	color: var(--wp--preset--color--white);
+}
+
+.perla-footer .perla-site-title-plain {
+	margin: 0;
+	color: rgba(255, 255, 255, 0.74);
+	font-family: var(--wp--preset--font-family--body);
+	font-size: var(--wp--preset--font-size--small);
+	font-weight: 400;
+	letter-spacing: 0;
+	line-height: 1.7;
+}
+
+.perla-legal {
+	border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.perla-legal p {
+	margin: 0;
+}
+
+/* ------------------------------------------------------------------ 5. Blog, comments and search */
+
+.perla-post-card {
+	overflow: hidden;
+	height: 100%;
+	transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.perla-post-card:hover {
+	box-shadow: var(--wp--preset--shadow--soft);
+	transform: translateY(-4px);
+}
+
+.perla-post-card .wp-block-post-featured-image {
+	margin: 0;
+}
+
+.perla-post-card .wp-block-post-title,
+.perla-post-card .wp-block-post-excerpt__excerpt {
+	margin-block: 0;
+}
+
+.perla-post-card .wp-block-post-excerpt {
+	margin-block: 10px 0;
+}
+
+.perla-post-card .wp-block-post-excerpt__more-text {
+	margin: 10px 0 0;
+}
+
+.perla-post-card .wp-block-post-excerpt__more-link {
+	font-family: var(--wp--preset--font-family--heading);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.wp-block-post-terms a {
+	font-weight: 600;
+}
+
+.perla-tags a {
+	display: inline-block;
+	margin: 0 4px 6px 0;
+	padding: 4px 12px;
+	border-radius: var(--wp--custom--radius--pill);
+	background: var(--wp--preset--color--tint);
+}
+
+.perla-tags .wp-block-post-terms__separator {
+	display: none;
+}
+
+.wp-block-query-pagination {
+	font-family: var(--wp--preset--font-family--heading);
+	font-weight: 600;
+}
+
+.wp-block-query-pagination a,
+.wp-block-post-navigation-link a {
+	text-decoration: none;
+}
+
+.wp-block-query-pagination-numbers .page-numbers {
+	display: inline-block;
+	min-width: 40px;
+	padding: 6px 10px;
+	border-radius: var(--wp--custom--radius--pill);
+	text-align: center;
+}
+
+.wp-block-query-pagination-numbers .page-numbers.current {
+	background: var(--wp--preset--color--primary);
+	color: var(--wp--preset--color--white);
+}
+
+.perla-post-nav {
+	padding-top: var(--wp--preset--spacing--50);
+	border-top: 1px solid var(--wp--preset--color--line);
+	font-family: var(--wp--preset--font-family--heading);
+	font-weight: 600;
+}
+
+/* Fields: search, comments and the forms of most plugins. */
+:where(.wp-block-search__input, .wp-block-post-comments-form input:not([type="submit"]):not([type="checkbox"]), .wp-block-post-comments-form textarea) {
+	padding: 13px 18px;
+	border: 1.5px solid var(--wp--preset--color--line);
+	border-radius: var(--wp--custom--radius--small);
+	background: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--heading);
+	font-family: inherit;
+	font-size: 16px;
+}
+
+:where(.wp-block-search__input, .wp-block-post-comments-form input, .wp-block-post-comments-form textarea):focus {
+	border-color: var(--wp--preset--color--primary);
+}
+
+.perla-search .wp-block-search__inside-wrapper {
+	gap: 10px;
+}
+
+.perla-search .wp-block-search__input {
+	border-radius: var(--wp--custom--radius--pill);
+	padding-inline: 22px;
+}
+
+.perla-search .wp-block-search__button {
+	margin-left: 0;
+}
+
+.wp-block-post-comments-form label {
+	display: block;
+	margin-bottom: 6px;
+	color: var(--wp--preset--color--heading);
+	font-size: var(--wp--preset--font-size--small);
+	font-weight: 600;
+}
+
+.wp-block-post-comments-form .comment-form-cookies-consent label {
+	display: inline;
+	font-weight: 400;
+}
+
+.wp-block-comment-author-name,
+.wp-block-comment-author-name a {
+	color: var(--wp--preset--color--heading);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.wp-block-comment-content p {
+	margin-block: 0 8px;
+}
+
+/* ------------------------------------------------------------------ 6. Animations */
+
+/*
+ * assets/js/motion.js adds "perla-motion" to <html> and "is-in" to each piece when it scrolls
+ * into view. Without JavaScript, in the editor, or when the visitor prefers reduced motion,
+ * nothing here applies and the page is simply there.
+ *
+ * To animate a block of your own, add one of these in Advanced > Additional CSS class(es):
+ *   perla-reveal    fades in and rises
+ *   perla-stagger   its inner blocks appear one after the other
+ *   perla-split     the words of a title rise one by one
+ *   perla-image     a picture fades in while it settles
+ *   perla-pop       a panel grows into place
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+	.perla-motion .perla-reveal,
+	.perla-motion .perla-stagger > * {
+		opacity: 0;
+		transform: translateY(28px);
+	}
+
+	.perla-motion .perla-reveal.is-in,
+	.perla-motion .perla-stagger.is-in > * {
+		opacity: 1;
+		transform: none;
+		transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+		transition-delay: calc(var(--perla-i, 0) * 90ms);
+	}
+
+	/* A split title moves word by word instead of as a block. */
+	.perla-motion .perla-stagger > .perla-split {
+		opacity: 1;
+		transform: none;
+	}
+
+	.perla-word {
+		display: inline-block;
+		overflow: hidden;
+		margin-bottom: -0.14em;
+		padding-bottom: 0.14em;
+		vertical-align: top;
+	}
+
+	.perla-word > span {
+		display: inline-block;
+	}
+
+	.perla-motion .perla-split .perla-word > span {
+		transform: translateY(115%);
+	}
+
+	.perla-motion .perla-split.is-in .perla-word > span {
+		transform: none;
+		transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+		transition-delay: calc(var(--perla-w, 0) * 45ms);
+	}
+
+	.perla-motion .perla-image {
+		opacity: 0;
+		transform: translateY(24px) scale(0.96);
+	}
+
+	.perla-motion .perla-image.is-in {
+		opacity: 1;
+		transform: none;
+		transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.perla-motion .perla-pop {
+		opacity: 0;
+		transform: scale(0.94);
+	}
+
+	.perla-motion .perla-pop.is-in {
+		opacity: 1;
+		transform: none;
+		transition: opacity 0.8s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	/* The first band of a page shrinks a little and rounds its corners as it scrolls away. */
+	.perla-motion .perla-hero {
+		border-radius: calc(var(--perla-shrink, 0) * 44px);
+		transform: scale(calc(1 - var(--perla-shrink, 0) * 0.07));
+		transform-origin: 50% 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+	}
+}

@@ -1,63 +1,54 @@
 #!/usr/bin/env python3
-"""Prepares the demo photos of the theme (theme/perla-child/demo/images).
+"""Prepares the photographs of the theme: theme/perla/assets/images/*.jpg.
 
-    python3 tools/photos.py            download what is missing, then crop and export every photo
-    python3 tools/photos.py hero team  only these photos (keys of src/photos.json)
+Every photograph comes from PxHere and is released under Creative Commons CC0, so it can be
+shipped with a GPL theme. The page of each one is https://pxhere.com/en/photo/<id>; the list
+with the licences is in theme/perla/readme.txt.
 
-Each photo in src/photos.json names a picture on Pexels ("pexels": its number in the address of
-the photo page), the size the layouts need, the point of the picture to keep in the middle
-("focus": 0 to 1 across and down) and how far to zoom in (1 = the largest crop that fits).
-
-To use another picture: change "pexels", "by" and "title", run this script, look at the result
-and adjust "focus" and "zoom". Then run `npm run build`, which also rewrites CREDITS.txt.
-
-The originals are kept in .photos-cache/ (not committed). Needs Pillow and NumPy:
-    pip install pillow numpy
+Put the downloaded originals in .photos-cache/<id>.jpg and run:  python3 tools/photos.py
+(needs Pillow and NumPy)
 """
-import json
-import os
-import sys
-import urllib.request
+from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageFilter
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CACHE = os.path.join(ROOT, '.photos-cache')
-OUT = os.path.join(ROOT, 'theme', 'perla-child', 'demo', 'images')
-SOURCE = 'https://images.pexels.com/photos/{id}/pexels-photo-{id}.jpeg?cs=srgb&fm=jpg&q=90&w=2600'
-QUALITY = 80
+ROOT = Path(__file__).resolve().parent.parent
+CACHE = ROOT / '.photos-cache'
+OUT = ROOT / 'theme' / 'perla' / 'assets' / 'images'
+
+# file: (PxHere id, shape as width / height, focus point as fractions of the original, zoom, longest width)
+PHOTOS = {
+    'hero': (917219, 12 / 13, (0.70, 0.50), 1.0, 880),
+    'founder': (917219, 4 / 3, (0.66, 0.62), 0.78, 1200),
+    'studio': (1276386, 4 / 3, (0.45, 0.50), 1.0, 1200),
+    'general-dentistry': (783408, 4 / 3, (0.50, 0.50), 1.0, 1200),
+    'cosmetic-dentistry': (496715, 4 / 3, (0.50, 0.50), 1.0, 1200),
+    'dental-implants': (1126242, 4 / 3, (0.50, 0.30), 1.0, 1200),
+    'teeth-whitening': (496715, 4 / 3, (0.50, 0.44), 0.6, 1200),
+    'orthodontics': (921710, 4 / 3, (0.50, 0.50), 1.0, 1200),
+    'emergency-care': (1095804, 4 / 3, (0.50, 0.50), 1.0, 1200),
+    'smile-after': (496715, 4 / 3, (0.50, 0.52), 0.9, 900),
+}
 
 
-def original(pexels_id):
-    """Returns the picture as downloaded from Pexels, fetching it the first time."""
-    path = os.path.join(CACHE, f'{pexels_id}.jpg')
-    if not os.path.exists(path):
-        os.makedirs(CACHE, exist_ok=True)
-        request = urllib.request.Request(SOURCE.format(id=pexels_id), headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(request, timeout=120) as response, open(path, 'wb') as file:
-            file.write(response.read())
-    return Image.open(path).convert('RGB')
-
-
-def crop(picture, size, focus, zoom):
-    """Cuts the largest area of the wanted shape around the focus point and resizes it."""
-    width, height = size
+def crop(picture, ratio, focus, zoom, longest):
+    """Cuts the largest area of the wanted shape around the focus point. Never enlarges."""
     full_w, full_h = picture.size
-    ratio = width / height
     crop_w = min(full_w, full_h * ratio) * zoom
     crop_h = crop_w / ratio
     left = min(max(focus[0] * full_w - crop_w / 2, 0), full_w - crop_w)
     top = min(max(focus[1] * full_h - crop_h / 2, 0), full_h - crop_h)
-    box = tuple(int(round(v)) for v in (left, top, left + crop_w, top + crop_h))
-    return picture.crop(box).resize((width, height), Image.LANCZOS)
+    part = picture.crop(tuple(int(round(v)) for v in (left, top, left + crop_w, top + crop_h)))
+    if part.width > longest:
+        part = part.resize((longest, int(round(longest / ratio))), Image.LANCZOS)
+    return part
 
 
 def stained_teeth(picture):
     """The "before" of the before / after pair: the same smile with darker, yellower teeth.
 
-    A demo illustration, not a clinical case. The numbers fit the smile photo of the demo:
-    another picture needs its own mouth area.
+    A demo illustration, not a clinical case. The numbers fit this smile photo only.
     """
     rgb = np.asarray(picture).astype(np.float32) / 255.0
     hsv = np.asarray(picture.convert('HSV')).astype(np.float32) / 255.0
@@ -65,35 +56,36 @@ def stained_teeth(picture):
     height, width = saturation.shape
     ys, xs = np.mgrid[0:height, 0:width]
 
-    # Teeth are bright and almost colourless. The pink highlights on the lips are left out.
-    mouth = (xs > width * 0.14) & (xs < width * 0.62) & (ys > height * 0.38) & (ys < height * 0.545)
-    neutral = (rgb[..., 0] - rgb[..., 1]) < 0.07
-    mask = ((value > 0.62) & (saturation < 0.22) & neutral & mouth).astype(np.uint8) * 255
-    mask = np.asarray(Image.fromarray(mask).filter(ImageFilter.GaussianBlur(2.2))).astype(np.float32) / 255.0
-    mask = np.clip(mask * 1.1, 0, 1)[..., None]
+    # Teeth are bright and almost colourless; the lips and the skin are not.
+    mouth = (xs > width * 0.06) & (xs < width * 0.94) & (ys > height * 0.12) & (ys < height * 0.57)
+    neutral = (rgb[..., 0] - rgb[..., 1]) < 0.10
+    mask = ((value > 0.50) & (saturation < 0.24) & neutral & mouth).astype(np.uint8) * 255
+    # Grown a little so the edges of the teeth are covered, then held back where the lips begin.
+    mask = Image.fromarray(mask).filter(ImageFilter.MaxFilter(7)).filter(ImageFilter.GaussianBlur(3))
+    mask = np.asarray(mask).astype(np.float32) / 255.0 * np.clip((0.42 - saturation) / 0.16, 0, 1)
+    mask = np.clip(mask, 0, 1)[..., None]
 
-    tint = np.array([0.94, 0.875, 0.69], dtype=np.float32)
+    tint = np.array([0.96, 0.915, 0.79], dtype=np.float32)
     result = rgb * (1 - mask) + rgb * tint * mask
     return Image.fromarray((np.clip(result, 0, 1) * 255).astype(np.uint8))
 
 
-def main():
-    with open(os.path.join(ROOT, 'src', 'photos.json'), encoding='utf-8') as file:
-        photos = json.load(file)
+def save(picture, name):
+    target = OUT / f'{name}.jpg'
+    picture.save(target, 'JPEG', quality=80, optimize=True, progressive=True)
+    print(f'{target.name:28} {picture.width}x{picture.height}  {target.stat().st_size // 1024} KB')
 
-    wanted = sys.argv[1:] or list(photos)
-    total = 0
-    for key in wanted:
-        photo = photos[key]
-        picture = crop(original(photo['pexels']), photo['size'], photo['focus'], photo['zoom'])
-        if photo.get('retouch') == 'stained-teeth':
-            picture = stained_teeth(picture)
-        path = os.path.join(OUT, photo['file'])
-        picture.save(path, 'JPEG', quality=QUALITY, optimize=True, progressive=True, subsampling='4:2:0')
-        size = os.path.getsize(path)
-        total += size
-        print(f"{photo['file']:26} {photo['size'][0]}x{photo['size'][1]}  {size / 1024:4.0f} KB")
-    print(f'{len(wanted)} photos, {total / 1024:.0f} KB')
+
+def main():
+    OUT.mkdir(parents=True, exist_ok=True)
+    for name, (pxhere_id, ratio, focus, zoom, longest) in PHOTOS.items():
+        source = CACHE / f'{pxhere_id}.jpg'
+        if not source.exists():
+            raise SystemExit(f'Missing {source}: download it from https://pxhere.com/en/photo/{pxhere_id}')
+        picture = crop(Image.open(source).convert('RGB'), ratio, focus, zoom, longest)
+        save(picture, name)
+        if name == 'smile-after':
+            save(stained_teeth(picture), 'smile-before')
 
 
 if __name__ == '__main__':
