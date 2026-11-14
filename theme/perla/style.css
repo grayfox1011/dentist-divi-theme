@@ -510,8 +510,8 @@ ul.is-style-perla-checks.has-white-color li {
 	font-weight: 700;
 }
 
-/* Sub menus. */
-.perla-navbar .wp-block-navigation:not(.has-background) .wp-block-navigation__submenu-container {
+/* Sub menus that drop down on large screens. */
+.perla-navbar .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__submenu-container {
 	min-width: 230px;
 	padding: 8px;
 	border: 1px solid var(--wp--preset--color--line);
@@ -520,14 +520,21 @@ ul.is-style-perla-checks.has-white-color li {
 	box-shadow: var(--wp--preset--shadow--soft);
 }
 
-.perla-navbar .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+.perla-navbar .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
 	padding: 8px 12px;
 	border-radius: 8px;
 	font-size: 15px;
 }
 
-.perla-navbar .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover {
+.perla-navbar .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover {
 	background: var(--wp--preset--color--mist);
+}
+
+/* Sub menus inside the menu that opens on phones. */
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+	font-family: var(--wp--preset--font-family--body);
+	font-size: 17px;
+	font-weight: 500;
 }
 
 /* Two helpers for any block: hidden on tablets and phones, or on phones only. */
