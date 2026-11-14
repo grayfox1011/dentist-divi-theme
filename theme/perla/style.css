@@ -1,7 +1,7 @@
 /*
 Theme Name: Perla
 Author: Fontana Jonathan
-Description: Perla is a bright, friendly block theme for dental clinics, orthodontists and other small health practices. The home page is ready as soon as the theme is active: a hero with opening hours, treatment cards, a "how we work" section, first-visit steps, before and after, team, reviews, latest posts, frequent questions and a booking banner. Page patterns for About, Treatments, single treatments with prices and Contact let you build the rest of the site in a few clicks. Everything is made of core blocks, so colours, fonts and every text can be changed in the Site Editor. Gentle scroll animations are included and are switched off automatically for visitors who prefer reduced motion.
+Description: Perla is a bright, friendly block theme for dental clinics, orthodontists and other small health practices. The home page is ready as soon as the theme is active: a hero with opening hours, treatment cards, a "how we work" section, first-visit steps, a before and after slider, team, reviews, latest posts, frequent questions and a booking banner. Fifteen page patterns (Home, About, Team, Treatments, single treatments, Prices, First visit, Questions, Reviews, Contact) and twenty-five section patterns build the rest of the site in a few clicks. Everything is made of core blocks, so colours, fonts and every text can be changed in the Site Editor. Gentle scroll animations are included and are switched off automatically for visitors who prefer reduced motion.
 Version: 1.0.0
 Requires at least: 6.6
 Tested up to: 7.1
@@ -50,7 +50,9 @@ h3 {
 }
 
 .has-dark-background-color :focus-visible,
-.has-dark-background-color .wp-block-button__link:focus-visible {
+.has-dark-background-color .wp-block-button__link:focus-visible,
+.has-primary-background-color :focus-visible,
+.has-primary-background-color .wp-block-button__link:focus-visible {
 	outline-color: var(--wp--preset--color--white);
 }
 
@@ -392,18 +394,24 @@ ul.is-style-perla-checks.has-white-color li {
 	width: 100%;
 }
 
-.wp-block-image.perla-compare {
+.perla-compare {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
+}
+
+.perla-compare > .wp-block-image {
 	position: relative;
 	margin: 0;
 }
 
-.wp-block-image.perla-compare img {
+.perla-compare > .wp-block-image img {
 	display: block;
 	width: 100%;
 	border-radius: var(--wp--custom--radius--medium);
 }
 
-.wp-block-image.perla-compare figcaption {
+.perla-compare figcaption {
 	position: absolute;
 	top: 14px;
 	left: 14px;
@@ -418,12 +426,137 @@ ul.is-style-perla-checks.has-white-color li {
 	line-height: 1.5;
 }
 
+/* compare.js adds "is-live": the two pictures stack and a handle uncovers one or the other. */
+.perla-compare.is-live {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 4 / 3;
+	border-radius: var(--wp--custom--radius--medium);
+	cursor: ew-resize;
+	touch-action: pan-y;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.perla-compare.is-live > .wp-block-image {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.perla-compare.is-live > .wp-block-image img {
+	height: 100%;
+	border-radius: 0;
+	object-fit: cover;
+}
+
+.perla-compare.is-live > .wp-block-image:first-of-type {
+	z-index: 1;
+	clip-path: inset(0 calc(100% - var(--perla-pos, 50%)) 0 0);
+}
+
+.perla-compare.is-live > .wp-block-image:last-of-type figcaption {
+	right: 14px;
+	left: auto;
+}
+
+.perla-compare-handle {
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	bottom: 0;
+	left: var(--perla-pos, 50%);
+	width: 3px;
+	margin-left: -1.5px;
+	background: var(--wp--preset--color--white);
+	pointer-events: none;
+}
+
+.perla-compare-handle::after {
+	content: "\2194";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	display: grid;
+	place-items: center;
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	background: var(--wp--preset--color--white);
+	box-shadow: var(--wp--preset--shadow--soft);
+	color: var(--wp--preset--color--primary);
+	font-size: 20px;
+	line-height: 1;
+	transform: translate(-50%, -50%);
+}
+
+.perla-compare-range {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	border: 0;
+	opacity: 0;
+}
+
+.perla-compare-range:focus-visible + .perla-compare-handle::after {
+	outline: 3px solid var(--wp--preset--color--primary);
+	outline-offset: 3px;
+}
+
 .perla-fact {
 	border-bottom: 1px solid var(--wp--preset--color--line);
 }
 
 .perla-fact p {
 	margin: 0;
+}
+
+.perla-fact:last-child {
+	border-bottom: 0;
+}
+
+.wp-block-table.perla-price-list {
+	margin: 0;
+}
+
+.wp-block-table.perla-price-list td {
+	padding: 14px 0;
+	border: 0;
+	border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
+.wp-block-table.perla-price-list tr:last-child td {
+	border-bottom: 0;
+}
+
+.wp-block-table.perla-price-list td:last-child {
+	padding-left: 16px;
+	color: var(--wp--preset--color--heading);
+	font-weight: 600;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.perla-big-quote {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: clamp(24px, 3vw, 38px);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	line-height: 1.35;
+}
+
+.wp-block-image.perla-portrait-photo {
+	margin-bottom: 12px;
+}
+
+.wp-block-image.perla-portrait-photo img {
+	width: 100%;
+	border-radius: var(--wp--custom--radius--medium);
 }
 
 .perla-404 {

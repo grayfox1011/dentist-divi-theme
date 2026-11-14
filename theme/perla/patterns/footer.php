@@ -50,6 +50,10 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/prices/' ) ); ?>"><?php echo esc_html__( 'Prices', 'perla' ); ?></a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
 <p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>"><?php echo esc_html__( 'Journal', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 

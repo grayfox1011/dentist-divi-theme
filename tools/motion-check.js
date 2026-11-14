@@ -36,7 +36,7 @@ const hiddenCount = page => page.evaluate(() => {
   const height = await page.evaluate(() => document.documentElement.scrollHeight);
   await page.mouse.move(700, 450);
   await page.mouse.wheel(0, 320); await page.waitForTimeout(900);
-  const shrink = await page.evaluate(() => ({ y: Math.round(window.scrollY), v: getComputedStyle(document.querySelector('main > .perla-hero')).getPropertyValue('--perla-shrink'), tr: getComputedStyle(document.querySelector('main > .perla-hero')).transform }));
+  const shrink = await page.evaluate(() => ({ y: Math.round(window.scrollY), v: getComputedStyle(document.querySelector('main .perla-hero')).getPropertyValue('--perla-shrink'), tr: getComputedStyle(document.querySelector('main .perla-hero')).transform }));
   ok('hero shrinks while it scrolls away', parseFloat(shrink.v) > 0.1 && shrink.tr !== 'none', `scrollY ${shrink.y}, shrink ${shrink.v}, ${shrink.tr}`);
   ok('wheel scrolling moves the page', shrink.y > 150, `scrollY ${shrink.y}`);
   const mid = await page.evaluate(() => [...document.querySelectorAll('.perla-number')].map(e => e.textContent).join(' | '));
@@ -99,6 +99,37 @@ const hiddenCount = page => page.evaluate(() => {
   await page.goto(BASE + '/', { waitUntil: 'networkidle' });
   const touch = await page.evaluate(() => ({ cls: document.documentElement.className, fine: matchMedia('(pointer: fine)').matches }));
   ok('phones keep their own scrolling', /perla-ready/.test(touch.cls) && !/lenis/.test(touch.cls), `<html class="${touch.cls}"> pointer fine: ${touch.fine}`);
+  await context.close();
+
+  // 7. Before and after slider.
+  context = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); page = await context.newPage();
+  await page.goto(BASE + '/', { waitUntil: 'networkidle' });
+  const slider = page.locator('.perla-compare').first();
+  await slider.scrollIntoViewIfNeeded();
+  const live = await slider.evaluate(box => ({ live: box.classList.contains('is-live'), handle: !!box.querySelector('.perla-compare-handle'), range: !!box.querySelector('input[type=range]'), label: (box.querySelector('input[type=range]') || {}).ariaLabel, images: box.querySelectorAll('img').length }));
+  ok('before and after: the two pictures become a slider', live.live && live.handle && live.range && live.images === 2, `label "${live.label}"`);
+  const box = await slider.boundingBox();
+  await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.5);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.25, box.y + box.height * 0.5, { steps: 6 });
+  await page.mouse.up();
+  await page.waitForTimeout(100);
+  const dragged = await slider.evaluate(el => ({ pos: parseFloat(el.style.getPropertyValue('--perla-pos')), clip: getComputedStyle(el.querySelector('.wp-block-image')).clipPath }));
+  ok('before and after: dragging moves the handle', Math.abs(dragged.pos - 25) < 2, `handle at ${dragged.pos}%, ${dragged.clip}`);
+  await slider.locator('input[type=range]').focus();
+  for (let i = 0; i < 5; i++) await page.keyboard.press('ArrowRight');
+  const keyed = await slider.evaluate(el => parseFloat(el.style.getPropertyValue('--perla-pos')));
+  ok('before and after: arrow keys move the handle', keyed > dragged.pos + 3, `from ${dragged.pos}% to ${keyed}%`);
+  const scripts = await page.evaluate(() => !!document.querySelector('script[src*="assets/js/compare.js"]'));
+  await page.goto(BASE + '/contact/', { waitUntil: 'networkidle' });
+  const elsewhere = await page.evaluate(() => !!document.querySelector('script[src*="assets/js/compare.js"]'));
+  ok('before and after: the script loads only where there is a slider', scripts && !elsewhere, `home ${scripts}, contact ${elsewhere}`);
+  await context.close();
+
+  context = await browser.newContext({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false }); page = await context.newPage();
+  await page.goto(BASE + '/', { waitUntil: 'load' });
+  const plain = await page.evaluate(() => { const el = document.querySelector('.perla-compare'); const [a, b] = [...el.querySelectorAll('img')].map(i => i.getBoundingClientRect()); return { live: el.classList.contains('is-live'), side: a.right <= b.left + 1 && a.width > 100 && b.width > 100 }; });
+  ok('before and after: without JavaScript the two pictures stand side by side', !plain.live && plain.side);
   await context.close();
 
   await browser.close();

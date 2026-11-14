@@ -178,4 +178,48 @@ const POSTS = [
   },
 ];
 
-module.exports = { SERVICES, TEAM, TESTIMONIALS, FAQ, STEPS, STATS, VALUES, SOCIAL, POSTS };
+const MORE_TESTIMONIALS = [
+  { quote: 'I have a real fear of needles. They used the numbing gel, talked me through it, and I honestly did not feel the injection.', name: 'Daniel W.', initials: 'DW', detail: 'Patient since 2021' },
+  { quote: 'The quote for my implant was the price I paid. No extras at the end, which after my last dentist felt like a small miracle.', name: 'Rosa M.', initials: 'RM', detail: 'Implant patient' },
+  { quote: 'Saturday appointments mean I no longer use holiday days for the dentist. The cleaning took 40 minutes and I was home by ten.', name: 'Tom B.', initials: 'TB', detail: 'Patient since 2017' },
+];
+
+const FEATURED_REVIEW = { quote: 'I put off going for six years because I was embarrassed. Nobody here made me feel that way. Two months later I smile in photos again.', name: 'Laura S.', detail: 'Patient since 2022' };
+
+const FAQ_MONEY = [
+  { q: 'How much is a first visit?', a: 'A new patient exam with X-rays is $95. If you need treatment, you get a written quote before anything is booked.' },
+  { q: 'Can I pay in instalments?', a: 'Yes. For treatment over $500 we offer interest-free plans of up to 12 months. We set it up at the front desk in a few minutes.' },
+  { q: 'Will you bill my insurance directly?', a: 'Yes, for the plans we are in network with. You pay only your share on the day and we send you a copy of the claim.' },
+  { q: 'Do you charge for missed appointments?', a: 'Not if you tell us the day before. For no-shows without notice we charge $40, which we waive the first time.' },
+];
+
+const PRICES = [
+  { group: 'Check-ups and hygiene', rows: [['New patient exam with X-rays', '$95'], ['Routine check-up', '$65'], ['Cleaning with the hygienist', '$110'], ['Fluoride treatment', '$35']] },
+  { group: 'Repairs', rows: [['White filling', 'from $160'], ['Root canal treatment', 'from $690'], ['Crown', 'from $980'], ['Emergency visit', '$120']] },
+  { group: 'Cosmetic', rows: [['Whitening in the studio', '$290'], ['Composite bonding, per tooth', 'from $350'], ['Porcelain veneer, per tooth', 'from $950']] },
+  { group: 'Implants and orthodontics', rows: [['Single implant with crown', '$1,900'], ['Clear aligners', 'from $2,400'], ['Fixed braces', 'from $3,200'], ['Retainers', '$180']] },
+];
+
+const FEATURES = [
+  { icon: 'first-aid', title: 'Seen the same day', text: 'Call before 3pm with a toothache or a broken tooth and we will fit you in today.' },
+  { icon: 'calendar', title: 'Evenings and Saturdays', text: 'Open until 7pm on weekdays and on Saturday mornings, so you don’t need a day off.' },
+  { icon: 'tag', title: 'Prices in writing', text: 'A written quote before anything starts, and payment plans of up to 12 months.' },
+  { icon: 'heart', title: 'Good with nervous patients', text: 'Longer appointments, numbing gel first, and we stop whenever you raise a hand.' },
+];
+
+const OPENING = [['Monday', '8am – 7pm'], ['Tuesday', '8am – 7pm'], ['Wednesday', '8am – 7pm'], ['Thursday', '8am – 7pm'], ['Friday', '8am – 7pm'], ['Saturday', '9am – 2pm'], ['Sunday', 'Closed']];
+
+const BRING = ['A photo ID and your insurance card, if you have one', 'A list of any medication you take', 'Earlier X-rays, if they are less than two years old', 'Your questions: there is time for them'];
+
+const GETTING_HERE = ['Free parking behind the building', 'Buses 4 and 11 stop at Harbor & 2nd', 'Step-free entrance and a treatment room on the ground floor'];
+
+const GALLERY = [
+  ['studio.jpg', 'A bright treatment room with a dental chair'],
+  ['chair.jpg', 'A dentist’s chair seen from the side'],
+  ['dental-implants.jpg', 'Instruments laid out on a steel tray'],
+  ['emergency-care.jpg', 'The lamp above a dental chair'],
+  ['orthodontics.jpg', 'A retainer on a plaster model'],
+  ['general-dentistry.jpg', 'A toothbrush with blue toothpaste'],
+];
+
+module.exports = { SERVICES, TEAM, TESTIMONIALS, MORE_TESTIMONIALS, FEATURED_REVIEW, FAQ, FAQ_MONEY, STEPS, STATS, VALUES, SOCIAL, POSTS, PRICES, FEATURES, OPENING, BRING, GETTING_HERE, GALLERY };

@@ -16,7 +16,7 @@ const intro = o => flow({ name: 'Intro', className: 'perla-stagger', gap: space(
   o.text && lead(t(o.text), { align: 'center' }),
 ]);
 
-const stars = (o = {}) => paragraph(STARS, { color: 'star', className: 'perla-stars', typography: { fontSize: o.size || '18px', lineHeight: '1', letterSpacing: '2px' } });
+const stars = (o = {}) => paragraph(STARS, { color: 'star', align: o.align, className: 'perla-stars', typography: { fontSize: o.size || '18px', lineHeight: '1', letterSpacing: '2px' } });
 
 // home
 
@@ -73,7 +73,7 @@ function about(o = {}) {
         heading(t('Longer appointments, plainer answers'), { className: 'perla-split' }),
         paragraph(t('Most of what makes a dental visit stressful is not knowing what is coming. So we book 45 minutes for a first visit, show you your X-rays on screen and explain what we see in normal words. Nothing gets done until you have seen the price.')),
         checks([t('Numbing gel before every injection'), t('Digital X-rays and a 3D scanner in the studio'), t('A written quote first, and payment plans of up to 12 months'), t('Open until 7pm on weekdays and on Saturday mornings')]),
-        buttons({}, [button(t('Meet the team'), url('/about/')), button(t('Our story'), url('/about/'), { variant: 'outline' })]),
+        buttons({}, [button(t('Meet the team'), url('/team/')), button(t('Our story'), url('/about/'), { variant: 'outline' })]),
       ]),
     ]),
   ]);
@@ -91,20 +91,21 @@ function steps(o = {}) {
 }
 
 function beforeAfter(o = {}) {
-  const shot = (file, label, alt) => b('core/image', { url: img(file), alt: ta(alt), caption: t(label), sizeSlug: 'full', aspectRatio: '4/3', scale: 'cover', className: 'perla-compare' });
+  const shot = (file, label, alt) => b('core/image', { url: img(file), alt: ta(alt), caption: t(label), sizeSlug: 'full', aspectRatio: '4/3', scale: 'cover' });
   return section({ name: 'Before and after', bg: o.bg || 'mist' }, [
     columns({ valign: 'center' }, [
       column({ valign: 'center', width: '42%', className: 'perla-stagger', gap: '20px' }, [
         eyebrow(t('Before and after')),
         heading(t('See the difference for yourself'), { className: 'perla-split' }),
-        paragraph(t('At your consultation we can show you more cases like yours, so you know what to expect before you decide anything.')),
+        paragraph(t('Drag the handle across the photo. At your consultation we can show you more cases like yours, so you know what to expect before you decide anything.')),
         checks([t('Whitening'), t('Veneers and bonding'), t('Clear aligners')]),
         buttons({}, [button(t('See all treatments'), url('/services/'), { variant: 'outline' })]),
       ]),
       column({ valign: 'center', width: '58%' }, [
-        columns({ align: null, gap: space('40'), rowGap: space('40'), className: 'perla-reveal', stack: false }, [
-          column({}, [shot('smile-before.jpg', 'Before', 'A smile before whitening')]),
-          column({}, [shot('smile-after.jpg', 'After', 'The same smile after whitening')]),
+        // the first image is the "before", the second the "after"
+        flow({ name: 'Drag to compare', className: 'perla-compare perla-reveal' }, [
+          shot('smile-before.jpg', 'Before', 'A smile before whitening'),
+          shot('smile-after.jpg', 'After', 'The same smile after whitening'),
         ]),
       ]),
     ]),
@@ -127,8 +128,8 @@ function team(o = {}) {
 
 function testimonials(o = {}) {
   return section({ name: 'Reviews', bg: o.bg || 'tint' }, [
-    intro({ eyebrow: 'What patients say', title: 'In our patients’ words' }),
-    grid({ name: 'Reviews', className: 'perla-stagger' }, C.TESTIMONIALS.map(q => card({ spread: true, bg: o.bg === 'white' ? 'mist' : 'white', line: false }, [
+    intro({ eyebrow: o.eyebrow || 'What patients say', title: o.title || 'In our patients’ words' }),
+    grid({ name: 'Reviews', className: 'perla-stagger' }, (o.list || C.TESTIMONIALS).map(q => card({ spread: true, bg: o.bg === 'white' ? 'mist' : 'white', line: false }, [
       flow({ gap: space('40') }, [stars(), lead(t(`“${q.quote}”`), { color: 'heading' })]),
       row({ name: 'Author', wrap: false, gap: '14px' }, [
         paragraph(q.initials, { className: 'perla-initials' }),
@@ -168,12 +169,12 @@ function faq(o = {}) {
   return section({ name: 'Questions', bg: o.bg || 'mist' }, [
     columns({}, [
       column({ width: '40%', className: 'perla-stagger', gap: '20px' }, [
-        eyebrow(t('Good to know')),
-        heading(t('Questions we hear every day'), { className: 'perla-split' }),
-        paragraph(t('Can’t find yours? Call the front desk. A real person picks up.')),
+        eyebrow(t(o.eyebrow || 'Good to know')),
+        heading(t(o.title || 'Questions we hear every day'), { className: 'perla-split' }),
+        paragraph(t(o.text || 'Can’t find yours? Call the front desk. A real person picks up.')),
         arrowLink(t('Contact us'), url('/contact/')),
       ]),
-      column({ width: '60%', className: 'perla-stagger', gap: '12px' }, C.FAQ.map((item, i) => b('core/details', { summary: t(item.q), showContent: i === 0, className: 'is-style-perla-faq' }, [paragraph(t(item.a))]))),
+      column({ width: '60%', className: 'perla-stagger', gap: '12px' }, (o.items || C.FAQ).map((item, i) => b('core/details', { summary: t(item.q), showContent: i === 0, className: 'is-style-perla-faq' }, [paragraph(t(item.a))]))),
     ]),
   ]);
 }
@@ -286,28 +287,145 @@ const treatment = sv => ({
   ]),
 });
 
+// more sections
+
+function heroCentered() {
+  return section({ name: 'Hero', bg: 'tint', className: 'perla-hero', top: 'clamp(56px, 8vw, 120px)', bottom: 'clamp(56px, 8vw, 120px)' }, [
+    flow({ gap: '24px', className: 'perla-stagger', contentSize: '820px' }, [
+      eyebrow(t('Family dentist in Springfield'), { align: 'center' }),
+      heading(t('Dental care that fits around your life'), { level: 1, size: 'display', align: 'center', className: 'perla-split' }),
+      lead(t('Evening and Saturday appointments, prices in writing and a team that explains before it drills.'), { align: 'center' }),
+      buttons({ justify: 'center' }, [button(t('Book a visit'), url(BOOK)), button(PHONE, PHONE_LINK, { variant: 'outline' })]),
+    ]),
+  ]);
+}
+
+const factRow = (label, value, pad = '14px') => row({ className: 'perla-fact', justify: 'space-between', wrap: false, gap: space('40'), padding: { top: pad, bottom: pad } }, [paragraph(t(label)), paragraph(`<strong>${t(value)}</strong>`, { color: 'heading' })]);
+
+function hours() {
+  return section({ name: 'Opening hours', bg: 'white' }, [
+    columns({ valign: 'center' }, [
+      column({ valign: 'center', className: 'perla-stagger', gap: '20px' }, [
+        eyebrow(t('Opening hours')),
+        heading(t('Open when you are free'), { className: 'perla-split' }),
+        paragraph(t('Early mornings, evenings until seven and Saturday mornings. Most new patients are seen within the week.')),
+        paragraph(`${t('In pain? Call before 3pm and we will see you today:')} <a href="${PHONE_LINK}"><strong>${PHONE}</strong></a>`),
+        buttons({}, [button(t('Book a visit'), url(BOOK))]),
+      ]),
+      column({ valign: 'center' }, [card({ name: 'Hours', bg: 'mist', line: false, className: 'perla-reveal', gap: '0' }, C.OPENING.map(([day, time]) => factRow(day, time)))]),
+    ]),
+  ]);
+}
+
+function location() {
+  return section({ name: 'Where we are', bg: 'mist' }, [
+    columns({ valign: 'center' }, [
+      column({ valign: 'center' }, [image('studio.jpg', { alt: ta('One of our treatment rooms'), ratio: '3/2', className: 'perla-image' })]),
+      column({ valign: 'center', className: 'perla-stagger', gap: '20px' }, [
+        eyebrow(t('Where we are')),
+        heading(t('Two doors down from the pharmacy'), { className: 'perla-split' }),
+        lead(ADDRESS, { color: 'heading' }),
+        checks(C.GETTING_HERE.map(item => t(item))),
+        buttons({}, [button(t('Open the map'), '#', { variant: 'outline' })]),
+      ]),
+    ]),
+  ]);
+}
+
+function features() {
+  return section({ name: 'Why choose us', bg: 'white' }, [
+    intro({ eyebrow: 'Why Perla', title: 'Small things that make visits easier' }),
+    grid({ name: 'Reasons', min: '240px', className: 'perla-stagger' }, C.FEATURES.map(f => card({ bg: 'mist', line: false }, [icon(f.icon), heading(t(f.title), { level: 3 }), paragraph(t(f.text))]))),
+  ]);
+}
+
+function gallery() {
+  return section({ name: 'Gallery', bg: 'white' }, [
+    intro({ eyebrow: 'Inside the studio', title: 'Have a look around', text: 'Four treatment rooms with daylight in every one, and a waiting room you will not spend long in.' }),
+    grid({ name: 'Photos', gap: space('40'), className: 'perla-stagger' }, C.GALLERY.map(([file, alt]) => image(file, { alt: ta(alt), ratio: '3/2' }))),
+  ]);
+}
+
+function reviewFeatured() {
+  const q = C.FEATURED_REVIEW;
+  return section({ name: 'Featured review', bg: 'tint' }, [
+    flow({ gap: '24px', className: 'perla-stagger', contentSize: '880px' }, [
+      stars({ size: '22px', align: 'center' }),
+      paragraph(t(`“${q.quote}”`), { align: 'center', className: 'perla-big-quote', color: 'heading' }),
+      small(`<strong>${t(q.name)}</strong> · ${t(q.detail)}`, { align: 'center' }),
+    ]),
+  ]);
+}
+
+function emergency() {
+  return section({ name: 'Emergency banner', bg: 'primary', text: 'white', top: space('60'), bottom: space('60') }, [
+    row({ align: 'wide', justify: 'space-between', gap: space('50'), className: 'perla-reveal' }, [
+      flow({ gap: '6px' }, [
+        heading(t('Toothache or a broken tooth?'), { level: 2, color: 'white', typography: { fontSize: 'clamp(22px, 2.2vw, 30px)' } }),
+        paragraph(t('Call before 3pm and we will see you today, even if you are not a patient yet.')),
+      ]),
+      buttons({}, [button(`${t('Call')} ${PHONE}`, PHONE_LINK, { variant: 'perla-light' })]),
+    ]),
+  ]);
+}
+
+function teamPhotos() {
+  return section({ name: 'Team', bg: 'white' }, [
+    intro({ eyebrow: 'The team', title: 'The people you will meet', text: 'Four clinicians and a front desk that knows your name. Most of us have worked together for more than ten years.' }),
+    grid({ name: 'Team members', min: '240px', className: 'perla-stagger' }, C.TEAM.map(m => flow({ gap: '6px' }, [
+      image('portrait.svg', { alt: ta('Portrait'), ratio: '4/5', className: 'perla-portrait-photo' }),
+      heading(t(m.name), { level: 3 }),
+      small(t(m.role), { color: 'primary', typography: { fontWeight: '500' } }),
+      small(t(m.bio)),
+    ]))),
+  ]);
+}
+
+function priceList() {
+  const table = rows => b('core/table', { className: 'perla-price-list', hasFixedLayout: false, body: rows.map(([what, price]) => ({ cells: [{ content: t(what), tag: 'td' }, { content: t(price), tag: 'td' }] })) });
+  return section({ name: 'Price list', bg: 'white' }, [
+    intro({ eyebrow: 'Prices', title: 'What things cost', text: 'These are our usual prices. Yours is confirmed in writing before any treatment starts.' }),
+    grid({ name: 'Price groups', min: '420px', className: 'perla-stagger' }, C.PRICES.map(g => card({ bg: 'mist', line: false, gap: '8px' }, [heading(t(g.group), { level: 3 }), table(g.rows)]))),
+  ]);
+}
+
+function bring() {
+  return section({ name: 'What to bring', bg: 'mist' }, [
+    columns({ valign: 'center' }, [
+      column({ valign: 'center', className: 'perla-stagger', gap: '20px' }, [
+        eyebrow(t('Before you come')),
+        heading(t('What to bring'), { className: 'perla-split' }),
+        paragraph(t('Nothing complicated. If you forget something, we will sort it out at the front desk.')),
+        checks(C.BRING.map(item => t(item))),
+      ]),
+      column({ valign: 'center' }, [image('chair.jpg', { alt: ta('A dentist’s chair in a quiet treatment room'), ratio: '3/2', className: 'perla-image' })]),
+    ]),
+  ]);
+}
+
 // header, footer, templates
 
-function header() {
+const topBar = () => {
   const light = { size: 'x-small', className: 'perla-on-dark' };
-  return [
-    section({ name: 'Top bar', tagName: 'div', bg: 'dark', className: 'perla-topbar', top: '9px', bottom: '9px' }, [
-      row({ align: 'wide', justify: 'space-between', gap: '6px 24px' }, [
-        row({ gap: '6px 24px' }, [paragraph(HOURS, light), paragraph(ADDRESS, { ...light, className: 'perla-on-dark perla-hide-small' })]),
-        row({ gap: '6px 24px' }, [paragraph(`<a href="mailto:${EMAIL}">${EMAIL}</a>`, { ...light, className: 'perla-on-dark perla-hide-small' }), paragraph(`<a href="${PHONE_LINK}"><strong>${PHONE}</strong></a>`, light)]),
-      ]),
+  return section({ name: 'Top bar', tagName: 'div', bg: 'dark', className: 'perla-topbar', top: '9px', bottom: '9px' }, [
+    row({ align: 'wide', justify: 'space-between', gap: '6px 24px' }, [
+      row({ gap: '6px 24px' }, [paragraph(HOURS, light), paragraph(ADDRESS, { ...light, className: 'perla-on-dark perla-hide-small' })]),
+      row({ gap: '6px 24px' }, [paragraph(`<a href="mailto:${EMAIL}">${EMAIL}</a>`, { ...light, className: 'perla-on-dark perla-hide-small' }), paragraph(`<a href="${PHONE_LINK}"><strong>${PHONE}</strong></a>`, light)]),
     ]),
-    section({ name: 'Navigation bar', tagName: 'div', bg: 'white', className: 'perla-navbar', top: '14px', bottom: '14px' }, [
-      row({ align: 'wide', justify: 'space-between', gap: '12px 24px' }, [
-        row({ name: 'Logo', wrap: false, gap: '10px' }, [icon('tooth', { className: 'perla-logo-mark' }), b('core/site-title', { level: 0 })]),
-        row({ name: 'Menu', wrap: false, gap: '28px' }, [
-          b('core/navigation', { overlayMenu: 'mobile', icon: 'menu', layout: { type: 'flex', justifyContent: 'right' }, style: { spacing: { blockGap: '28px' } } }),
-          buttons({ className: 'perla-hide-medium' }, [button(t('Book a visit'), url(BOOK))]),
-        ]),
-      ]),
+  ]);
+};
+
+const navBar = () => section({ name: 'Navigation bar', tagName: 'div', bg: 'white', className: 'perla-navbar', top: '14px', bottom: '14px' }, [
+  row({ align: 'wide', justify: 'space-between', gap: '12px 24px' }, [
+    row({ name: 'Logo', wrap: false, gap: '10px' }, [icon('tooth', { className: 'perla-logo-mark' }), b('core/site-title', { level: 0 })]),
+    row({ name: 'Menu', wrap: false, gap: '28px' }, [
+      b('core/navigation', { overlayMenu: 'mobile', icon: 'menu', layout: { type: 'flex', justifyContent: 'right' }, style: { spacing: { blockGap: '28px' } } }),
+      buttons({ className: 'perla-hide-medium' }, [button(t('Book a visit'), url(BOOK))]),
     ]),
-  ];
-}
+  ]),
+]);
+
+const header = () => [topBar(), navBar()];
 
 function footer() {
   const title = text => heading(t(text), { level: 2, color: 'white', typography: { fontSize: '15px', letterSpacing: '0.04em', lineHeight: '1.4' } });
@@ -320,7 +438,7 @@ function footer() {
           small(t('A small dental studio on Harbor Street, looking after Springfield families since 2010.'), { className: 'perla-on-dark' }),
           b('core/social-links', { className: 'is-style-perla-social', size: 'has-small-icon-size', iconColor: 'white', iconColorValue: '#ffffff', style: { spacing: { blockGap: { left: '10px' } } } }, ['facebook', 'instagram', 'youtube'].map(service => b('core/social-link', { service, url: '#' }))),
         ]),
-        flow({ gap: '14px' }, [title('Explore'), links([[t('Home'), url('/')], [t('About us'), url('/about/')], [t('Treatments'), url('/services/')], [t('Journal'), url('/blog/')], [t('Contact'), url('/contact/')]])]),
+        flow({ gap: '14px' }, [title('Explore'), links([[t('Home'), url('/')], [t('About us'), url('/about/')], [t('Treatments'), url('/services/')], [t('Prices'), url('/prices/')], [t('Journal'), url('/blog/')], [t('Contact'), url('/contact/')]])]),
         flow({ gap: '14px' }, [title('Treatments'), links(C.SERVICES.slice(0, 5).map(sv => [t(sv.title), url(`/services/${sv.slug}/`)]))]),
         flow({ gap: '10px' }, [
           title('Visit us'),
@@ -333,6 +451,19 @@ function footer() {
       row({ name: 'Legal', align: 'wide', className: 'perla-legal perla-reveal', justify: 'space-between', gap: '24px', padding: { top: '24px' } }, [
         row({ gap: '6px' }, [small(t('©'), { className: 'perla-on-dark' }), b('core/site-title', { level: 0, isLink: false, className: 'perla-site-title-plain' })]),
         small(`<a href="${url('/privacy-policy/')}">${t('Privacy policy')}</a> · <a href="${url('/terms/')}">${t('Terms')}</a>`, { className: 'perla-on-dark' }),
+      ]),
+    ]),
+  ];
+}
+
+function footerCompact() {
+  const links = [[t('About us'), '/about/'], [t('Treatments'), '/services/'], [t('Contact'), '/contact/'], [t('Privacy policy'), '/privacy-policy/']];
+  return [
+    section({ name: 'Footer', bg: 'dark', top: '32px', bottom: '32px', className: 'perla-footer' }, [
+      row({ align: 'wide', justify: 'space-between', gap: '16px 32px' }, [
+        row({ name: 'Logo', wrap: false, gap: '10px' }, [icon('tooth', { className: 'perla-logo-mark' }), b('core/site-title', { level: 0, className: 'perla-site-title-light' })]),
+        row({ gap: '8px 24px' }, links.map(([label, path]) => small(`<a href="${url(path)}">${label}</a>`, { className: 'perla-on-dark' }))),
+        paragraph(`<a href="${PHONE_LINK}"><strong>${PHONE}</strong></a>`, { className: 'perla-footer-phone' }),
       ]),
     ]),
   ];
@@ -376,6 +507,8 @@ const notFound = () => section({ name: 'Not found', tagName: 'div', bg: 'mist', 
 const searchHeader = () => band([eyebrow(t('Search'), { align: 'center' }), b('core/query-title', { type: 'search', level: 1, textAlign: 'center' }), b('core/search', { label: ta('Search'), showLabel: false, placeholder: ta('Search the site…'), buttonText: ta('Search'), className: 'perla-search' })]);
 
 
+const FRONT_PAGE = ['hero', 'stats', 'services', 'about', 'steps', 'before-after', 'team', 'testimonials', 'latest-posts', 'faq', 'cta'];
+
 const ref = slug => b('core/pattern', { slug: `perla/${slug}` });
 const sectionPattern = (slug, title, build, keywords = '', coreCategory = '') => ({ slug, title, categories: ['perla', coreCategory].filter(Boolean).join(', '), keywords, blocks: [build()] });
 const pagePattern = (slug, title, blocks, keywords = '') => ({ slug, title, categories: 'perla-pages', keywords, blockTypes: 'core/post-content', postTypes: 'page', blocks });
@@ -387,7 +520,7 @@ const PATTERNS = [
   sectionPattern('services', 'Treatment cards', services, 'services, features, cards', 'services'),
   sectionPattern('about', 'Photo and text with checklist', about, 'about, features, image', 'about'),
   sectionPattern('steps', 'Three steps', steps, 'process, how it works'),
-  sectionPattern('before-after', 'Before and after', beforeAfter, 'gallery, compare, results'),
+  sectionPattern('before-after', 'Before and after slider', beforeAfter, 'gallery, compare, results, slider'),
   sectionPattern('team', 'Team', team, 'people, staff, doctors', 'team'),
   sectionPattern('testimonials', 'Reviews', testimonials, 'testimonials, quotes, rating', 'testimonials'),
   sectionPattern('latest-posts', 'Latest posts', latestPosts, 'blog, news, query', 'posts'),
@@ -397,14 +530,34 @@ const PATTERNS = [
   sectionPattern('values', 'Three values', values, 'features, cards'),
   sectionPattern('contact', 'Contact details', contact, 'contact, address, phone, hours', 'contact'),
   sectionPattern('pricing', 'Price table', () => treatment(C.SERVICES.find(s => s.plans)).pricing(), 'pricing, plans, table'),
+  sectionPattern('hero-centered', 'Hero with centred text', heroCentered, 'header, intro, banner', 'banner'),
+  sectionPattern('hours', 'Opening hours', hours, 'hours, schedule, timetable'),
+  sectionPattern('location', 'Where we are', location, 'address, map, directions', 'contact'),
+  sectionPattern('features', 'Four reasons', features, 'features, benefits, cards'),
+  sectionPattern('gallery', 'Photo gallery', gallery, 'gallery, photos, images', 'gallery'),
+  sectionPattern('review-featured', 'One review in large type', reviewFeatured, 'testimonial, quote, review', 'testimonials'),
+  sectionPattern('emergency', 'Emergency banner', emergency, 'banner, phone, urgent', 'call-to-action'),
+  sectionPattern('team-photos', 'Team with photos', teamPhotos, 'people, staff, doctors', 'team'),
+  sectionPattern('price-list', 'Price list', priceList, 'prices, fees, table'),
+  sectionPattern('bring', 'Photo and checklist', bring, 'checklist, features, image'),
 
+  pagePattern('page-home', 'Home', FRONT_PAGE.map(slug => ref(slug)), 'home, front page, landing'),
   pagePattern('page-about', 'About', [story(), ref('stats'), values(), ref('team'), ref('testimonials'), cta({ bg: 'white' })], 'about, team'),
   pagePattern('page-services', 'Treatments', [services({ cta: false }), steps({ bg: 'mist' }), beforeAfter({ bg: 'white' }), ref('faq'), ref('cta')], 'services'),
   pagePattern('page-contact', 'Contact', [contact(), ref('faq')], 'contact'),
+  pagePattern('page-prices', 'Prices', [priceList(), faq({ bg: 'mist', items: C.FAQ_MONEY, eyebrow: 'Costs and insurance', title: 'Questions about paying', text: 'If yours is not here, the front desk will know.' }), ref('cta')], 'prices, pricing, fees'),
+  pagePattern('page-team', 'Team', [ref('team-photos'), ref('values'), ref('testimonials'), cta({ bg: 'white' })], 'team, staff, doctors'),
+  pagePattern('page-faq', 'Questions', [faq({ bg: 'white' }), faq({ bg: 'mist', items: C.FAQ_MONEY, eyebrow: 'Costs and insurance', title: 'Questions about paying', text: 'If yours is not here, the front desk will know.' }), ref('cta')], 'faq, questions, help'),
+  pagePattern('page-first-visit', 'First visit', [ref('steps'), bring(), ref('hours'), ref('location'), ref('cta')], 'new patients, first visit'),
+  pagePattern('page-reviews', 'Reviews', [ref('review-featured'), testimonials({ bg: 'white', list: [...C.TESTIMONIALS, ...C.MORE_TESTIMONIALS], eyebrow: 'Reviews', title: 'More from our patients' }), stats({ bg: 'mist' }), cta({ bg: 'white' })], 'reviews, testimonials'),
   ...C.SERVICES.map(sv => { const p = treatment(sv); return pagePattern(`page-${sv.slug}`, `Treatment: ${sv.title}`, [p.intro(), p.details(), sv.plans && p.pricing(), testimonials({ bg: 'white' }), ref('faq'), ref('cta')].filter(Boolean), 'treatment, service'); }),
 
   { slug: 'header', title: 'Header with top bar', categories: 'header', blockTypes: 'core/template-part/header', blocks: header() },
   { slug: 'footer', title: 'Footer with four columns', categories: 'footer', blockTypes: 'core/template-part/footer', blocks: footer() },
+  { slug: 'header-simple', title: 'Header without top bar', categories: 'header', blockTypes: 'core/template-part/header', blocks: [navBar()] },
+  { slug: 'footer-compact', title: 'Footer on one line', categories: 'footer', blockTypes: 'core/template-part/footer', blocks: footerCompact() },
+  // shows the page chosen as homepage when it has content, the ready-made home otherwise
+  { slug: 'front-page', title: 'Front page', inserter: false, when: 'perla_big_boss()', blocks: [b('core/post-content', { align: 'full', className: 'perla-content', layout: { type: 'constrained' } })], otherwise: FRONT_PAGE.map(slug => ref(slug)) },
   hidden('blog-header', 'Blog header', blogHeader()),
   hidden('posts-loop', 'Posts of the current page', postsLoop()),
   hidden('post-footer', 'After a post', postFooter()),
@@ -412,6 +565,5 @@ const PATTERNS = [
   hidden('not-found', 'Page not found', notFound()),
 ];
 
-const FRONT_PAGE = ['hero', 'stats', 'services', 'about', 'steps', 'before-after', 'team', 'testimonials', 'latest-posts', 'faq', 'cta'];
 
 module.exports = { PATTERNS, FRONT_PAGE, band };

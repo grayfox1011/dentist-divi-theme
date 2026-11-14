@@ -12,9 +12,9 @@ A bright, friendly block theme for dental clinics and other small health practic
 
 Perla gives a dental clinic, an orthodontist or any small health practice a complete website made only of core blocks.
 
-The home page is ready as soon as the theme is active: a hero with opening hours, phone number and address, treatment cards, a "how we work" section, the steps of a first visit, before and after, the team, reviews, the latest posts, frequent questions and a booking banner.
+The home page is ready as soon as the theme is active: a hero with opening hours, phone number and address, treatment cards, a "how we work" section, the steps of a first visit, a before and after slider, the team, reviews, the latest posts, frequent questions and a booking banner.
 
-For the other pages, Perla adds page patterns. Create a new page and WordPress offers them to you: About, Treatments, six single treatments (Dental Implants comes with a price table) and Contact. Every section is also available on its own in the inserter, under "Perla sections".
+For the other pages, Perla adds fifteen page patterns. Create a new page and WordPress offers them to you: Home, About, Team, Reviews, Treatments, six single treatments (Dental Implants comes with a price table), Prices, First visit, Questions and Contact. Twenty-five sections are also available on their own in the inserter, under "Perla sections", together with two headers and two footers.
 
 Colours, fonts and every text can be changed in the Site Editor. Nothing needs a plugin.
 
@@ -28,14 +28,15 @@ Sections appear with gentle animations as the visitor scrolls. They can be switc
 
 = After activating =
 
-1. The home page is already there. To change it, go to Appearance > Editor > Templates > Front Page.
+1. The home page is already there. You can change it in two ways. In Appearance > Editor > Templates > Front Page; or, if you prefer to edit it like any other page, create a page, choose the "Home" pattern and select that page as the homepage in Settings > Reading. From then on the front page shows your page.
 2. Create the other pages in Pages > Add New Page. Choose a pattern when WordPress offers them, or open the inserter and look under Patterns > Perla pages. The buttons and menus of the theme point to these addresses, so the links work without further changes when your pages use them:
-   * /about/
+   * /about/, /team/, /reviews/
    * /services/ (and the treatments as child pages: /services/general-dentistry/, /services/cosmetic-dentistry/, /services/dental-implants/, /services/teeth-whitening/, /services/orthodontics/, /services/emergency-care/)
+   * /prices/, /first-visit/, /faq/
    * /contact/
    * /blog/
    * /privacy-policy/ and /terms/
-3. For the blog, create an empty page called "Blog" and choose it as "Posts page" in Settings > Reading (with "A static page" selected; any page can be the homepage, the Front Page template is shown in its place).
+3. For the blog, create an empty page called "Blog" and choose it as "Posts page" in Settings > Reading.
 4. Phone number, address and opening hours are in the header and in the footer: Appearance > Editor > Patterns > Header and Footer.
 
 == Frequently Asked Questions ==
@@ -48,9 +49,13 @@ Appearance > Editor > Styles. The palette has eleven named colours: change "Prim
 
 The icons are small images. Select one and click "Replace". The blue square behind it is added by the theme and follows the Primary colour. White drawings on a transparent background work best.
 
+= How does the before and after slider work? =
+
+It is a Group block with two Image blocks inside: the first is the "before" picture, the second the "after". Replace the two images with your own, ideally of the same size, and change the captions if you like. On the site visitors drag the handle, or move it with the arrow keys. To make your own, give any Group with two images the CSS class perla-compare.
+
 = Where are the photos of the team? =
 
-The team section shows coloured panels with initials. Select a panel, delete it and add an Image block in its place.
+"Team with photos" shows a placeholder for each portrait: select it and click "Replace". The other team section shows coloured panels with initials, for practices that prefer no photos.
 
 = Is there a contact form? =
 
@@ -64,9 +69,9 @@ Appearance > Customize > Animations. There is one switch for the animations and 
 
 Yes. Select a block, open Advanced > Additional CSS class(es) and add one of these: perla-reveal (fades in and rises), perla-stagger (the inner blocks appear one after the other), perla-split (the words of a title rise one by one), perla-image (a picture settles into place), perla-pop (a panel grows into place). Two more classes hide a block on small screens: perla-hide-medium (tablets and phones) and perla-hide-small (phones).
 
-= I set a static homepage and my page content does not show. =
+= I chose a page as my homepage. What does the front page show? =
 
-The front page always uses the Front Page template. Edit it in Appearance > Editor > Templates > Front Page, or delete that template's content and add a Content block to it.
+Your page, as soon as it has some content. While it is empty, the front page keeps showing the ready-made home of the theme, so the site never looks unfinished.
 
 == Changelog ==
 
@@ -150,5 +155,5 @@ The photograph of hero.jpg also appears in screenshot.png.
 
 = Icons =
 
-The icons in assets/images (icon-*.svg) were drawn for this theme.
+The icons and the portrait placeholder in assets/images (icon-*.svg, portrait.svg) were drawn for this theme.
 License: GNU General Public License v2 or later, like the theme.

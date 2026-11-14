@@ -2,13 +2,14 @@
   "name": "perla-block-theme",
   "version": "1.0.0",
   "private": true,
-  "description": "Perla – a block theme for dental clinics, made of core blocks only.",
+  "description": "Perla – a block theme for dental clinics made of core blocks only, with its starter plugin.",
   "license": "GPL-2.0-or-later",
   "scripts": {
     "setup": "bash bin/setup.sh",
     "build": "node tools/build.js",
     "check": "node tools/check.js",
     "check:motion": "node tools/motion-check.js",
+    "check:starter": "node tools/starter-check.js",
     "package": "bash bin/package.sh"
   },
   "devDependencies": {

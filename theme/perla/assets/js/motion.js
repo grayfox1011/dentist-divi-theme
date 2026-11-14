@@ -143,7 +143,7 @@
 			solitonRadar.observe( element );
 		} );
 
-		var band = document.querySelector( 'main > .perla-hero:first-child' );
+		var band = document.querySelector( 'main > .perla-hero:first-child, main > .wp-block-post-content:first-child > .perla-hero:first-child' );
 
 		onScroll( function () {
 			if ( band ) {

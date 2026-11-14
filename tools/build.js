@@ -69,7 +69,7 @@ function withPhp(html) {
   });
 }
 
-function patternFile(pattern, html) {
+function patternFile(pattern, html, otherwise) {
   const head = [
     `Title: ${pattern.title}`,
     `Slug: perla/${pattern.slug}`,
@@ -80,7 +80,8 @@ function patternFile(pattern, html) {
     pattern.inserter === false && 'Inserter: no',
     'Viewport Width: 1400',
   ].filter(Boolean);
-  return `<?php\n/**\n${head.map(line => ` * ${line}`).join('\n')}\n */\n?>\n${withPhp(html)}\n`;
+  const body = pattern.when ? `<?php if ( ${pattern.when} ) : ?>\n${withPhp(html)}\n<?php else : ?>\n${withPhp(otherwise)}\n<?php endif; ?>` : withPhp(html);
+  return `<?php\n/**\n${head.map(line => ` * ${line}`).join('\n')}\n */\n?>\n${body}\n`;
 }
 
 function emptyDir(dir, extension) {
@@ -90,7 +91,10 @@ function emptyDir(dir, extension) {
 
 (async () => {
   const jobs = {};
-  for (const pattern of PATTERNS) jobs[`pattern:${pattern.slug}`] = pattern.blocks;
+  for (const pattern of PATTERNS) {
+    jobs[`pattern:${pattern.slug}`] = pattern.blocks;
+    if (pattern.otherwise) jobs[`otherwise:${pattern.slug}`] = pattern.otherwise;
+  }
   for (const [name, tree] of Object.entries(TEMPLATES)) jobs[`template:${name}`] = tree;
   for (const [name, tree] of Object.entries(PARTS)) jobs[`part:${name}`] = tree;
 
@@ -108,7 +112,7 @@ function emptyDir(dir, extension) {
   emptyDir(path.join(THEME, 'templates'), '.html');
   emptyDir(path.join(THEME, 'parts'), '.html');
 
-  for (const pattern of PATTERNS) fs.writeFileSync(path.join(THEME, 'patterns', `${pattern.slug}.php`), patternFile(pattern, out[`pattern:${pattern.slug}`]));
+  for (const pattern of PATTERNS) fs.writeFileSync(path.join(THEME, 'patterns', `${pattern.slug}.php`), patternFile(pattern, out[`pattern:${pattern.slug}`], out[`otherwise:${pattern.slug}`]));
   for (const [kind, dir, names] of [['template', 'templates', Object.keys(TEMPLATES)], ['part', 'parts', Object.keys(PARTS)]]) {
     for (const name of names) {
       const html = out[`${kind}:${name}`];
@@ -117,21 +121,36 @@ function emptyDir(dir, extension) {
     }
   }
 
-  // what bin/setup.sh puts on the test site
-  const demo = {
+  // what the Perla Starter plugin builds: pages from the page patterns, the menu, sample posts
+  const treatments = CONTENT.SERVICES.map(service => ({ slug: service.slug, parent: 'services', title: service.title, pattern: `perla/page-${service.slug}` }));
+  const site = {
     pages: [
-      { slug: 'home', title: 'Home' },
+      { slug: 'home', title: 'Home', pattern: 'perla/page-home', role: 'front' },
       { slug: 'about', title: 'About', pattern: 'perla/page-about' },
+      { slug: 'team', title: 'Team', pattern: 'perla/page-team' },
+      { slug: 'reviews', title: 'Reviews', pattern: 'perla/page-reviews' },
       { slug: 'services', title: 'Treatments', pattern: 'perla/page-services' },
-      ...CONTENT.SERVICES.map(service => ({ slug: service.slug, parent: 'services', title: service.title, pattern: `perla/page-${service.slug}` })),
-      { slug: 'blog', title: 'Journal' },
+      ...treatments,
+      { slug: 'prices', title: 'Prices', pattern: 'perla/page-prices' },
+      { slug: 'first-visit', title: 'First visit', pattern: 'perla/page-first-visit' },
+      { slug: 'faq', title: 'Questions', pattern: 'perla/page-faq' },
+      { slug: 'blog', title: 'Journal', role: 'posts' },
       { slug: 'contact', title: 'Contact', pattern: 'perla/page-contact' },
-      { slug: 'privacy-policy', title: 'Privacy Policy', content: '<!-- wp:paragraph -->\n<p>Write here how your practice collects and uses personal data.</p>\n<!-- /wp:paragraph -->' },
-      { slug: 'terms', title: 'Terms', content: '<!-- wp:paragraph -->\n<p>Write here the terms of your practice: cancellations, payments, guarantees.</p>\n<!-- /wp:paragraph -->' },
+      { slug: 'terms', title: 'Terms', text: 'Write here the terms of your practice: cancellations, payments, guarantees.' },
     ],
-    posts: CONTENT.POSTS.map((post, index) => ({ title: post.title, text: post.text, body: post.body, image: ['studio.jpg', 'teeth-whitening.jpg', 'general-dentistry.jpg'][index % 3] })),
+    menu: [
+      { page: 'home', label: 'Home' },
+      { page: 'about', label: 'About', children: ['team', 'reviews'] },
+      { page: 'services', label: 'Treatments', children: [...treatments.map(page => page.slug), 'prices'] },
+      { page: 'first-visit', label: 'First visit', children: ['faq'] },
+      { page: 'blog', label: 'Journal' },
+      { page: 'contact', label: 'Contact' },
+    ],
+    posts: CONTENT.POSTS.map((post, index) => ({ title: post.title, excerpt: post.text, body: post.body, image: ['studio.jpg', 'teeth-whitening.jpg', 'general-dentistry.jpg'][index % 3] })),
   };
-  fs.writeFileSync(path.join(__dirname, 'wp', 'demo.json'), `${JSON.stringify(demo, null, 2)}\n`);
+  const data = path.join(__dirname, '..', 'plugin', 'perla-starter', 'data');
+  fs.mkdirSync(data, { recursive: true });
+  fs.writeFileSync(path.join(data, 'site.json'), `${JSON.stringify(site, null, 2)}\n`);
 
   const missing = [...tokens.values()].filter(token => token.kind === 'image' && !fs.existsSync(path.join(THEME, 'assets', 'images', token.value))).map(token => token.value);
   console.log(`Built with WordPress ${version || '?'} at ${BASE}: ${PATTERNS.length} patterns, ${Object.keys(TEMPLATES).length} templates, ${Object.keys(PARTS).length} template parts.`);

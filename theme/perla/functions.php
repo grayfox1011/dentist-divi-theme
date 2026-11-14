@@ -62,11 +62,49 @@ function perla_codec() {
 		'perla-pages',
 		array(
 			'label'       => __( 'Perla pages', 'perla' ),
-			'description' => __( 'Whole pages: About, Treatments, a single treatment and Contact.', 'perla' ),
+			'description' => __( 'Whole pages: Home, About, Treatments, Prices, Team, Contact and more.', 'perla' ),
 		)
 	);
 }
 add_action( 'init', 'perla_codec' );
+
+// True when the page chosen as homepage has content of its own: the front page then shows that page.
+function perla_big_boss() {
+	if ( 'page' !== get_option( 'show_on_front' ) ) {
+		return false;
+	}
+
+	$home = get_post( (int) get_option( 'page_on_front' ) );
+
+	return $home && '' !== trim( $home->post_content );
+}
+
+// Loads the before and after slider only on pages that have one.
+function perla_psycho_mantis( $content, $block ) {
+	if ( empty( $block['attrs']['className'] ) || false === strpos( $block['attrs']['className'], 'perla-compare' ) || wp_script_is( 'perla-compare' ) ) {
+		return $content;
+	}
+
+	wp_enqueue_script(
+		'perla-compare',
+		get_parent_theme_file_uri( 'assets/js/compare.js' ),
+		array(),
+		perla_dog_tag(),
+		array(
+			'strategy'  => 'defer',
+			'in_footer' => true,
+		)
+	);
+
+	wp_add_inline_script(
+		'perla-compare',
+		'var perlaCompare = ' . wp_json_encode( array( 'label' => __( 'Drag to compare before and after', 'perla' ) ) ) . ';',
+		'before'
+	);
+
+	return $content;
+}
+add_filter( 'render_block_core/group', 'perla_psycho_mantis', 10, 2 );
 
 function perla_grey_fox( $value ) {
 	return (bool) $value;

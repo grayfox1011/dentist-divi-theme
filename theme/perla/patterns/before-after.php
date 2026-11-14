@@ -1,9 +1,9 @@
 <?php
 /**
- * Title: Before and after
+ * Title: Before and after slider
  * Slug: perla/before-after
  * Categories: perla
- * Keywords: gallery, compare, results
+ * Keywords: gallery, compare, results, slider
  * Viewport Width: 1400
  */
 ?>
@@ -19,7 +19,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><?php echo esc_html__( 'At your consultation we can show you more cases like yours, so you know what to expect before you decide anything.', 'perla' ); ?></p>
+<p><?php echo esc_html__( 'Drag the handle across the photo. At your consultation we can show you more cases like yours, so you know what to expect before you decide anything.', 'perla' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:list {"className":"is-style-perla-checks"} -->
@@ -44,19 +44,15 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"verticalAlignment":"center","width":"58%"} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:58%"><!-- wp:columns {"isStackedOnMobile":false,"className":"perla-reveal","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|40","left":"var:preset|spacing|40"}}}} -->
-<div class="wp-block-columns is-not-stacked-on-mobile perla-reveal"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:image {"aspectRatio":"4/3","scale":"cover","sizeSlug":"full","className":"perla-compare"} -->
-<figure class="wp-block-image size-full perla-compare"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/smile-before.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'A smile before whitening', 'perla' ); ?>" style="aspect-ratio:4/3;object-fit:cover"/><figcaption class="wp-element-caption"><?php echo esc_html__( 'Before', 'perla' ); ?></figcaption></figure>
-<!-- /wp:image --></div>
-<!-- /wp:column -->
+<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:58%"><!-- wp:group {"metadata":{"name":"Drag to compare"},"className":"perla-compare perla-reveal","layout":{"type":"default"}} -->
+<div class="wp-block-group perla-compare perla-reveal"><!-- wp:image {"aspectRatio":"4/3","scale":"cover","sizeSlug":"full"} -->
+<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/smile-before.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'A smile before whitening', 'perla' ); ?>" style="aspect-ratio:4/3;object-fit:cover"/><figcaption class="wp-element-caption"><?php echo esc_html__( 'Before', 'perla' ); ?></figcaption></figure>
+<!-- /wp:image -->
 
-<!-- wp:column -->
-<div class="wp-block-column"><!-- wp:image {"aspectRatio":"4/3","scale":"cover","sizeSlug":"full","className":"perla-compare"} -->
-<figure class="wp-block-image size-full perla-compare"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/smile-after.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'The same smile after whitening', 'perla' ); ?>" style="aspect-ratio:4/3;object-fit:cover"/><figcaption class="wp-element-caption"><?php echo esc_html__( 'After', 'perla' ); ?></figcaption></figure>
+<!-- wp:image {"aspectRatio":"4/3","scale":"cover","sizeSlug":"full"} -->
+<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/smile-after.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'The same smile after whitening', 'perla' ); ?>" style="aspect-ratio:4/3;object-fit:cover"/><figcaption class="wp-element-caption"><?php echo esc_html__( 'After', 'perla' ); ?></figcaption></figure>
 <!-- /wp:image --></div>
-<!-- /wp:column --></div>
-<!-- /wp:columns --></div>
+<!-- /wp:group --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
 <!-- /wp:group -->

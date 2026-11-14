@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Parses every pattern, template and template part in the block editor of a running site
+// Parses every pattern, template, template part and page in the block editor of a running site
 // and loads every image they point to.
 //   node tools/check.js
 //   WP_URL=http://localhost:8066 node tools/check.js
@@ -25,7 +25,10 @@ const PASSWORD = process.env.WP_PASSWORD || 'admin';
     const patterns = (await get('/wp/v2/block-patterns/patterns')).filter(pattern => pattern.name.startsWith('perla/'));
     const templates = (await get('/wp/v2/templates')).filter(template => template.theme === 'perla');
     const parts = (await get('/wp/v2/template-parts')).filter(part => part.theme === 'perla');
+    // pages made by the Perla Starter plugin, if it has run
+    const pages = (await get('/wp/v2/pages?context=edit&per_page=100&_fields=slug,content')).filter(page => page.content.raw.trim());
     const things = [
+      ...pages.map(page => ({ name: `page ${page.slug}`, content: page.content.raw })),
       ...patterns.map(pattern => ({ name: `pattern ${pattern.name}`, content: pattern.content })),
       ...templates.map(template => ({ name: `template ${template.slug}`, content: template.content.raw })),
       ...parts.map(part => ({ name: `part ${part.slug}`, content: part.content.raw })),
@@ -50,12 +53,12 @@ const PASSWORD = process.env.WP_PASSWORD || 'admin';
       const response = await fetch(url, { method: 'HEAD' });
       if (!response.ok) problems.push(`image does not load: ${url}`);
     }
-    return { version, counts: { patterns: patterns.length, templates: templates.length, parts: parts.length, blocks, images: images.size }, problems };
+    return { version, counts: { patterns: patterns.length, templates: templates.length, parts: parts.length, pages: pages.length, blocks, images: images.size }, problems };
   });
   await browser.close();
 
   const { counts } = report;
-  console.log(`WordPress ${String(report.version).replace(/-/g, '.')} at ${BASE}: ${counts.patterns} patterns, ${counts.templates} templates, ${counts.parts} template parts, ${counts.blocks} blocks, ${counts.images} images.`);
+  console.log(`WordPress ${String(report.version).replace(/-/g, '.')} at ${BASE}: ${counts.patterns} patterns, ${counts.templates} templates, ${counts.parts} template parts, ${counts.pages} pages, ${counts.blocks} blocks, ${counts.images} images.`);
   if (report.problems.length) {
     console.error(`${report.problems.length} problem(s):\n- ${report.problems.join('\n- ')}`);
     process.exit(1);

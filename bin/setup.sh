@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Sets up the local test site: WordPress + the Perla block theme + demo pages and posts.
+# Sets up the local test site: WordPress + the Perla theme + the site built by Perla Starter.
 # Usage: ./bin/setup.sh        (safe to run again at any time)
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -26,14 +26,15 @@ echo "==> Activating the Perla theme"
 wp theme activate perla
 wp rewrite structure '/%postname%/' >/dev/null
 
-echo "==> Creating the demo pages, posts and menu"
-wp --user=admin eval-file /project/tools/demo-content.php
+echo "==> Building the site with the Perla Starter plugin"
+wp plugin activate perla-starter >/dev/null
+wp --user=admin eval 'foreach ( array( "hello-world" => "post", "sample-page" => "page" ) as $slug => $type ) { $old = get_page_by_path( $slug, OBJECT, $type ); if ( $old ) { wp_delete_post( $old->ID, true ); } } $log = perla_starter_outer_heaven(); WP_CLI::success( count( $log["pages"] ) . " pages and " . count( $log["posts"] ) . " articles made by the starter." );'
 
 cat <<MSG
 
 Done. Site:  $URL
       Admin: $URL/wp-admin   (admin / admin)
 
-The home page is the "Front Page" template of the theme. The other pages were made from
-the page patterns, the way a user of the theme would make them.
+Every page, the menu and the articles were made by the Perla Starter plugin, exactly as
+a click on Appearance > Perla Starter would make them.
 MSG

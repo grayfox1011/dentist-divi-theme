@@ -1,6 +1,6 @@
 // Templates are plain .html: no translatable text here, the words live in the patterns.
 const { b, space, section, flow, row } = require('./blocks');
-const { band, FRONT_PAGE } = require('./patterns');
+const { band } = require('./patterns');
 
 const pattern = slug => b('core/pattern', { slug: `perla/${slug}` });
 const part = (slug, tagName) => b('core/template-part', { slug, tagName });
@@ -32,7 +32,7 @@ const comments = () => section({ name: 'Comments', tagName: 'div', bg: 'white', 
 ]);
 
 const TEMPLATES = {
-  'front-page': page(FRONT_PAGE.map(pattern)),
+  'front-page': page([pattern('front-page')]),
 
   page: page([
     band([b('core/post-title', { level: 1, textAlign: 'center', className: 'perla-split' })]),

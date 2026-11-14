@@ -2,12 +2,24 @@
   "pages": [
     {
       "slug": "home",
-      "title": "Home"
+      "title": "Home",
+      "pattern": "perla/page-home",
+      "role": "front"
     },
     {
       "slug": "about",
       "title": "About",
       "pattern": "perla/page-about"
+    },
+    {
+      "slug": "team",
+      "title": "Team",
+      "pattern": "perla/page-team"
+    },
+    {
+      "slug": "reviews",
+      "title": "Reviews",
+      "pattern": "perla/page-reviews"
     },
     {
       "slug": "services",
@@ -51,8 +63,24 @@
       "pattern": "perla/page-emergency-care"
     },
     {
+      "slug": "prices",
+      "title": "Prices",
+      "pattern": "perla/page-prices"
+    },
+    {
+      "slug": "first-visit",
+      "title": "First visit",
+      "pattern": "perla/page-first-visit"
+    },
+    {
+      "slug": "faq",
+      "title": "Questions",
+      "pattern": "perla/page-faq"
+    },
+    {
       "slug": "blog",
-      "title": "Journal"
+      "title": "Journal",
+      "role": "posts"
     },
     {
       "slug": "contact",
@@ -60,20 +88,57 @@
       "pattern": "perla/page-contact"
     },
     {
-      "slug": "privacy-policy",
-      "title": "Privacy Policy",
-      "content": "<!-- wp:paragraph -->\n<p>Write here how your practice collects and uses personal data.</p>\n<!-- /wp:paragraph -->"
-    },
-    {
       "slug": "terms",
       "title": "Terms",
-      "content": "<!-- wp:paragraph -->\n<p>Write here the terms of your practice: cancellations, payments, guarantees.</p>\n<!-- /wp:paragraph -->"
+      "text": "Write here the terms of your practice: cancellations, payments, guarantees."
+    }
+  ],
+  "menu": [
+    {
+      "page": "home",
+      "label": "Home"
+    },
+    {
+      "page": "about",
+      "label": "About",
+      "children": [
+        "team",
+        "reviews"
+      ]
+    },
+    {
+      "page": "services",
+      "label": "Treatments",
+      "children": [
+        "general-dentistry",
+        "cosmetic-dentistry",
+        "dental-implants",
+        "teeth-whitening",
+        "orthodontics",
+        "emergency-care",
+        "prices"
+      ]
+    },
+    {
+      "page": "first-visit",
+      "label": "First visit",
+      "children": [
+        "faq"
+      ]
+    },
+    {
+      "page": "blog",
+      "label": "Journal"
+    },
+    {
+      "page": "contact",
+      "label": "Contact"
     }
   ],
   "posts": [
     {
       "title": "How often should you really see the dentist?",
-      "text": "Every six months is a good rule, but it is not right for everyone. Here is how we decide what to recommend.",
+      "excerpt": "Every six months is a good rule, but it is not right for everyone. Here is how we decide what to recommend.",
       "body": [
         [
           "p",
@@ -116,7 +181,7 @@
     },
     {
       "title": "Teeth whitening: what actually happens in the chair",
-      "text": "How whitening at the dentist works, how long it lasts and what it can’t do. No sales pitch.",
+      "excerpt": "How whitening at the dentist works, how long it lasts and what it can’t do. No sales pitch.",
       "body": [
         [
           "p",
@@ -159,7 +224,7 @@
     },
     {
       "title": "Five small habits for healthier gums",
-      "text": "Bleeding when you brush is not normal, but it is usually fixable. These five habits make the biggest difference.",
+      "excerpt": "Bleeding when you brush is not normal, but it is usually fixable. These five habits make the biggest difference.",
       "body": [
         [
           "p",
