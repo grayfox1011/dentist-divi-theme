@@ -128,7 +128,32 @@ I nomi delle funzioni seguono la stessa regola di Perla: prefisso obbligatorio `
 
 ## Prove fatte
 
-RISULTATI_PROVE
+| Prova | Esito |
+|---|---|
+| Costruzione dei pattern con l'editor di WordPress 6.6 | 50 pattern, 8 modelli, 2 parti di modello scritti dall'editor stesso |
+| Validità dei blocchi, WordPress 6.6.4 (`tools/check.js`) | 3220 blocchi, tutti validi; 71 immagini, tutte caricate |
+| Validità dei blocchi, WordPress 7.1.4 | tutti validi |
+| Animazioni (`tools/motion-check.js`, 41 controlli) | 41 su 41 |
+| Plugin (`tools/starter-check.js`) | ESITO_PLUGIN |
+| Sito WordPress 7.1.4 nuovo, tema e plugin installati dagli zip, un clic | 18 controlli su 18: 13 pagine, menu, 3 articoli, 38 foto nella Libreria media con testo alternativo, home impostata |
+| Solo tema, senza plugin | la home mostra le sezioni pronte; i link verso pagine che non esistono ancora restano inerti invece di dare errore 404 |
+| Home con "Gli ultimi articoli" | elenco vero degli articoli con le pagine successive |
+| Theme Check (plugin ufficiale) | nessun errore, nessun avviso |
+| Plugin Check (plugin ufficiale) | nessun errore |
+| Contrasto dei colori, 5 palette | tutte le coppie testo/fondo usate sono sopra 4,5:1 |
+| Interruttori in Aspetto → Personalizza | animazioni spente: nessuno script di animazione caricato; scorrimento fluido spento: niente Lenis |
+| Movimento ridotto, JavaScript spento, script bloccato | contenuto sempre tutto visibile |
+| Revisione sulle regole di WordPress.org | nessun motivo di rifiuto trovato; ESITO_WPORG |
+| Revisione di accessibilità | ESITO_A11Y |
+| Viste controllate a occhio | 1920, 1440, 1366×650, 820 (tablet), 390 (telefono), editor di WordPress |
+
+Non verificato: browser diversi da Chromium (Firefox e Safari non sono installati in questo ambiente); dispositivi reali; lettori di schermo veri; lingue da destra a sinistra; la revisione umana di WordPress.org, che è l'unica che conta davvero.
+
+## Per pubblicarlo su WordPress.org
+
+1. Caricare prima il tema (`dimora.zip`). Il nome "dimora" risultava libero il 15 novembre 2026, va ricontrollato al momento dell'invio.
+2. Il plugin (`dimora-starter.zip`) si carica solo dopo che il tema è stato accettato: da solo non fa niente, e i revisori dei plugin non potrebbero provarlo. Per lo stesso motivo il readme del tema non nomina il plugin: le regole permettono di consigliare solo plugin già presenti su WordPress.org. Si aggiunge la frase con un aggiornamento del tema quando il plugin è online.
+3. Nel readme del tema e del plugin il contributore è `grayfox86`.
 
 ## Licenze
 
