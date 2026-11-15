@@ -86,7 +86,7 @@ Si spengono da **Aspetto → Personalizza → Animations**. Con "movimento ridot
 - **29 pattern di sezione**, fra cui le sei parti della scheda progetto, tre modi di lavorare con i compensi e tre citazioni di clienti
 - **2 header e 2 footer**
 - **8 modelli:** home, pagina, pagina senza titolo, articolo, blog, archivio, ricerca, 404
-- **38 fotografie** CC0 dalla WordPress Photo Directory (elenco con indirizzi in `theme/dimora/readme.txt`), ritagliate da `tools/photos.py`
+- **38 fotografie** CC0 dalla WordPress Photo Directory, ritagliate da `tools/photos.py`: 35 nel tema e 3 nel plugin per gli articoli di esempio (elenco con indirizzi nei due `readme.txt`)
 - **4 varianti di stile**
 
 ## Per chi lavora sul codice
