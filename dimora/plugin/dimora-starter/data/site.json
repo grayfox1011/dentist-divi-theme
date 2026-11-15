@@ -1,0 +1,220 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "title": "Home",
+      "pattern": "dimora/page-home",
+      "role": "front"
+    },
+    {
+      "slug": "projects",
+      "title": "Projects",
+      "pattern": "dimora/page-projects"
+    },
+    {
+      "slug": "canal-house",
+      "parent": "projects",
+      "title": "Canal House",
+      "pattern": "dimora/page-project-canal-house",
+      "template": "page-no-title"
+    },
+    {
+      "slug": "northlight-loft",
+      "parent": "projects",
+      "title": "Northlight Loft",
+      "pattern": "dimora/page-project-northlight-loft",
+      "template": "page-no-title"
+    },
+    {
+      "slug": "the-orchard",
+      "parent": "projects",
+      "title": "The Orchard",
+      "pattern": "dimora/page-project-the-orchard",
+      "template": "page-no-title"
+    },
+    {
+      "slug": "casa-arenal",
+      "parent": "projects",
+      "title": "Casa Arenal",
+      "pattern": "dimora/page-project-casa-arenal",
+      "template": "page-no-title"
+    },
+    {
+      "slug": "reading-rooms",
+      "parent": "projects",
+      "title": "The Reading Rooms",
+      "pattern": "dimora/page-project-reading-rooms",
+      "template": "page-no-title"
+    },
+    {
+      "slug": "atelier-cafe",
+      "parent": "projects",
+      "title": "Atelier Café",
+      "pattern": "dimora/page-project-atelier-cafe",
+      "template": "page-no-title"
+    },
+    {
+      "slug": "studio",
+      "title": "Studio",
+      "pattern": "dimora/page-studio"
+    },
+    {
+      "slug": "services",
+      "title": "Services",
+      "pattern": "dimora/page-services"
+    },
+    {
+      "slug": "journal",
+      "title": "Journal",
+      "role": "posts"
+    },
+    {
+      "slug": "contact",
+      "title": "Contact",
+      "pattern": "dimora/page-contact"
+    },
+    {
+      "slug": "terms",
+      "title": "Terms",
+      "text": "Write here the terms of your studio: fees, payments, copyright of drawings and photographs."
+    }
+  ],
+  "menu": [
+    {
+      "page": "projects",
+      "label": "Projects"
+    },
+    {
+      "page": "studio",
+      "label": "Studio"
+    },
+    {
+      "page": "services",
+      "label": "Services"
+    },
+    {
+      "page": "journal",
+      "label": "Journal"
+    },
+    {
+      "page": "contact",
+      "label": "Contact"
+    }
+  ],
+  "category": "Notes",
+  "posts": [
+    {
+      "title": "How to choose a white that isn’t cold",
+      "excerpt": "White paint is never just white. A short guide to undertones, daylight and why the sample card lies.",
+      "body": [
+        [
+          "p",
+          "Every white has a colour hiding in it. Hold three sample cards against a sheet of printer paper and you will see it at once: one leans yellow, one pink, one green. That hidden colour is the undertone, and it decides whether a room feels warm or like the inside of a fridge."
+        ],
+        [
+          "h",
+          "Start with the light, not the paint"
+        ],
+        [
+          "p",
+          "North-facing rooms get cool, bluish daylight all day. A white with a little yellow or red in it will balance that; a pure brilliant white will look grey by mid-afternoon. South-facing rooms are the opposite: they can take cooler whites without feeling cold."
+        ],
+        [
+          "h",
+          "Test it large and test it late"
+        ],
+        [
+          "p",
+          "Paint a sheet of lining paper, at least half a metre square, and move it around the room for two days. Look at it at breakfast and again with the lamps on. The white you like at noon is not always the one you like at nine in the evening."
+        ],
+        [
+          "h",
+          "Keep the ceiling in the family"
+        ],
+        [
+          "p",
+          "A ceiling in a different white from the walls draws a line where you do not want one. Use the same colour, or the same colour mixed a quarter lighter, and the room will feel taller."
+        ]
+      ],
+      "image": "journal-1.jpg"
+    },
+    {
+      "title": "What a renovation really costs, and where not to save",
+      "excerpt": "The honest version: where the money goes, what to protect and the three savings people regret.",
+      "body": [
+        [
+          "p",
+          "Most budgets fail in the same place: the things nobody photographs. Drainage, wiring, insulation and plaster take more than half the cost of a typical renovation and none of them appear on a mood board."
+        ],
+        [
+          "h",
+          "Where the money goes"
+        ],
+        [
+          "p",
+          "As a rough guide for an older house: a third on structure and envelope, a third on services and finishes, a fifth on kitchen and bathrooms, and the rest on fees, furniture and the surprise behind the wall. There is always a surprise behind the wall."
+        ],
+        [
+          "h",
+          "Three savings people regret"
+        ],
+        [
+          "p",
+          "Cheap windows, too few sockets and no storage. You will touch a window handle every day for thirty years. Sockets cost little now and a great deal later. And a house without cupboards never looks finished, however good the sofa."
+        ],
+        [
+          "h",
+          "Where you can save"
+        ],
+        [
+          "p",
+          "Tiles, taps and handles vary enormously in price and far less in quality. Spend on what is fixed and hard to change; be relaxed about what can be swapped in an afternoon."
+        ]
+      ],
+      "image": "journal-2.jpg"
+    },
+    {
+      "title": "Six questions to ask before you hire an interior designer",
+      "excerpt": "Including the one about money that most people are too polite to ask.",
+      "body": [
+        [
+          "p",
+          "A good first meeting is a two-way interview. Here is what we would ask if we were on your side of the table."
+        ],
+        [
+          "h",
+          "Who will actually work on my project?"
+        ],
+        [
+          "p",
+          "In a small studio the person you meet is the person who draws. In a larger one, ask to meet the team. Either can be right; you just want to know."
+        ],
+        [
+          "h",
+          "How do you charge, and what is not included?"
+        ],
+        [
+          "p",
+          "Fixed fee, percentage or hourly: each has its place. The important part is the second half of the question. Ask about travel, revisions and whether there is a mark-up on furniture."
+        ],
+        [
+          "h",
+          "Can I talk to a client whose project went wrong?"
+        ],
+        [
+          "p",
+          "Every project has a bad week. How the designer handled it tells you more than any portfolio."
+        ],
+        [
+          "h",
+          "What would you do with our budget if it were your house?"
+        ],
+        [
+          "p",
+          "The answer shows you their priorities. If it starts with the sofa, keep looking."
+        ]
+      ],
+      "image": "journal-3.jpg"
+    }
+  ]
+}

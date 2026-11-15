@@ -1,0 +1,11 @@
+# Local settings of the test site
+.env
+
+# Built by bin/package.sh
+/dist/
+
+# Originals of the photographs, used by tools/photos.py
+/.photos-cache/
+
+node_modules/
+.DS_Store
