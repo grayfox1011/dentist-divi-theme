@@ -6,7 +6,7 @@ Dimora è un tema WordPress a blocchi (Gutenberg, niente page builder) pensato p
 - **Plugin:** `plugin/dimora-starter` (crea pagine, menu, articoli e imposta la home)
 - **File da installare:** `dist/dimora.zip` e `dist/dimora-starter.zip` (li crea `bin/package.sh`)
 
-Questa cartella è indipendente dal resto del repository: può diventare un ramo o un repository a sé.
+Questo ramo (`dimora-gutenberg`) contiene solo Dimora. Perla per Divi e Perla a blocchi stanno su altri rami dello stesso repository (`perla-gutenberg` per la versione a blocchi).
 
 ## Come si usa
 
