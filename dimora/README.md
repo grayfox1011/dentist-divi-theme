@@ -58,7 +58,7 @@ Dalla ricerca sui temi in commercio: i temi gratuiti per interior design su Word
 
 ## Le animazioni
 
-Niente GSAP: la sua licenza non è compatibile con WordPress.org. Il motore è scritto apposta (`assets/js/motion.js`, 13 KB non compressi) e per lo scorrimento fluido usa Lenis (licenza MIT).
+Niente GSAP: la sua licenza non è compatibile con WordPress.org. Il motore è scritto apposta (`assets/js/motion.js`, 12 KB non compressi) e per lo scorrimento fluido usa Lenis (licenza MIT).
 
 | Effetto | Dove |
 |---|---|
@@ -83,7 +83,7 @@ Si spengono da **Aspetto → Personalizza → Animations**. Con "movimento ridot
 ## Che cosa c'è dentro
 
 - **11 pattern di pagina:** Home, Projects, 6 schede progetto, Studio, Services, Contact
-- **30 pattern di sezione**, fra cui le sei parti della scheda progetto, tre modi di lavorare con i compensi e tre citazioni di clienti
+- **29 pattern di sezione**, fra cui le sei parti della scheda progetto, tre modi di lavorare con i compensi e tre citazioni di clienti
 - **2 header e 2 footer**
 - **8 modelli:** home, pagina, pagina senza titolo, articolo, blog, archivio, ricerca, 404
 - **38 fotografie** CC0 dalla WordPress Photo Directory (elenco con indirizzi in `theme/dimora/readme.txt`), ritagliate da `tools/photos.py`
