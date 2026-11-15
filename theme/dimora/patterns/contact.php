@@ -7,14 +7,14 @@
  * Viewport Width: 1400
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Contact"},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Contact', 'dimora' ); ?>"},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-base-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--90)"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|70","left":"var:preset|spacing|80"}}}} -->
 <div class="wp-block-columns alignwide"><!-- wp:column {"width":"56%","style":{"spacing":{"blockGap":"var:preset|spacing|70"}}} -->
 <div class="wp-block-column" style="flex-basis:56%"><!-- wp:paragraph {"className":"dimora-statement dimora-split","textColor":"ink","fontSize":"xx-large"} -->
 <p class="dimora-statement dimora-split has-ink-color has-text-color has-xx-large-font-size"><?php echo wp_kses_post( __( 'Tell us about the place, the people who use it and what is <em>not</em> working. A few lines are enough to start.', 'dimora' ) ); ?></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"metadata":{"name":"Details"},"className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"280px"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Details', 'dimora' ); ?>"},"className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"280px"}} -->
 <div class="wp-block-group dimora-stagger"><!-- wp:group {"className":"dimora-fact","style":{"spacing":{"blockGap":"6px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-fact"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
 <p class="is-style-dimora-label"><?php echo esc_html__( 'Write', 'dimora' ); ?></p>
@@ -56,7 +56,7 @@
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"Brief"},"className":"dimora-reveal dimora-brief","style":{"spacing":{"blockGap":"var:preset|spacing|50","padding":{"top":"var:preset|spacing|60"}}},"layout":{"type":"default"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Brief', 'dimora' ); ?>"},"className":"dimora-reveal dimora-brief","style":{"spacing":{"blockGap":"var:preset|spacing|50","padding":{"top":"var:preset|spacing|60"}}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-reveal dimora-brief" style="padding-top:var(--wp--preset--spacing--60)"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
 <p class="is-style-dimora-label"><?php echo esc_html__( '(Useful to know)', 'dimora' ); ?></p>
 <!-- /wp:paragraph -->

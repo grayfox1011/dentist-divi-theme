@@ -109,6 +109,10 @@
 
 	// A band of text that runs sideways for ever. The copies are hidden from screen readers.
 	function codecCall( band ) {
+		if ( ! band.textContent.trim() || ! band.offsetWidth ) {
+			return;
+		}
+
 		var track = document.createElement( 'span' );
 		var first = document.createElement( 'span' );
 
@@ -127,6 +131,8 @@
 		if ( copies % 2 ) {
 			copies++;
 		}
+
+		copies = Math.min( copies, 24 );
 
 		for ( var i = 1; i < copies; i++ ) {
 			var copy = first.cloneNode( true );
@@ -157,7 +163,7 @@
 			rail.style.height = '';
 			track.style.transform = '';
 
-			if ( window.innerWidth < 1024 || window.innerHeight < 620 ) {
+			if ( window.innerWidth < 1024 || window.innerHeight < 620 || 'rtl' === window.getComputedStyle( track ).direction ) {
 				distance = 0;
 				return;
 			}
@@ -169,6 +175,13 @@
 
 			// The same gap is left after the last card as there is before the first one.
 			distance = last ? Math.max( last.offsetLeft + last.offsetWidth + cards[ 0 ].offsetLeft - track.clientWidth, 0 ) : 0;
+
+			// Few cards: they all fit, so there is nothing to pin.
+			if ( ! distance ) {
+				rail.classList.remove( 'is-pinned' );
+				return;
+			}
+
 			rail.style.height = ( pin.offsetHeight + distance ) + 'px';
 		}
 

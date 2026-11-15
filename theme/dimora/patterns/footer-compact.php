@@ -7,8 +7,8 @@
  * Viewport Width: 1400
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Footer"},"align":"full","className":"dimora-dark dimora-footer","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|50"},"blockGap":"var:preset|spacing|80","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"dark","textColor":"base","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull dimora-dark dimora-footer has-base-color has-dark-background-color has-text-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--50)"><!-- wp:group {"metadata":{"name":"Legal"},"align":"wide","className":"dimora-legal","style":{"spacing":{"blockGap":"12px 32px"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Footer', 'dimora' ); ?>"},"align":"full","className":"dimora-dark dimora-footer","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|50"},"blockGap":"var:preset|spacing|80","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"dark","textColor":"base","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull dimora-dark dimora-footer has-base-color has-dark-background-color has-text-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--50)"><!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Legal', 'dimora' ); ?>"},"align":"wide","className":"dimora-legal","style":{"spacing":{"blockGap":"12px 32px"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
 <div class="wp-block-group alignwide dimora-legal"><!-- wp:group {"style":{"spacing":{"blockGap":"6px"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"className":"dimora-soft","fontSize":"small"} -->
 <p class="dimora-soft has-small-font-size"><?php echo esc_html__( '©', 'dimora' ); ?></p>
@@ -22,7 +22,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"dimora-soft","fontSize":"small"} -->
-<p class="dimora-soft has-small-font-size"><a href="<?php echo esc_url( dimora_soliton_radar( 'privacy-policy' ) ); ?>"><?php echo esc_html__( 'Privacy policy', 'dimora' ); ?></a> · <a href="<?php echo esc_url( dimora_soliton_radar( 'terms' ) ); ?>"><?php echo esc_html__( 'Terms', 'dimora' ); ?></a> · <a href="#top"><?php echo esc_html__( 'Back to top', 'dimora' ); ?></a></p>
+<p class="dimora-soft has-small-font-size"><?php echo wp_kses_post( get_the_privacy_policy_link( '', ' · ' ) ); ?><a href="<?php echo esc_url( dimora_soliton_radar( 'terms' ) ); ?>"><?php echo esc_html__( 'Terms', 'dimora' ); ?></a> · <a href="#top"><?php echo esc_html__( 'Back to top', 'dimora' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->

@@ -32,6 +32,10 @@ Dimora is distributed under the terms of the GNU GPL.
 	}
 }
 
+:root {
+	scroll-padding-top: calc(96px + var(--wp-admin--admin-bar--height, 0px));
+}
+
 body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -147,7 +151,8 @@ ul.is-style-dimora-dashes {
 
 ul.is-style-dimora-dashes li {
 	position: relative;
-	padding: 10px 0 10px 28px;
+	padding-block: 10px;
+	padding-inline-start: 28px;
 	border-top: 1px solid var(--dimora-rule);
 }
 
@@ -159,7 +164,7 @@ ul.is-style-dimora-dashes li::before {
 	content: "";
 	position: absolute;
 	top: 1.35em;
-	left: 0;
+	inset-inline-start: 0;
 	width: 14px;
 	height: 1px;
 	background: currentColor;
@@ -221,7 +226,7 @@ ul.is-style-dimora-dashes li::before {
 	align-self: center;
 	width: 14px;
 	height: 14px;
-	margin-left: auto;
+	margin-inline-start: auto;
 	background: linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat, linear-gradient(currentColor, currentColor) center / 1px 100% no-repeat;
 	transition: rotate 0.5s var(--dimora-ease);
 }
@@ -232,7 +237,8 @@ ul.is-style-dimora-dashes li::before {
 
 .is-style-dimora-row > :not(summary) {
 	margin-block: 0;
-	padding: 0 0 clamp(24px, 2.6vw, 36px) calc(2.6em * 0.75 + var(--wp--preset--spacing--50));
+	padding-block-end: clamp(24px, 2.6vw, 36px);
+	padding-inline-start: calc(2.6em * 0.75 + var(--wp--preset--spacing--50));
 }
 
 @supports (interpolate-size: allow-keywords) {
@@ -371,7 +377,8 @@ ul.is-style-dimora-dashes li::before {
 	}
 }
 
-.dimora-card {
+.dimora-card,
+.dimora-post {
 	position: relative;
 }
 
@@ -392,16 +399,17 @@ ul.is-style-dimora-dashes li::before {
 	scale: 1.05;
 }
 
-.dimora-card h3 a,
+.dimora-card :is(h2, h3) a,
 .dimora-list-row h3 a,
 .dimora-next h2 a {
 	color: inherit;
 	text-decoration: none;
 }
 
-.dimora-card h3 a::after,
+.dimora-card :is(h2, h3) a::after,
 .dimora-list-row h3 a::after,
-.dimora-next h2 a::after {
+.dimora-next h2 a::after,
+.dimora-post .wp-block-post-title a::after {
 	content: "";
 	position: absolute;
 	z-index: 1;
@@ -439,6 +447,18 @@ ul.is-style-dimora-dashes li::before {
 .dimora-rail-track > * {
 	flex: 0 0 min(76vw, 400px);
 	scroll-snap-align: start;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.dimora-rail:not(.is-pinned) .dimora-rail-track {
+		padding-block-end: 16px;
+		scrollbar-width: thin;
+	}
+
+	.dimora-rail:not(.is-pinned) .dimora-rail-track::-webkit-scrollbar {
+		display: block;
+		height: 8px;
+	}
 }
 
 .dimora-rail.is-pinned .dimora-rail-pin {
@@ -652,6 +672,18 @@ ul.is-style-dimora-dashes li::before {
 	animation-play-state: paused;
 }
 
+.dimora-marquee:has(a:focus-visible) .dimora-marquee-track {
+	animation: none;
+}
+
+.dimora-marquee a:focus-visible {
+	outline-offset: -3px;
+}
+
+[dir="rtl"] .dimora-marquee-track {
+	animation-name: dimora-marquee-rtl;
+}
+
 .dimora-marquee-item {
 	display: inline-flex;
 	flex: none;
@@ -673,9 +705,16 @@ ul.is-style-dimora-dashes li::before {
 	}
 }
 
+@keyframes dimora-marquee-rtl {
+	to {
+		transform: translate3d(50%, 0, 0);
+	}
+}
+
 /* compare.js adds "is-live": the two pictures stack and a handle uncovers one or the other. */
 .dimora-compare.is-live {
 	position: relative;
+	direction: ltr;
 	display: block;
 	overflow: hidden;
 	aspect-ratio: 4 / 3;
@@ -848,8 +887,22 @@ ul.is-style-dimora-dashes li::before {
 }
 
 .dimora-navbar .wp-block-site-title {
+	overflow: hidden;
+	min-width: 0;
 	margin: 0;
+	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.dimora-navbar .wp-block-site-title + .wp-block-group {
+	flex: none;
+}
+
+/* A larger target for thumbs, the same icon. */
+.dimora-navbar .wp-block-navigation__responsive-container-open,
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-close {
+	margin: -10px;
+	padding: 10px;
 }
 
 .dimora-navbar .wp-block-navigation .wp-block-navigation-item__content {
@@ -1136,6 +1189,12 @@ ul.is-style-dimora-dashes li::before {
 	font-size: 17px;
 }
 
+.wp-block-search__input::placeholder,
+.wp-block-post-comments-form ::placeholder {
+	color: var(--wp--preset--color--muted);
+	opacity: 1;
+}
+
 .dimora-search .wp-block-search__inside-wrapper {
 	gap: 16px;
 	max-width: 640px;
@@ -1248,7 +1307,7 @@ html.lenis body {
 	scale: 1;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media screen and (prefers-reduced-motion: no-preference) {
 	.dimora-motion:not(.dimora-ready) .dimora-split {
 		visibility: hidden;
 	}
@@ -1352,7 +1411,45 @@ html.lenis body {
 	.dimora-next .wp-block-image img,
 	.dimora-post .wp-block-post-featured-image img,
 	.dimora-list-row h3,
-	.dimora-arrow-link a::after {
+	.dimora-arrow-link a,
+	.dimora-arrow-link a::after,
+	.dimora-navbar .wp-block-navigation-item__content::after,
+	.is-style-dimora-row > summary::after,
+	.wp-site-blocks > header {
 		transition: none;
+	}
+}
+
+/* On paper: no sticky pieces, the gallery as a plain grid. */
+@media print {
+	.wp-site-blocks > header {
+		position: static;
+	}
+
+	.dimora-rail {
+		height: auto !important;
+	}
+
+	.dimora-rail.is-pinned .dimora-rail-pin {
+		position: static;
+		display: block;
+		overflow: visible;
+		height: auto;
+	}
+
+	.dimora-rail .dimora-rail-track {
+		flex-wrap: wrap;
+		overflow: visible;
+		transform: none !important;
+	}
+
+	.dimora-rail .dimora-rail-track > * {
+		flex-basis: 30%;
+	}
+
+	.dimora-pointer,
+	.dimora-rail-pin::before,
+	.dimora-rail-pin::after {
+		display: none;
 	}
 }

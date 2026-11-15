@@ -1,9 +1,9 @@
 ( function () {
 	'use strict';
 
-	var label = ( window.dimoraCompare && window.dimoraCompare.label ) || 'Before and after';
+	var label = ( window.dimoraCompare && window.dimoraCompare.label ) || 'Compare';
 
-	// A group with two images becomes a slider: the first image is "before", the second "after".
+	// A group with two images becomes a slider that uncovers the first image over the second.
 	function sniperWolf( box ) {
 		if ( 2 !== box.querySelectorAll( '.wp-block-image' ).length ) {
 			return;
@@ -17,6 +17,7 @@
 			value = Math.min( Math.max( value, 0 ), 100 );
 			box.style.setProperty( '--dimora-pos', value + '%' );
 			range.value = Math.round( value );
+			range.setAttribute( 'aria-valuetext', Math.round( value ) + '%' );
 		}
 
 		function follow( event ) {

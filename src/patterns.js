@@ -1,4 +1,4 @@
-const { b, t, th, ta, url, img, space, section, flow, row, grid, columns, column, heading, paragraph, label, lead, small, buttons, button, arrowLink, dashes, image } = require('./blocks');
+const { b, t, th, ta, url, img, privacy, space, section, flow, row, grid, columns, column, heading, paragraph, label, lead, small, buttons, button, arrowLink, dashes, image } = require('./blocks');
 const C = require('./content');
 
 const S = C.STUDIO;
@@ -140,18 +140,18 @@ function quote(o = {}) {
     flow({ align: 'wide', gap: space('60'), contentSize: '1040px', className: 'dimora-stagger' }, [
       label(t('(In their words)'), { align: 'center' }),
       paragraph(t(`“${q.quote}”`), { align: 'center', className: 'dimora-quote', color: 'ink' }),
-      small(`${t(q.name)} · <a href="${url('/projects/')}">${t(q.detail)}</a>`, { align: 'center', color: 'muted' }),
+      small(`${t(q.name)} · <a href="${url(project(C.PROJECTS.find(p => p.title === q.detail) || C.PROJECTS[0]))}">${t(q.detail)}</a>`, { align: 'center', color: 'muted' }),
     ]),
     o.press !== false && row({ name: 'Press', align: 'wide', justify: 'center', gap: '12px 40px', className: 'dimora-press dimora-reveal' }, [small(t('As featured in'), { color: 'muted' }), ...C.PRESS.map(name => paragraph(t(name), { className: 'dimora-press-name' }))]),
   ]);
 }
 
 const postCard = (level = 3) => flow({ className: 'dimora-post', gap: space('40') }, [
-  b('core/post-featured-image', { isLink: true, aspectRatio: '3/2' }),
+  b('core/post-featured-image', { aspectRatio: '3/2' }),
   flow({ gap: space('30') }, [
     b('core/post-date', { className: 'is-style-dimora-label' }),
     b('core/post-title', { level, isLink: true }),
-    b('core/post-excerpt', { excerptLength: 20, moreText: ta('Read the article') }),
+    b('core/post-excerpt', { excerptLength: 20 }),
   ]),
 ]);
 
@@ -455,7 +455,7 @@ function footer(o = {}) {
       row({ name: 'Legal', align: 'wide', justify: 'space-between', gap: '12px 32px', className: 'dimora-legal' }, [
         row({ gap: '6px' }, [small(t('©'), { className: 'dimora-soft' }), b('core/site-title', { level: 0, isLink: false, className: 'dimora-site-title-plain' })]),
         o.compact && small(`${link('Projects', '/projects/')} · ${link('Studio', '/studio/')} · ${link('Contact', CONTACT)}`, { className: 'dimora-soft' }),
-        small(`${link('Privacy policy', '/privacy-policy/')} · ${link('Terms', '/terms/')} · <a href="#top">${t('Back to top')}</a>`, { className: 'dimora-soft' }),
+        small(`${privacy()}${link('Terms', '/terms/')} · <a href="#top">${t('Back to top')}</a>`, { className: 'dimora-soft' }),
       ]),
     ]),
   ];

@@ -46,6 +46,13 @@ function dimora_starter_intel() {
 	);
 }
 
+// The page or article that lives at an address, if any. An uploaded file with the same name does not count.
+function dimora_starter_radar( $path, $type = 'page' ) {
+	$found = get_page_by_path( $path, OBJECT, $type );
+
+	return $found && $type === $found->post_type ? $found : null;
+}
+
 function dimora_starter_suit_on() {
 	return 'dimora' === get_template() && WP_Block_Patterns_Registry::get_instance()->is_registered( 'dimora/page-home' );
 }
@@ -74,8 +81,15 @@ function dimora_starter_fulton( $file ) {
 	global $wp_filesystem;
 
 	$library = get_option( 'dimora_starter_media', array() );
+	$site    = dimora_starter_intel();
+	$alt     = empty( $site['alts'][ $file ] ) ? '' : sanitize_text_field( $site['alts'][ $file ] );
 
 	if ( isset( $library[ $file ] ) && get_post( $library[ $file ] ) ) {
+		// A copy made by an older version has no alternative text yet. One written by the owner is never replaced.
+		if ( $alt && '' === (string) get_post_meta( $library[ $file ], '_wp_attachment_image_alt', true ) ) {
+			update_post_meta( $library[ $file ], '_wp_attachment_image_alt', $alt );
+		}
+
 		return (int) $library[ $file ];
 	}
 
@@ -114,10 +128,8 @@ function dimora_starter_fulton( $file ) {
 		return 0;
 	}
 
-	$site = dimora_starter_intel();
-
-	if ( ! empty( $site['alts'][ $file ] ) ) {
-		update_post_meta( $id, '_wp_attachment_image_alt', sanitize_text_field( $site['alts'][ $file ] ) );
+	if ( $alt ) {
+		update_post_meta( $id, '_wp_attachment_image_alt', $alt );
 	}
 
 	$library[ $file ] = (int) $id;
@@ -221,7 +233,7 @@ function dimora_starter_outer_heaven( $front = true, $posts = true ) {
 		$titles[ $page['slug'] ] = $page['title'];
 
 		$path  = empty( $page['parent'] ) ? $page['slug'] : $page['parent'] . '/' . $page['slug'];
-		$found = get_page_by_path( $path );
+		$found = dimora_starter_radar( $path );
 
 		if ( $found ) {
 			$ids[ $page['slug'] ] = $found->ID;
@@ -279,7 +291,7 @@ function dimora_starter_outer_heaven( $front = true, $posts = true ) {
 		$category = $category ? $category : wp_insert_term( $name, 'category' );
 
 		foreach ( $site['posts'] as $index => $post ) {
-			if ( get_page_by_path( sanitize_title( $post['title'] ), OBJECT, 'post' ) ) {
+			if ( dimora_starter_radar( sanitize_title( $post['title'] ), 'post' ) ) {
 				continue;
 			}
 
@@ -338,7 +350,7 @@ function dimora_starter_outer_heaven( $front = true, $posts = true ) {
 		$log['menu'] = $menu && ! is_wp_error( $menu ) ? $menu : 0;
 	}
 
-	if ( $front && ! empty( $ids['home'] ) ) {
+	if ( $front && ! empty( $ids['home'] ) && 'publish' === get_post_status( $ids['home'] ) ) {
 		if ( null === $log['reading'] ) {
 			$log['reading'] = array( get_option( 'show_on_front' ), (int) get_option( 'page_on_front' ), (int) get_option( 'page_for_posts' ) );
 		}
@@ -451,7 +463,7 @@ function dimora_starter_briefing() {
 					<tr>
 						<td><?php echo esc_html( $page['title'] ); ?></td>
 						<td><code>/<?php echo esc_html( $path ); ?>/</code></td>
-						<td><?php get_page_by_path( $path ) ? esc_html_e( 'Exists, will be kept', 'dimora-starter' ) : esc_html_e( 'Will be created', 'dimora-starter' ); ?></td>
+						<td><?php dimora_starter_radar( $path ) ? esc_html_e( 'Exists, will be kept', 'dimora-starter' ) : esc_html_e( 'Will be created', 'dimora-starter' ); ?></td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>
