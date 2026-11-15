@@ -109,6 +109,12 @@ function dimora_starter_fulton( $file ) {
 		return 0;
 	}
 
+	$site = dimora_starter_intel();
+
+	if ( ! empty( $site['alts'][ $file ] ) ) {
+		update_post_meta( $id, '_wp_attachment_image_alt', sanitize_text_field( $site['alts'][ $file ] ) );
+	}
+
 	$library[ $file ] = (int) $id;
 	update_option( 'dimora_starter_media', $library, false );
 
