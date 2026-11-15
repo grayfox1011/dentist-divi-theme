@@ -142,6 +142,8 @@ function emptyDir(dir, extension) {
       { page: 'contact', label: 'Contact' },
     ],
     category: 'Notes',
+    // alternative texts for the copies of the photographs in the Media Library
+    alts: CONTENT.IMAGES,
     posts: CONTENT.POSTS.map(post => ({ title: post.title, excerpt: post.text, body: post.body, image: post.image })),
   };
   const data = path.join(__dirname, '..', 'plugin', 'dimora-starter', 'data');

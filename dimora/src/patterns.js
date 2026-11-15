@@ -61,7 +61,7 @@ function intro() {
 const projectCard = (p, i, o = {}) => flow({ name: p.title, className: ['dimora-card dimora-cursor', o.className].filter(Boolean).join(' '), gap: space('40') }, [
   photo(`${p.slug}-cover.jpg`, { ratio: o.ratio || '4/5' }),
   row({ justify: 'space-between', valign: 'top', wrap: false, gap: space('40') }, [
-    flow({ gap: '4px' }, [heading(`<a href="${url(project(p))}">${t(p.title)}</a>`, { level: 3 }), small(t(`${p.kind}, ${p.place}`), { color: 'muted' })]),
+    flow({ gap: '4px' }, [heading(`<a href="${url(project(p))}">${t(p.title)}</a>`, { level: o.level || 3, size: o.level ? 'x-large' : undefined }), small(t(`${p.kind}, ${p.place}`), { color: 'muted' })]),
     label(`(${no(i)})`),
   ]),
 ]);
@@ -146,17 +146,17 @@ function quote(o = {}) {
   ]);
 }
 
-const postCard = () => flow({ className: 'dimora-post', gap: space('40') }, [
+const postCard = (level = 3) => flow({ className: 'dimora-post', gap: space('40') }, [
   b('core/post-featured-image', { isLink: true, aspectRatio: '3/2' }),
   flow({ gap: space('30') }, [
     b('core/post-date', { className: 'is-style-dimora-label' }),
-    b('core/post-title', { level: 3, isLink: true }),
+    b('core/post-title', { level, isLink: true }),
     b('core/post-excerpt', { excerptLength: 20, moreText: ta('Read the article') }),
   ]),
 ]);
 
-const postsGrid = (queryId, query, inner = []) => b('core/query', { queryId, query, align: 'wide' }, [
-  b('core/post-template', { className: 'dimora-reveal', style: { spacing: { blockGap: space('60') } }, layout: { type: 'grid', minimumColumnWidth: '320px' } }, [postCard()]),
+const postsGrid = (queryId, query, inner = [], level = 3) => b('core/query', { queryId, query, align: 'wide' }, [
+  b('core/post-template', { className: 'dimora-reveal', style: { spacing: { blockGap: space('60') } }, layout: { type: 'grid', minimumColumnWidth: '320px' } }, [postCard(level)]),
   ...inner,
 ]);
 
@@ -183,7 +183,7 @@ function cta() {
 
 function projectsGrid() {
   return section({ name: 'Projects', bg: 'base', top: space('70') }, [
-    grid({ name: 'Projects grid', min: '420px', gap: space('70'), className: 'dimora-stagger dimora-offset-grid' }, C.PROJECTS.map((p, i) => projectCard(p, i, { ratio: [0, 3].includes(i % 4) ? '4/5' : '1' }))),
+    grid({ name: 'Projects grid', min: '420px', gap: space('70'), className: 'dimora-stagger dimora-offset-grid' }, C.PROJECTS.map((p, i) => projectCard(p, i, { level: 2, ratio: [0, 3].includes(i % 4) ? '4/5' : '1' }))),
   ]);
 }
 
@@ -471,7 +471,7 @@ const postsLoop = () => section({ name: 'Posts', bg: 'base', top: space('60') },
   postsGrid(1, { perPage: 9, pages: 0, offset: 0, postType: 'post', order: 'desc', orderBy: 'date', author: '', search: '', exclude: [], sticky: '', inherit: true }, [
     pagination(),
     b('core/query-no-results', {}, [paragraph(t('Nothing was found here. Try another search, or go back to the home page.'))]),
-  ]),
+  ], 2),
 ]);
 
 const postFooter = () => [

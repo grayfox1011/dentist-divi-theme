@@ -15,7 +15,7 @@
 <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:post-date {"className":"is-style-dimora-label"} /-->
 
-<!-- wp:post-title {"level":3,"isLink":true} /-->
+<!-- wp:post-title {"isLink":true} /-->
 
 <!-- wp:post-excerpt {"moreText":"<?php echo esc_attr__( 'Read the article', 'dimora' ); ?>","excerptLength":20} /--></div>
 <!-- /wp:group --></div>
