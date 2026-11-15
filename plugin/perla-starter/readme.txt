@@ -1,4 +1,5 @@
 === Perla Starter ===
+Contributors: grayfox86
 Tags: starter site, demo content, block theme, dentist
 Requires at least: 6.6
 Tested up to: 7.1

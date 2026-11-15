@@ -83,7 +83,7 @@ Il sito è su http://localhost:8080 (utente `admin`, password `admin`). Lo scrip
 
 Tema e plugin si inviano separatamente.
 
-1. **Aggiungi il tuo nome utente di WordPress.org** nella riga `Contributors:`, che ora manca, subito sotto il titolo di `theme/perla/readme.txt` e di `plugin/perla-starter/readme.txt`. Ad esempio `Contributors: iltuonomeutente`. Come autore c'è già "Fontana Jonathan".
+1. **Controlla i nomi.** Come autore c'è "Fontana Jonathan" e nella riga `Contributors:` dei due `readme.txt` (tema e plugin) c'è il nome utente di WordPress.org `grayfox86`. Tema e plugin vanno caricati con quell'account.
 2. **Crea gli zip.**
 
    ```bash
