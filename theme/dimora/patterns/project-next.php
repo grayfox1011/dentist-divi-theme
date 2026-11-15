@@ -7,19 +7,19 @@
  * Viewport Width: 1400
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Next project"},"align":"full","className":"dimora-dark dimora-next dimora-cursor","style":{"spacing":{"padding":{"top":"var:preset|spacing|90","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"dark","textColor":"base","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull dimora-dark dimora-next dimora-cursor has-base-color has-dark-background-color has-text-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--90);padding-bottom:var(--wp--preset--spacing--90)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|70","left":"var:preset|spacing|80"}}}} -->
+<!-- wp:group {"metadata":{"name":"Next project"},"align":"full","className":"dimora-next dimora-cursor","style":{"spacing":{"padding":{"top":"var:preset|spacing|90","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"surface","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull dimora-next dimora-cursor has-surface-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--90);padding-bottom:var(--wp--preset--spacing--90)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|70","left":"var:preset|spacing|80"}}}} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center","width":"58%","className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|40"}}} -->
 <div class="wp-block-column is-vertically-aligned-center dimora-stagger" style="flex-basis:58%"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
 <p class="is-style-dimora-label"><?php echo esc_html__( '(Next project)', 'dimora' ); ?></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:heading {"textColor":"base","fontSize":"huge"} -->
-<h2 class="wp-block-heading has-base-color has-text-color has-huge-font-size"><a href="<?php echo esc_url( home_url( '/projects/northlight-loft/' ) ); ?>"><?php echo esc_html__( 'Northlight Loft', 'dimora' ); ?></a></h2>
+<!-- wp:heading {"fontSize":"huge"} -->
+<h2 class="wp-block-heading has-huge-font-size"><a href="<?php echo esc_url( home_url( '/projects/northlight-loft/' ) ); ?>"><?php echo esc_html__( 'Northlight Loft', 'dimora' ); ?></a></h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"className":"dimora-soft","fontSize":"small"} -->
-<p class="dimora-soft has-small-font-size"><?php echo esc_html__( 'Warehouse apartment, Manchester', 'dimora' ); ?></p>
+<!-- wp:paragraph {"textColor":"muted","fontSize":"small"} -->
+<p class="has-muted-color has-text-color has-small-font-size"><?php echo esc_html__( 'Warehouse apartment, Manchester', 'dimora' ); ?></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 

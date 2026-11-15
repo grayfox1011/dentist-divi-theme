@@ -28,7 +28,7 @@
 <!-- wp:group {"className":"dimora-rail-track","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"top"}} -->
 <div class="wp-block-group dimora-rail-track"><!-- wp:group {"metadata":{"name":"Canal House"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-card dimora-cursor"><!-- wp:image {"aspectRatio":"4/5","scale":"cover","sizeSlug":"full"} -->
-<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/canal-house-cover.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Garden room with a long oak table, cane chairs, white curtains and potted plants', 'dimora' ); ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
+<figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/canal-house-cover.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Garden room with a long wooden table, cane chairs, white curtains and potted plants', 'dimora' ); ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"top"}} -->

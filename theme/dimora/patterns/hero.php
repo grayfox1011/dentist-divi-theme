@@ -8,7 +8,7 @@
  */
 ?>
 <!-- wp:group {"metadata":{"name":"Hero"},"align":"full","className":"dimora-hero","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"0px"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull dimora-hero has-base-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--60);padding-bottom:0px"><!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"default"}} -->
+<div class="wp-block-group alignfull dimora-hero has-base-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--60);padding-bottom:0px"><!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|70"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group alignwide"><!-- wp:group {"metadata":{"name":"Details"},"className":"dimora-meta dimora-reveal","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
 <div class="wp-block-group dimora-meta dimora-reveal"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
 <p class="is-style-dimora-label"><?php echo esc_html__( 'Interior architecture studio', 'dimora' ); ?></p>
@@ -24,8 +24,8 @@
 <!-- /wp:heading -->
 
 <!-- wp:columns {"verticalAlignment":"bottom","className":"dimora-stagger","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|70","left":"var:preset|spacing|80"}}}} -->
-<div class="wp-block-columns are-vertically-aligned-bottom dimora-stagger"><!-- wp:column {"verticalAlignment":"bottom","width":"50%"} -->
-<div class="wp-block-column is-vertically-aligned-bottom" style="flex-basis:50%"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
+<div class="wp-block-columns are-vertically-aligned-bottom dimora-stagger"><!-- wp:column {"verticalAlignment":"bottom","width":"50%","className":"dimora-hide-small"} -->
+<div class="wp-block-column is-vertically-aligned-bottom dimora-hide-small" style="flex-basis:50%"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
 <p class="is-style-dimora-label"><?php echo esc_html__( '(Selected work, 2022 – 2025)', 'dimora' ); ?></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->

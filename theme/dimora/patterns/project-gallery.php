@@ -11,7 +11,7 @@
 <div class="wp-block-group alignfull has-base-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:0px;padding-bottom:var(--wp--preset--spacing--90)"><!-- wp:columns {"align":"wide","className":"dimora-pair","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|70","left":"var:preset|spacing|80"}}}} -->
 <div class="wp-block-columns alignwide dimora-pair"><!-- wp:column {"width":"46%"} -->
 <div class="wp-block-column" style="flex-basis:46%"><!-- wp:image {"aspectRatio":"4/5","scale":"cover","sizeSlug":"full","className":"dimora-image"} -->
-<figure class="wp-block-image size-full dimora-image"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/canal-house-1.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Stone steps beside a rough plastered wall with a patch of sunlight', 'dimora' ); ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
+<figure class="wp-block-image size-full dimora-image"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/canal-house-1.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Concrete steps beside a rough rendered wall catching the sun', 'dimora' ); ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 

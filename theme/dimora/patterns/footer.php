@@ -20,7 +20,7 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"44%"} -->
-<div class="wp-block-column" style="flex-basis:44%"><!-- wp:group {"metadata":{"name":"Details"},"className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"160px"}} -->
+<div class="wp-block-column" style="flex-basis:44%"><!-- wp:group {"metadata":{"name":"Details"},"className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"220px"}} -->
 <div class="wp-block-group dimora-stagger"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
 <p class="is-style-dimora-label"><?php echo esc_html__( 'Studio', 'dimora' ); ?></p>

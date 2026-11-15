@@ -18,7 +18,7 @@
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"Principles"},"align":"wide","className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"280px"}} -->
+<!-- wp:group {"metadata":{"name":"Principles"},"align":"wide","className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"360px"}} -->
 <div class="wp-block-group alignwide dimora-stagger"><!-- wp:group {"className":"dimora-value","style":{"spacing":{"blockGap":"var:preset|spacing|40","padding":{"top":"var:preset|spacing|50"}}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-value" style="padding-top:var(--wp--preset--spacing--50)"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
 <p class="is-style-dimora-label">(01)</p>
