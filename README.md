@@ -183,7 +183,21 @@ Non verificato: Safari e Firefox, telefoni veri (solo le dimensioni simulate in 
 
 Tutte le immagini partono da originali larghi tra 960 e 1200 pixel e nel tema non vengono mai mostrate più larghe di 564 pixel, quindi restano nitide anche sugli schermi ad alta densità.
 
-Le fonti, una per una, sono in `theme/perla/readme.txt`. Per le due foto di PxHere la licenza CC0 è stata letta sulla pagina della foto. Per quelle di rawpixel e StockSnap le pagine non si lasciano leggere in automatico: la licenza CC0 viene dal catalogo Openverse di WordPress.org, che le elenca così. Conviene aprire una volta quei link prima di inviare il tema.
+Le fonti, una per una, sono in `theme/perla/readme.txt`. Tutte sono indicate come CC0. Ecco come è stata controllata ogni licenza:
+
+| Immagine | Fonte usata | Come è stata verificata la licenza CC0 |
+| --- | --- | --- |
+| `hero.jpg` | PxHere 917219 | Letta sulla pagina della foto |
+| `teeth-whitening.jpg`, `smile-after.jpg`, `smile-before.jpg` | PxHere 496715 | Letta sulla pagina della foto |
+| `studio.jpg` | StockSnap, Daniel Frank | Catalogo Openverse; la stessa foto è su PxHere (1276386) e lì la licenza è stata letta sulla pagina |
+| `general-dentistry.jpg` | rawpixel | Catalogo Openverse; la stessa foto è su PxHere (783408), licenza letta sulla pagina |
+| `emergency-care.jpg` | rawpixel | Catalogo Openverse; la stessa foto è su PxHere (1095804), licenza letta sulla pagina |
+| `orthodontics.jpg` | rawpixel | Catalogo Openverse; la stessa foto è su PxHere (921710), licenza letta sulla pagina |
+| `dental-implants.jpg` | rawpixel | Catalogo Openverse; il file di rawpixel porta il numero PxHere 931122, e sulla pagina PxHere la licenza è stata letta |
+| `chair.jpg` | rawpixel | Solo catalogo Openverse |
+| `cosmetic-dentistry.jpg` | rawpixel | Solo catalogo Openverse |
+
+"Stessa foto" è stato verificato confrontando le immagini, non a occhio. Il catalogo Openverse è quello di WordPress.org. Le pagine di rawpixel e StockSnap rifiutano gli accessi automatici, quindi non sono state lette: per le ultime due righe conviene che una persona apra il link e controlli che ci sia scritto CC0.
 
 Per rifare i ritagli: salva gli originali come `.photos-cache/<nome>.jpg` (i nomi sono in `tools/photos.py`) ed esegui `python3 tools/photos.py`.
 
