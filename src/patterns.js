@@ -474,6 +474,15 @@ const postsLoop = () => section({ name: 'Posts', bg: 'base', top: space('60') },
   ], 2),
 ]);
 
+// the journal of a front page set to "Your latest posts": the posts of the site, with their pages
+const journalPaged = () => section({ name: 'Journal', bg: 'base' }, [
+  sectionHead('(Journal)', 'Notes on <em>living</em> well', { wide: true }),
+  postsGrid(1, { perPage: 9, pages: 0, offset: 0, postType: 'post', order: 'desc', orderBy: 'date', author: '', search: '', exclude: [], sticky: '', inherit: true }, [
+    pagination(),
+    b('core/query-no-results', {}, [paragraph(t('Your latest articles will be shown here.'))]),
+  ]),
+]);
+
 const postFooter = () => [
   section({ name: 'Post navigation', bg: 'base', top: '0px', bottom: space('80') }, [
     row({ name: 'Previous and next', align: 'wide', justify: 'space-between', gap: space('50'), className: 'dimora-post-nav', padding: { top: space('50') } }, [
@@ -552,7 +561,18 @@ const PATTERNS = [
   { slug: 'header-overlay', title: 'Header with full-screen menu', categories: 'header', blockTypes: 'core/template-part/header', blocks: [navBar({ overlay: 'always' })] },
   { slug: 'footer', title: 'Footer with large call and wordmark', categories: 'footer', blockTypes: 'core/template-part/footer', blocks: footer() },
   { slug: 'footer-compact', title: 'Footer on one line', categories: 'footer', blockTypes: 'core/template-part/footer', blocks: footer({ compact: true }) },
-  { slug: 'front-page', title: 'Front page', inserter: false, when: 'dimora_big_boss()', blocks: [b('core/post-content', { align: 'full', className: 'dimora-content', layout: { type: 'constrained' } })], otherwise: FRONT_PAGE.map(slug => ref(slug)) },
+  {
+    slug: 'front-page',
+    title: 'Front page',
+    inserter: false,
+    when: 'dimora_big_boss()',
+    blocks: [b('core/post-content', { align: 'full', className: 'dimora-content', layout: { type: 'constrained' } })],
+    branches: [
+      { when: 'is_home() && is_paged()', blocks: [ref('blog-header'), ref('posts-loop')] },
+      { when: 'is_home()', blocks: FRONT_PAGE.map(slug => (slug === 'journal' ? journalPaged() : ref(slug))) },
+    ],
+    otherwise: FRONT_PAGE.map(slug => ref(slug)),
+  },
   hidden('blog-header', 'Journal header', blogHeader()),
   hidden('posts-loop', 'Posts of the current page', postsLoop()),
   hidden('post-footer', 'After an article', postFooter()),

@@ -20,7 +20,7 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph {"className":"dimora-arrow-link dimora-reveal"} -->
-<p class="dimora-arrow-link dimora-reveal"><a href="<?php echo esc_url( home_url( '/journal/' ) ); ?>"><?php echo esc_html__( 'All articles', 'dimora' ); ?></a></p>
+<p class="dimora-arrow-link dimora-reveal"><a href="<?php echo esc_url( dimora_soliton_radar( 'journal' ) ); ?>"><?php echo esc_html__( 'All articles', 'dimora' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 

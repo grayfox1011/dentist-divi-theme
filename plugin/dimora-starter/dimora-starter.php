@@ -79,7 +79,12 @@ function dimora_starter_fulton( $file ) {
 		return (int) $library[ $file ];
 	}
 
-	$source = get_theme_file_path( 'assets/images/' . $file );
+	// The pictures of the sample articles come with the plugin, all the others with the theme.
+	$source = plugin_dir_path( __FILE__ ) . 'assets/' . $file;
+
+	if ( ! is_readable( $source ) ) {
+		$source = get_theme_file_path( 'assets/images/' . $file );
+	}
 
 	if ( ! is_readable( $source ) ) {
 		return 0;
@@ -209,6 +214,9 @@ function dimora_starter_outer_heaven( $front = true, $posts = true ) {
 
 	$log['kept'] = array();
 
+	$fresh = array();
+
+	// First every page gets its place, still empty: the links inside the patterns can then find each other.
 	foreach ( $site['pages'] as $page ) {
 		$titles[ $page['slug'] ] = $page['title'];
 
@@ -224,17 +232,9 @@ function dimora_starter_outer_heaven( $front = true, $posts = true ) {
 			continue;
 		}
 
-		$content = '';
-
-		if ( ! empty( $page['pattern'] ) ) {
-			$content = dimora_starter_extraction( dimora_starter_nanomachines( $page['pattern'] ) );
-
-			// No pattern, no page: an empty one would only get in the way.
-			if ( '' === $content ) {
-				continue;
-			}
-		} elseif ( ! empty( $page['text'] ) ) {
-			$content = "<!-- wp:paragraph -->\n<p>" . esc_html( $page['text'] ) . "</p>\n<!-- /wp:paragraph -->";
+		// No pattern, no page: an empty one would only get in the way.
+		if ( ! empty( $page['pattern'] ) && ! WP_Block_Patterns_Registry::get_instance()->is_registered( $page['pattern'] ) ) {
+			continue;
 		}
 
 		$id = wp_insert_post(
@@ -244,7 +244,7 @@ function dimora_starter_outer_heaven( $front = true, $posts = true ) {
 				'post_title'     => $page['title'],
 				'post_name'      => $page['slug'],
 				'post_parent'    => empty( $page['parent'] ) || empty( $ids[ $page['parent'] ] ) ? 0 : $ids[ $page['parent'] ],
-				'post_content'   => wp_slash( $content ),
+				'post_content'   => empty( $page['text'] ) ? '' : wp_slash( "<!-- wp:paragraph -->\n<p>" . esc_html( $page['text'] ) . "</p>\n<!-- /wp:paragraph -->" ),
 				'comment_status' => 'closed',
 			)
 		);
@@ -252,11 +252,25 @@ function dimora_starter_outer_heaven( $front = true, $posts = true ) {
 		if ( $id && ! is_wp_error( $id ) ) {
 			$ids[ $page['slug'] ] = $id;
 			$log['pages'][]       = $id;
+			$fresh[ $id ]         = $page;
 
 			if ( ! empty( $page['template'] ) ) {
 				update_post_meta( $id, '_wp_page_template', sanitize_key( $page['template'] ) );
 			}
 		}
+	}
+
+	foreach ( $fresh as $id => $page ) {
+		if ( empty( $page['pattern'] ) ) {
+			continue;
+		}
+
+		wp_update_post(
+			array(
+				'ID'           => $id,
+				'post_content' => wp_slash( dimora_starter_extraction( dimora_starter_nanomachines( $page['pattern'] ) ) ),
+			)
+		);
 	}
 
 	if ( $posts ) {

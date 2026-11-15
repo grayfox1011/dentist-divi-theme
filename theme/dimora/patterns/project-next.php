@@ -15,7 +15,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"fontSize":"huge"} -->
-<h2 class="wp-block-heading has-huge-font-size"><a href="<?php echo esc_url( home_url( '/projects/northlight-loft/' ) ); ?>"><?php echo esc_html__( 'Northlight Loft', 'dimora' ); ?></a></h2>
+<h2 class="wp-block-heading has-huge-font-size"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/northlight-loft' ) ); ?>"><?php echo esc_html__( 'Northlight Loft', 'dimora' ); ?></a></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"muted","fontSize":"small"} -->

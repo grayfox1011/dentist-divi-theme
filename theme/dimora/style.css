@@ -130,6 +130,12 @@ h1.has-display-font-size {
 	text-decoration: none;
 }
 
+p.is-style-dimora-label a {
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.25em;
+}
+
 .is-style-dimora-label a:hover {
 	color: var(--wp--preset--color--ink);
 }

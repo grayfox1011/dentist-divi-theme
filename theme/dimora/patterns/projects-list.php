@@ -26,7 +26,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading"><a href="<?php echo esc_url( home_url( '/projects/canal-house/' ) ); ?>"><?php echo esc_html__( 'Canal House', 'dimora' ); ?></a></h3>
+<h3 class="wp-block-heading"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/canal-house' ) ); ?>"><?php echo esc_html__( 'Canal House', 'dimora' ); ?></a></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
 
@@ -52,7 +52,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading"><a href="<?php echo esc_url( home_url( '/projects/northlight-loft/' ) ); ?>"><?php echo esc_html__( 'Northlight Loft', 'dimora' ); ?></a></h3>
+<h3 class="wp-block-heading"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/northlight-loft' ) ); ?>"><?php echo esc_html__( 'Northlight Loft', 'dimora' ); ?></a></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
 
@@ -78,7 +78,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading"><a href="<?php echo esc_url( home_url( '/projects/the-orchard/' ) ); ?>"><?php echo esc_html__( 'The Orchard', 'dimora' ); ?></a></h3>
+<h3 class="wp-block-heading"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/the-orchard' ) ); ?>"><?php echo esc_html__( 'The Orchard', 'dimora' ); ?></a></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
 
@@ -104,7 +104,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading"><a href="<?php echo esc_url( home_url( '/projects/casa-arenal/' ) ); ?>"><?php echo esc_html__( 'Casa Arenal', 'dimora' ); ?></a></h3>
+<h3 class="wp-block-heading"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/casa-arenal' ) ); ?>"><?php echo esc_html__( 'Casa Arenal', 'dimora' ); ?></a></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
 
@@ -130,7 +130,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading"><a href="<?php echo esc_url( home_url( '/projects/reading-rooms/' ) ); ?>"><?php echo esc_html__( 'The Reading Rooms', 'dimora' ); ?></a></h3>
+<h3 class="wp-block-heading"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/reading-rooms' ) ); ?>"><?php echo esc_html__( 'The Reading Rooms', 'dimora' ); ?></a></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
 
@@ -156,7 +156,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading"><a href="<?php echo esc_url( home_url( '/projects/atelier-cafe/' ) ); ?>"><?php echo esc_html__( 'Atelier Café', 'dimora' ); ?></a></h3>
+<h3 class="wp-block-heading"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/atelier-cafe' ) ); ?>"><?php echo esc_html__( 'Atelier Café', 'dimora' ); ?></a></h3>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
 

@@ -62,14 +62,15 @@ function withPhp(html) {
       case 'text': return `<?php echo esc_html__( ${php(token.value)}, '${DOMAIN}' ); ?>`;
       case 'html': return `<?php echo wp_kses_post( __( ${php(token.value)}, '${DOMAIN}' ) ); ?>`;
       case 'attr': return `<?php echo esc_attr__( ${php(token.value)}, '${DOMAIN}' ); ?>`;
-      case 'url': return `<?php echo esc_url( home_url( ${php(token.value)} ) ); ?>`;
+      // the home page is always there; any other page is looked up, because it may not exist yet
+      case 'url': return token.value === '/' ? `<?php echo esc_url( home_url( '/' ) ); ?>` : `<?php echo esc_url( dimora_soliton_radar( ${php(token.value.replace(/^\/|\/$/g, ''))} ) ); ?>`;
       case 'image': return `<?php echo esc_url( get_theme_file_uri( ${php(`assets/images/${token.value}`)} ) ); ?>`;
       default: throw new Error(`Unknown kind of token: ${token.kind}`);
     }
   });
 }
 
-function patternFile(pattern, html, otherwise) {
+function patternFile(pattern, html, otherwise, branches = []) {
   const head = [
     `Title: ${pattern.title}`,
     `Slug: dimora/${pattern.slug}`,
@@ -80,7 +81,8 @@ function patternFile(pattern, html, otherwise) {
     pattern.inserter === false && 'Inserter: no',
     'Viewport Width: 1400',
   ].filter(Boolean);
-  const body = pattern.when ? `<?php if ( ${pattern.when} ) : ?>\n${withPhp(html)}\n<?php else : ?>\n${withPhp(otherwise)}\n<?php endif; ?>` : withPhp(html);
+  const cases = branches.map(branch => `<?php elseif ( ${branch.when} ) : ?>\n${withPhp(branch.html)}\n`).join('');
+  const body = pattern.when ? `<?php if ( ${pattern.when} ) : ?>\n${withPhp(html)}\n${cases}<?php else : ?>\n${withPhp(otherwise)}\n<?php endif; ?>` : withPhp(html);
   return `<?php\n/**\n${head.map(line => ` * ${line}`).join('\n')}\n */\n?>\n${body}\n`;
 }
 
@@ -94,6 +96,7 @@ function emptyDir(dir, extension) {
   for (const pattern of PATTERNS) {
     jobs[`pattern:${pattern.slug}`] = pattern.blocks;
     if (pattern.otherwise) jobs[`otherwise:${pattern.slug}`] = pattern.otherwise;
+    (pattern.branches || []).forEach((branch, index) => { jobs[`branch:${pattern.slug}:${index}`] = branch.blocks; });
   }
   for (const [name, tree] of Object.entries(TEMPLATES)) jobs[`template:${name}`] = tree;
   for (const [name, tree] of Object.entries(PARTS)) jobs[`part:${name}`] = tree;
@@ -112,7 +115,7 @@ function emptyDir(dir, extension) {
   emptyDir(path.join(THEME, 'templates'), '.html');
   emptyDir(path.join(THEME, 'parts'), '.html');
 
-  for (const pattern of PATTERNS) fs.writeFileSync(path.join(THEME, 'patterns', `${pattern.slug}.php`), patternFile(pattern, out[`pattern:${pattern.slug}`], out[`otherwise:${pattern.slug}`]));
+  for (const pattern of PATTERNS) fs.writeFileSync(path.join(THEME, 'patterns', `${pattern.slug}.php`), patternFile(pattern, out[`pattern:${pattern.slug}`], out[`otherwise:${pattern.slug}`], (pattern.branches || []).map((branch, index) => ({ when: branch.when, html: out[`branch:${pattern.slug}:${index}`] }))));
   for (const [kind, dir, names] of [['template', 'templates', Object.keys(TEMPLATES)], ['part', 'parts', Object.keys(PARTS)]]) {
     for (const name of names) {
       const html = out[`${kind}:${name}`];

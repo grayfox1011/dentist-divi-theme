@@ -18,11 +18,11 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph {"className":"dimora-soft","fontSize":"small"} -->
-<p class="dimora-soft has-small-font-size"><a href="<?php echo esc_url( home_url( '/projects/' ) ); ?>"><?php echo esc_html__( 'Projects', 'dimora' ); ?></a> · <a href="<?php echo esc_url( home_url( '/studio/' ) ); ?>"><?php echo esc_html__( 'Studio', 'dimora' ); ?></a> · <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo esc_html__( 'Contact', 'dimora' ); ?></a></p>
+<p class="dimora-soft has-small-font-size"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects' ) ); ?>"><?php echo esc_html__( 'Projects', 'dimora' ); ?></a> · <a href="<?php echo esc_url( dimora_soliton_radar( 'studio' ) ); ?>"><?php echo esc_html__( 'Studio', 'dimora' ); ?></a> · <a href="<?php echo esc_url( dimora_soliton_radar( 'contact' ) ); ?>"><?php echo esc_html__( 'Contact', 'dimora' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"dimora-soft","fontSize":"small"} -->
-<p class="dimora-soft has-small-font-size"><a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php echo esc_html__( 'Privacy policy', 'dimora' ); ?></a> · <a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>"><?php echo esc_html__( 'Terms', 'dimora' ); ?></a> · <a href="#top"><?php echo esc_html__( 'Back to top', 'dimora' ); ?></a></p>
+<p class="dimora-soft has-small-font-size"><a href="<?php echo esc_url( dimora_soliton_radar( 'privacy-policy' ) ); ?>"><?php echo esc_html__( 'Privacy policy', 'dimora' ); ?></a> · <a href="<?php echo esc_url( dimora_soliton_radar( 'terms' ) ); ?>"><?php echo esc_html__( 'Terms', 'dimora' ); ?></a> · <a href="#top"><?php echo esc_html__( 'Back to top', 'dimora' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->

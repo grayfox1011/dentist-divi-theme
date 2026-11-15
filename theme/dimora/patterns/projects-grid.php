@@ -17,7 +17,7 @@
 <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"top"}} -->
 <div class="wp-block-group"><!-- wp:group {"style":{"spacing":{"blockGap":"4px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:heading {"fontSize":"x-large"} -->
-<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( home_url( '/projects/canal-house/' ) ); ?>"><?php echo esc_html__( 'Canal House', 'dimora' ); ?></a></h2>
+<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/canal-house' ) ); ?>"><?php echo esc_html__( 'Canal House', 'dimora' ); ?></a></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"muted","fontSize":"small"} -->
@@ -39,7 +39,7 @@
 <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"top"}} -->
 <div class="wp-block-group"><!-- wp:group {"style":{"spacing":{"blockGap":"4px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:heading {"fontSize":"x-large"} -->
-<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( home_url( '/projects/northlight-loft/' ) ); ?>"><?php echo esc_html__( 'Northlight Loft', 'dimora' ); ?></a></h2>
+<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/northlight-loft' ) ); ?>"><?php echo esc_html__( 'Northlight Loft', 'dimora' ); ?></a></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"muted","fontSize":"small"} -->
@@ -61,7 +61,7 @@
 <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"top"}} -->
 <div class="wp-block-group"><!-- wp:group {"style":{"spacing":{"blockGap":"4px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:heading {"fontSize":"x-large"} -->
-<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( home_url( '/projects/the-orchard/' ) ); ?>"><?php echo esc_html__( 'The Orchard', 'dimora' ); ?></a></h2>
+<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/the-orchard' ) ); ?>"><?php echo esc_html__( 'The Orchard', 'dimora' ); ?></a></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"muted","fontSize":"small"} -->
@@ -83,7 +83,7 @@
 <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"top"}} -->
 <div class="wp-block-group"><!-- wp:group {"style":{"spacing":{"blockGap":"4px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:heading {"fontSize":"x-large"} -->
-<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( home_url( '/projects/casa-arenal/' ) ); ?>"><?php echo esc_html__( 'Casa Arenal', 'dimora' ); ?></a></h2>
+<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/casa-arenal' ) ); ?>"><?php echo esc_html__( 'Casa Arenal', 'dimora' ); ?></a></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"muted","fontSize":"small"} -->
@@ -105,7 +105,7 @@
 <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"top"}} -->
 <div class="wp-block-group"><!-- wp:group {"style":{"spacing":{"blockGap":"4px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:heading {"fontSize":"x-large"} -->
-<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( home_url( '/projects/reading-rooms/' ) ); ?>"><?php echo esc_html__( 'The Reading Rooms', 'dimora' ); ?></a></h2>
+<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/reading-rooms' ) ); ?>"><?php echo esc_html__( 'The Reading Rooms', 'dimora' ); ?></a></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"muted","fontSize":"small"} -->
@@ -127,7 +127,7 @@
 <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"top"}} -->
 <div class="wp-block-group"><!-- wp:group {"style":{"spacing":{"blockGap":"4px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:heading {"fontSize":"x-large"} -->
-<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( home_url( '/projects/atelier-cafe/' ) ); ?>"><?php echo esc_html__( 'Atelier Café', 'dimora' ); ?></a></h2>
+<h2 class="wp-block-heading has-x-large-font-size"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/atelier-cafe' ) ); ?>"><?php echo esc_html__( 'Atelier Café', 'dimora' ); ?></a></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"muted","fontSize":"small"} -->

@@ -21,7 +21,7 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph {"className":"dimora-arrow-link dimora-reveal"} -->
-<p class="dimora-arrow-link dimora-reveal"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo esc_html__( 'Ask us something else', 'dimora' ); ?></a></p>
+<p class="dimora-arrow-link dimora-reveal"><a href="<?php echo esc_url( dimora_soliton_radar( 'contact' ) ); ?>"><?php echo esc_html__( 'Ask us something else', 'dimora' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 

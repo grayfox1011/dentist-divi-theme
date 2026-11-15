@@ -15,7 +15,7 @@
 <div class="wp-block-group"><!-- wp:navigation {"icon":"menu","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"flex","justifyContent":"right"}} /-->
 
 <!-- wp:paragraph {"className":"dimora-arrow-link dimora-hide-medium"} -->
-<p class="dimora-arrow-link dimora-hide-medium"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo esc_html__( 'Start a project', 'dimora' ); ?></a></p>
+<p class="dimora-arrow-link dimora-hide-medium"><a href="<?php echo esc_url( dimora_soliton_radar( 'contact' ) ); ?>"><?php echo esc_html__( 'Start a project', 'dimora' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group --></div>

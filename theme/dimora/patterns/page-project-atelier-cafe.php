@@ -12,7 +12,7 @@
 <!-- wp:group {"metadata":{"name":"Project"},"align":"full","className":"dimora-hero","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"0px"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull dimora-hero has-base-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--60);padding-bottom:0px"><!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group alignwide"><!-- wp:paragraph {"className":"is-style-dimora-label dimora-reveal"} -->
-<p class="is-style-dimora-label dimora-reveal"><a href="<?php echo esc_url( home_url( '/projects/' ) ); ?>"><?php echo esc_html__( 'Projects', 'dimora' ); ?></a> / <?php echo esc_html__( 'Café and bakery', 'dimora' ); ?></p>
+<p class="is-style-dimora-label dimora-reveal"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects' ) ); ?>"><?php echo esc_html__( 'Projects', 'dimora' ); ?></a> / <?php echo esc_html__( 'Café and bakery', 'dimora' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":1,"className":"dimora-split","fontSize":"display"} -->
@@ -229,7 +229,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"fontSize":"huge"} -->
-<h2 class="wp-block-heading has-huge-font-size"><a href="<?php echo esc_url( home_url( '/projects/canal-house/' ) ); ?>"><?php echo esc_html__( 'Canal House', 'dimora' ); ?></a></h2>
+<h2 class="wp-block-heading has-huge-font-size"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects/canal-house' ) ); ?>"><?php echo esc_html__( 'Canal House', 'dimora' ); ?></a></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"muted","fontSize":"small"} -->
