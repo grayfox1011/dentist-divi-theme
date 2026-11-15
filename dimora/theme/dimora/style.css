@@ -1,7 +1,7 @@
 /*
 Theme Name: Dimora
 Author: Fontana Jonathan
-Description: Dimora is a calm, editorial block theme for interior designers, architects and small design studios. Large serif titles, generous white space and photographs that are given room. The home page is ready as soon as the theme is active: a statement hero, a sideways gallery of projects, services that open, the studio in numbers, the process in five steps, a client quote, the journal and a running call to action. Eleven page patterns (Home, Projects, six project case studies, Studio, Services, Contact) and twenty-eight section patterns build the rest of the site, including a project page with facts, story, gallery, material palette and a link to the next project, and a drawing-to-room slider. Everything is made of core blocks, so colours, fonts and every text can be changed in the Site Editor. Scroll animations are included and are switched off automatically for visitors who prefer reduced motion.
+Description: Dimora is a calm, editorial block theme for interior designers, architects and small design studios. Large serif titles, generous white space and photographs that are given room. The home page is ready as soon as the theme is active: a statement hero, a sideways gallery of projects, services that open, the studio in numbers, the process in five steps, a client quote, the journal and a running call to action. Eleven page patterns (Home, Projects, six project case studies, Studio, Services, Contact) and thirty section patterns build the rest of the site, including a project page with facts, story, gallery, material palette and a link to the next project, and a drawing-to-room slider. Everything is made of core blocks, so colours, fonts and every text can be changed in the Site Editor. Scroll animations are included and are switched off automatically for visitors who prefer reduced motion.
 Version: 1.0.0
 Requires at least: 6.6
 Tested up to: 7.1
@@ -281,6 +281,14 @@ ul.is-style-dimora-dashes li::before {
 	font-synthesis: none;
 	letter-spacing: -0.03em;
 	line-height: 0.95;
+}
+
+.dimora-price {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: clamp(28px, 2.8vw, 40px);
+	font-synthesis: none;
+	letter-spacing: -0.02em;
+	line-height: 1.1;
 }
 
 .dimora-stat,
@@ -1333,13 +1341,13 @@ html.lenis body {
 	}
 }
 
+/* Nothing above runs for visitors who prefer reduced motion. The slow zoom of pictures on hover goes too. */
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
+	.dimora-card .wp-block-image img,
+	.dimora-next .wp-block-image img,
+	.dimora-post .wp-block-post-featured-image img,
+	.dimora-list-row h3,
+	.dimora-arrow-link a::after {
+		transition: none;
 	}
 }

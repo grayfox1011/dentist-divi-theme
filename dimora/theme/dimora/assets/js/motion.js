@@ -10,6 +10,7 @@
 			var range = document.createRange();
 
 			mark.classList.add( 'is-fitted' );
+			mark.style.transition = 'none';
 			mark.style.fontSize = '100px';
 			range.selectNodeContents( mark );
 
