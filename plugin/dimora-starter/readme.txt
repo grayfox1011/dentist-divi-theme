@@ -4,7 +4,7 @@ Tags: starter site, demo content, block theme, interior design, portfolio
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ Dimora Starter is the companion of the Dimora block theme. The theme comes with 
 One click on Appearance > Dimora Starter creates:
 
 * Home, Projects with its six project pages, Studio, Services, Journal, Contact and Terms
-* a menu with those pages, unless you have already made one
+* a menu with those pages. Menus you already have are kept, and a box lets you skip this one
 * three sample articles, if you want them
 * copies of the theme photographs in the Media Library, so they can be replaced like any other image
 
@@ -66,6 +66,11 @@ The three photographs of the sample articles (assets/) come from the WordPress P
 * journal-3.jpg: https://wordpress.org/photos/photo/7136a91159/
 
 == Changelog ==
+
+= 1.0.1 =
+* The menu is now made on every site, also where another menu already existed. A new box lets you skip it.
+* Pages are created first and filled afterwards, so the links between them work from the start.
+* Uploaded files that share a name with a page no longer count as that page.
 
 = 1.0.0 =
 * Initial release.

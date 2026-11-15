@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Dimora Starter
  * Description:       Builds the whole Dimora site in one click: every page with real blocks, the menu, three sample articles, and the Home page set as the front page.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Fontana Jonathan
@@ -210,9 +210,10 @@ function dimora_starter_soliton( $menu, $ids, $titles ) {
  *
  * @param bool $front Set the Home page as the front page and the Journal page as the posts page.
  * @param bool $posts Add the sample articles.
+ * @param bool $menu  Make the menu.
  * @return array What was created, for the report and for the undo.
  */
-function dimora_starter_outer_heaven( $front = true, $posts = true ) {
+function dimora_starter_outer_heaven( $front = true, $posts = true, $menu = true ) {
 	$site   = dimora_starter_intel();
 	$before = get_option( 'dimora_starter_log' );
 	$log    = is_array( $before ) ? $before : array(
@@ -326,28 +327,20 @@ function dimora_starter_outer_heaven( $front = true, $posts = true ) {
 		}
 	}
 
-	// The header shows the newest menu of the site. A menu somebody made stays in charge; the bare
-	// list of pages that WordPress creates by itself when a site has no menu does not count.
-	$own_menu = false;
-
-	foreach ( get_posts( array( 'post_type' => 'wp_navigation', 'numberposts' => 50 ) ) as $existing ) {
-		if ( '<!-- wp:page-list /-->' !== trim( $existing->post_content ) ) {
-			$own_menu = true;
-			break;
-		}
-	}
-
-	if ( ! $own_menu ) {
-		$menu = wp_insert_post(
+	// The header shows the newest menu of the site, so this one takes the place of whatever was there:
+	// the menu of another theme, an old menu WordPress converted, its bare list of pages.
+	// Those are kept, and the menu is made only once.
+	if ( $menu && ( empty( $log['menu'] ) || 'publish' !== get_post_status( $log['menu'] ) ) ) {
+		$made = wp_insert_post(
 			array(
 				'post_type'    => 'wp_navigation',
 				'post_status'  => 'publish',
-				'post_title'   => __( 'Main menu', 'dimora-starter' ),
+				'post_title'   => __( 'Dimora menu', 'dimora-starter' ),
 				'post_content' => wp_slash( dimora_starter_soliton( $site['menu'], $ids, $titles ) ),
 			)
 		);
 
-		$log['menu'] = $menu && ! is_wp_error( $menu ) ? $menu : 0;
+		$log['menu'] = $made && ! is_wp_error( $made ) ? $made : 0;
 	}
 
 	if ( $front && ! empty( $ids['home'] ) && 'publish' === get_post_status( $ids['home'] ) ) {
@@ -403,7 +396,7 @@ function dimora_starter_colonel() {
 	if ( 'undo' === $order ) {
 		dimora_starter_foxdie();
 	} elseif ( 'build' === $order && dimora_starter_suit_on() ) {
-		dimora_starter_outer_heaven( ! empty( $_POST['dimora_starter_front'] ), ! empty( $_POST['dimora_starter_posts'] ) );
+		dimora_starter_outer_heaven( ! empty( $_POST['dimora_starter_front'] ), ! empty( $_POST['dimora_starter_posts'] ), ! empty( $_POST['dimora_starter_menu'] ) );
 	} else {
 		$order = 'none';
 	}
@@ -475,7 +468,16 @@ function dimora_starter_briefing() {
 				<?php wp_nonce_field( 'dimora_starter' ); ?>
 				<p><label><input type="checkbox" name="dimora_starter_front" value="1" checked> <?php esc_html_e( 'Use the Home page as the front page and the Journal page for the articles', 'dimora-starter' ); ?></label></p>
 				<p><label><input type="checkbox" name="dimora_starter_posts" value="1" checked> <?php esc_html_e( 'Add three sample articles', 'dimora-starter' ); ?></label></p>
-				<p class="description"><?php esc_html_e( 'A menu is created unless you have already made one. Photographs are copied to the Media Library.', 'dimora-starter' ); ?></p>
+				<p><label><input type="checkbox" name="dimora_starter_menu" value="1" checked>
+					<?php
+					printf(
+						/* translators: %s: the items of the menu */
+						esc_html__( 'Make the menu: %s', 'dimora-starter' ),
+						esc_html( implode( ', ', wp_list_pluck( $site['menu'], 'label' ) ) )
+					);
+					?>
+				</label></p>
+				<p class="description"><?php esc_html_e( 'The header shows the newest menu, so the new one takes the place of the menu you see now. Menus you already have are kept: choose between them in Appearance > Editor > Navigation. Photographs are copied to the Media Library.', 'dimora-starter' ); ?></p>
 				<?php submit_button( __( 'Build the site', 'dimora-starter' ) ); ?>
 			</form>
 		<?php endif; ?>

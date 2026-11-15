@@ -14,7 +14,7 @@ Questo ramo (`dimora-gutenberg`) contiene solo Dimora. Perla per Divi e Perla a 
 2. **Plugin → Aggiungi → Carica plugin**, scegli `dimora-starter.zip`, attiva.
 3. **Aspetto → Dimora Starter → Build the site**.
 
-Il plugin crea 13 pagine con blocchi veri (Home, Projects con sei schede progetto, Studio, Services, Journal, Contact, Terms), il menu, tre articoli di esempio, copia le foto nella Libreria media e imposta la Home come pagina iniziale. Non sovrascrive niente: una pagina che esiste già viene lasciata com'è. Lo stesso schermo ha il pulsante per annullare tutto. Dopo l'uso il plugin si può cancellare, le pagine restano.
+Il plugin crea 13 pagine con blocchi veri (Home, Projects con sei schede progetto, Studio, Services, Journal, Contact, Terms), il menu, tre articoli di esempio, copia le foto nella Libreria media e imposta la Home come pagina iniziale. Non sovrascrive niente: una pagina che esiste già viene lasciata com'è. Il menu invece viene creato sempre, anche se il sito ne aveva già uno di un altro tema: l'header mostra il menu più recente, quindi quello nuovo; i menu vecchi restano e si scelgono in Aspetto → Editor → Navigazione. Una casella permette di non crearlo. Lo stesso schermo ha il pulsante per annullare tutto. Dopo l'uso il plugin si può cancellare, le pagine restano.
 
 Senza plugin il tema funziona lo stesso: la home mostra subito le sezioni pronte, e ogni pagina della demo si ottiene creando una pagina e scegliendo il pattern con lo stesso nome.
 
@@ -134,7 +134,7 @@ I nomi delle funzioni seguono la stessa regola di Perla: prefisso obbligatorio `
 | Validità dei blocchi, WordPress 6.6.4 (`tools/check.js`) | 3243 blocchi in pattern, modelli, 12 pagine e 3 articoli: tutti validi; 71 immagini, tutte caricate |
 | Validità dei blocchi, WordPress 7.1.4 | 3243 blocchi, tutti validi |
 | Animazioni (`tools/motion-check.js`, 41 controlli) | 41 su 41 su WordPress 6.6.4 e su 7.1.4 |
-| Plugin (`tools/starter-check.js`) | 24 controlli su 24 (WordPress 7.1.4): creazione, secondo clic senza doppioni, pagine e menu del proprietario lasciati stare, annullamento |
+| Plugin (`tools/starter-check.js`) | 25 controlli su 25 (WordPress 7.1.4): creazione, secondo clic senza doppioni, menu creato anche dove ne esisteva già uno, casella per non crearlo, pagine del proprietario lasciate stare, annullamento |
 | Sito WordPress 7.1.4 nuovo, tema e plugin installati dagli zip, un clic | 18 controlli su 18: 13 pagine, menu, 3 articoli, 38 foto nella Libreria media con testo alternativo, home impostata |
 | Solo tema, senza plugin | la home mostra le sezioni pronte; i link verso pagine che non esistono ancora restano inerti invece di dare errore 404 |
 | Home con "Gli ultimi articoli" | elenco vero degli articoli con le pagine successive |

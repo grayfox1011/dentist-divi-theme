@@ -72,8 +72,9 @@ const OWN_MENU = '<!-- wp:navigation-link {"label":"Our own link","url":"/","kin
   const bare = menu => menu.content.raw.trim() === '<!-- wp:page-list /-->';
   const isBuilt = async () => { await page.goto(screen, { waitUntil: 'domcontentloaded' }); return (await page.locator(`input[type=submit][value="${UNDO}"]`).count()) > 0; };
   const listed = () => page.locator('table.widefat tbody tr').evaluateAll(rows => rows.map(row => [...row.cells].map(cell => cell.textContent.trim())));
-  const press = async label => {
+  const press = async (label, untick = []) => {
     await page.goto(screen, { waitUntil: 'domcontentloaded' });
+    for (const name of untick) await page.uncheck(`input[name="${name}"]`);
     await Promise.all([page.waitForNavigation({ timeout: 180000 }), page.click(`input[type=submit][value="${label}"]`)]);
     const text = async selector => (await page.locator(selector).allTextContents()).join(' ').trim().replace(/\s+/g, ' ');
     return { done: await text('.wrap .notice-success'), kept: await text('.wrap .notice-info') };
@@ -239,7 +240,15 @@ const OWN_MENU = '<!-- wp:navigation-link {"label":"Our own link","url":"/","kin
     const others = fresh(mixed.pages, start.pages).filter(item => item.id !== own.page);
     ok('a page that already has the address is kept as it is and reported', kept === 'Studio' && rows.filter(row => row[2] === 'Will be created').length === 12 && /Done: 12 pages and 3 articles/.test(notice.done) && /left as they are: Studio\./.test(notice.kept) && mine && mine.content.raw === OWN_TEXT && mine.slug === 'studio' && others.length === 12 && mixed.pages.filter(item => /^studio/.test(item.slug)).length === 1, `screen: "${kept}" exists, will be kept | ${notice.done} | ${notice.kept} | pages made ${others.length}`);
     const ownMenu = await visit('/');
-    ok('no menu is made when the owner already has a real one', ids(mixed.menus) === ids([...start.menus, { id: own.menu }]) && ownMenu.menu === 'Our own link', `menus ${mixed.menus.map(item => `"${item.title.raw}"`).join(', ')} | the header shows: ${ownMenu.menu}`);
+    const added = fresh(mixed.menus, [...start.menus, { id: own.menu }]);
+    ok('with a menu of the owner in place the starter still makes its menu, the header shows it and the owner keeps theirs', added.length === 1 && mixed.menus.some(item => item.id === own.menu) && ownMenu.menu === MENU.join(' | '), `menus ${mixed.menus.map(item => `"${item.title.raw}"`).join(', ')} | the header shows: ${ownMenu.menu}`);
+    await press(UNDO);
+
+    // The same click with the menu box unticked.
+    await press(BUILD, ['dimora_starter_menu']);
+    const plain = await state();
+    const untouched = await visit('/');
+    ok('with the menu box unticked no menu is made', ids(plain.menus) === ids([...start.menus, { id: own.menu }]) && untouched.menu === 'Our own link', `menus ${plain.menus.map(item => `"${item.title.raw}"`).join(', ')} | the header shows: ${untouched.menu}`);
     await press(UNDO);
     const spared = await state();
     binned = await trash();
