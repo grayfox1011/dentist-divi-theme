@@ -57,6 +57,14 @@ No. The pages are built from the patterns of the Dimora theme.
 
 Yes. The pages, the menu and the articles are ordinary WordPress content and stay where they are.
 
+== Credits ==
+
+The three photographs of the sample articles (assets/) come from the WordPress Photo Directory and are in the public domain (CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/). They were cropped for the plugin.
+
+* journal-1.jpg: https://wordpress.org/photos/photo/91965a6a28/
+* journal-2.jpg: https://wordpress.org/photos/photo/4816a11917/
+* journal-3.jpg: https://wordpress.org/photos/photo/7136a91159/
+
 == Changelog ==
 
 = 1.0.0 =

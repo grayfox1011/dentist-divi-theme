@@ -18,7 +18,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"align":"center","textColor":"muted","fontSize":"small"} -->
-<p class="has-text-align-center has-muted-color has-text-color has-small-font-size"><?php echo esc_html__( 'Hannah and Luke', 'dimora' ); ?> · <a href="<?php echo esc_url( home_url( '/projects/' ) ); ?>"><?php echo esc_html__( 'Canal House', 'dimora' ); ?></a></p>
+<p class="has-text-align-center has-muted-color has-text-color has-small-font-size"><?php echo esc_html__( 'Hannah and Luke', 'dimora' ); ?> · <a href="<?php echo esc_url( dimora_soliton_radar( 'projects' ) ); ?>"><?php echo esc_html__( 'Canal House', 'dimora' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 

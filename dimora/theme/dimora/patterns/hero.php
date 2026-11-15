@@ -36,7 +36,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"dimora-arrow-link"} -->
-<p class="dimora-arrow-link"><a href="<?php echo esc_url( home_url( '/projects/' ) ); ?>"><?php echo esc_html__( 'See the projects', 'dimora' ); ?></a></p>
+<p class="dimora-arrow-link"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects' ) ); ?>"><?php echo esc_html__( 'See the projects', 'dimora' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>

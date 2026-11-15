@@ -27,6 +27,8 @@ ROOT = Path(__file__).resolve().parent.parent
 LIST = ROOT / 'src' / 'photos.json'
 CACHE = ROOT / '.photos-cache'
 OUT = ROOT / 'theme' / 'dimora' / 'assets' / 'images'
+# pictures marked "for": "plugin" are only used by the sample articles of the starter plugin
+PLUGIN = ROOT / 'plugin' / 'dimora-starter' / 'assets'
 
 QUALITY = 72
 PAPER = (0xF5, 0xF2, 0xEC)
@@ -76,8 +78,9 @@ def sketch(picture):
     return Image.fromarray(drawing.round().astype(np.uint8))
 
 
-def save(picture, name, quality):
-    target = OUT / name
+def save(picture, name, quality, folder):
+    folder.mkdir(parents=True, exist_ok=True)
+    target = folder / name
     picture.save(target, 'JPEG', quality=quality, optimize=True, progressive=True, subsampling='4:2:0')
     return target.stat().st_size
 
@@ -99,7 +102,7 @@ def main():
         picture = crop(opened[entry['photo']], entry['size'], entry['focus'], entry['zoom'])
         if entry.get('filter') == 'sketch':
             picture = sketch(picture)
-        weight = save(picture, name, entry.get('quality', QUALITY))
+        weight = save(picture, name, entry.get('quality', QUALITY), PLUGIN if entry.get('for') == 'plugin' else OUT)
         total += weight
         print(f'{name:28} {picture.width}x{picture.height}  {weight / 1024:6.0f} KB')
     print(f'{len(names)} files, {total / 1048576:.2f} MB')

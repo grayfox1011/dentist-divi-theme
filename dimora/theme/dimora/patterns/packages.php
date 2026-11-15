@@ -59,7 +59,7 @@
 <!-- /wp:list -->
 
 <!-- wp:paragraph {"className":"dimora-arrow-link"} -->
-<p class="dimora-arrow-link"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo esc_html__( 'Ask about this', 'dimora' ); ?></a></p>
+<p class="dimora-arrow-link"><a href="<?php echo esc_url( dimora_soliton_radar( 'contact' ) ); ?>"><?php echo esc_html__( 'Ask about this', 'dimora' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
@@ -97,7 +97,7 @@
 <!-- /wp:list -->
 
 <!-- wp:paragraph {"className":"dimora-arrow-link"} -->
-<p class="dimora-arrow-link"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo esc_html__( 'Ask about this', 'dimora' ); ?></a></p>
+<p class="dimora-arrow-link"><a href="<?php echo esc_url( dimora_soliton_radar( 'contact' ) ); ?>"><?php echo esc_html__( 'Ask about this', 'dimora' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
@@ -135,7 +135,7 @@
 <!-- /wp:list -->
 
 <!-- wp:paragraph {"className":"dimora-arrow-link"} -->
-<p class="dimora-arrow-link"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo esc_html__( 'Ask about this', 'dimora' ); ?></a></p>
+<p class="dimora-arrow-link"><a href="<?php echo esc_url( dimora_soliton_radar( 'contact' ) ); ?>"><?php echo esc_html__( 'Ask about this', 'dimora' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group --></div>

@@ -46,7 +46,7 @@ A theme cannot bring a contact form. The Contact pattern shows your details and 
 
 = How do I get the pages of the demo? =
 
-Every page of the demo is a page pattern: create a page and choose the pattern in the window that opens. The companion plugin "Dimora Starter" does this for all pages in one click, and also creates the menu and three sample articles.
+Every page of the demo is a page pattern: create a page and choose the pattern in the window that opens. Links in the patterns point to pages called Projects, Studio, Services, Journal and Contact; they start working as soon as pages with those addresses exist.
 
 = How do I change the big name in the footer? =
 
@@ -117,9 +117,6 @@ All photographs in assets/images come from the WordPress Photo Directory and are
 * material-2.jpg: https://wordpress.org/photos/photo/75768c29af/
 * material-3.jpg: https://wordpress.org/photos/photo/1836ad4a93/
 * compare-built.jpg, compare-sketch.jpg: https://wordpress.org/photos/photo/1276a00258/
-* journal-1.jpg: https://wordpress.org/photos/photo/91965a6a28/
-* journal-2.jpg: https://wordpress.org/photos/photo/4816a11917/
-* journal-3.jpg: https://wordpress.org/photos/photo/7136a91159/
 
 = Illustrations =
 
