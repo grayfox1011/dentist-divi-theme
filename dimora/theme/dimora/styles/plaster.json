@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.6/theme.json",
+	"version": 3,
+	"title": "Plaster",
+	"settings": {
+		"color": {
+			"palette": [
+				{
+					"slug": "base",
+					"name": "Paper",
+					"color": "#ffffff"
+				},
+				{
+					"slug": "surface",
+					"name": "Linen",
+					"color": "#f4f1ec"
+				},
+				{
+					"slug": "sand",
+					"name": "Sand",
+					"color": "#e9e4dc"
+				},
+				{
+					"slug": "line",
+					"name": "Lines",
+					"color": "#dcd5ca"
+				},
+				{
+					"slug": "muted",
+					"name": "Quiet Text",
+					"color": "#6e655a"
+				},
+				{
+					"slug": "body",
+					"name": "Text",
+					"color": "#5d5346"
+				},
+				{
+					"slug": "ink",
+					"name": "Ink",
+					"color": "#2b2622"
+				},
+				{
+					"slug": "accent",
+					"name": "Accent",
+					"color": "#7f5f41"
+				},
+				{
+					"slug": "dark",
+					"name": "Dark Background",
+					"color": "#3b332c"
+				}
+			]
+		},
+		"custom": {
+			"accentSoft": "#d9bfa3"
+		}
+	}
+}

@@ -20,7 +20,7 @@ function hero() {
       row({ name: 'Details', justify: 'space-between', gap: space('40'), className: 'dimora-meta dimora-reveal' }, [label(t('Interior architecture studio')), label(t('London, since 2013'))]),
       title('Homes with a <em>quiet</em> kind of character.', { level: 1, size: 'display' }),
       columns({ align: null, valign: 'bottom', className: 'dimora-stagger' }, [
-        column({ width: '50%', valign: 'bottom' }, [label(t('(Selected work, 2022 – 2025)'))]),
+        column({ width: '50%', valign: 'bottom', className: 'dimora-hide-small' }, [label(t('(Selected work, 2022 – 2025)'))]),
         column({ width: '50%', valign: 'bottom', gap: space('50') }, [
           lead(t('We plan the rooms, draw the joinery and choose the last lamp, for people who would rather live in their home than show it off.'), { className: 'dimora-measure' }),
           arrowLink(t('See the projects'), url('/projects/')),
@@ -211,7 +211,7 @@ function projectPage(p, i) {
         columns({ align: null, valign: 'bottom', className: 'dimora-stagger' }, [
           column({ width: '50%', valign: 'bottom' }, [lead(t(p.line), { className: 'dimora-measure' })]),
           column({ width: '50%', valign: 'bottom' }, [
-            grid({ name: 'Facts', align: null, min: '150px', gap: space('50'), className: 'dimora-facts' }, facts.map(([k, v]) => flow({ gap: '6px', className: 'dimora-fact' }, [label(t(k)), paragraph(t(v), { color: 'ink' })]))),
+            grid({ name: 'Facts', align: null, min: '240px', gap: space('50'), className: 'dimora-facts' }, facts.map(([k, v]) => flow({ gap: '6px', className: 'dimora-fact' }, [label(t(k)), paragraph(t(v), { color: 'ink' })]))),
           ]),
         ]),
       ]),
@@ -235,7 +235,7 @@ function projectPage(p, i) {
           paragraph(t('Four materials do most of the work. Everything else stays quiet.'), { className: 'dimora-reveal dimora-measure' }),
         ]),
         column({ width: '66%', valign: 'center' }, [
-          grid({ name: 'Swatches', align: null, min: '140px', gap: space('40'), className: 'dimora-stagger' }, p.materials.map(([name, hex]) => flow({ gap: space('30') }, [
+          grid({ name: 'Swatches', align: null, min: '190px', gap: space('40'), className: 'dimora-stagger dimora-quads' }, p.materials.map(([name, hex]) => flow({ gap: space('30') }, [
             b('core/group', { className: 'dimora-swatch', style: { color: { background: hex } }, layout: { type: 'default' } }, []),
             small(t(name), { color: 'ink' }),
           ]))),
@@ -249,12 +249,12 @@ function projectPage(p, i) {
         small(t(p.client), { align: 'center', color: 'muted' }),
       ]),
     ]),
-    next: section({ name: 'Next project', bg: 'dark', text: 'base', className: 'dimora-dark dimora-next dimora-cursor' }, [
+    next: section({ name: 'Next project', bg: 'surface', className: 'dimora-next dimora-cursor' }, [
       columns({ valign: 'center' }, [
         column({ width: '58%', valign: 'center', gap: space('40'), className: 'dimora-stagger' }, [
           label(t('(Next project)')),
-          heading(`<a href="${url(project(next))}">${t(next.title)}</a>`, { level: 2, size: 'huge', color: 'base' }),
-          small(t(`${next.kind}, ${next.place}`), { className: 'dimora-soft' }),
+          heading(`<a href="${url(project(next))}">${t(next.title)}</a>`, { level: 2, size: 'huge' }),
+          small(t(`${next.kind}, ${next.place}`), { color: 'muted' }),
         ]),
         column({ width: '42%', valign: 'center' }, [photo(`${next.slug}-cover.jpg`, { alt: '', ratio: '4/3', className: 'dimora-image' })]),
       ]),
@@ -282,7 +282,7 @@ function studioStory() {
 function values() {
   return section({ name: 'Principles', bg: 'surface' }, [
     sectionHead('(Principles)', 'Three things we will <em>not</em> bend on', { wide: true }),
-    grid({ name: 'Principles', min: '280px', gap: space('60'), className: 'dimora-stagger' }, C.VALUES.map((v, i) => flow({ className: 'dimora-value', gap: space('40'), padding: { top: space('50') } }, [
+    grid({ name: 'Principles', min: '360px', gap: space('60'), className: 'dimora-stagger' }, C.VALUES.map((v, i) => flow({ className: 'dimora-value', gap: space('40'), padding: { top: space('50') } }, [
       label(`(${no(i)})`),
       heading(t(v.title), { level: 3 }),
       paragraph(t(v.text)),
@@ -296,7 +296,7 @@ function team() {
       sectionHead('(People)', 'Who you will <em>meet</em>'),
       paragraph(t('Four of the nine. The others are shy, or on site.'), { className: 'dimora-reveal', color: 'muted' }),
     ]),
-    grid({ name: 'People', min: '240px', gap: space('60'), className: 'dimora-stagger' }, C.TEAM.map(m => flow({ gap: space('30') }, [
+    grid({ name: 'People', min: '270px', gap: space('60'), className: 'dimora-stagger dimora-quads' }, C.TEAM.map(m => flow({ gap: space('30') }, [
       image('portrait.svg', { alt: '', ratio: '4/5', className: 'dimora-portrait' }),
       heading(t(m.name), { level: 3 }),
       label(t(m.role)),
@@ -306,7 +306,7 @@ function team() {
 }
 
 function numbers() {
-  return section({ name: 'Numbers', bg: 'base', top: '0px' }, [statsGrid({ align: 'wide', min: '200px', className: 'dimora-numbers' })]);
+  return section({ name: 'Numbers', bg: 'base', top: '0px' }, [statsGrid({ align: 'wide', min: '290px', className: 'dimora-quads' })]);
 }
 
 function servicesDetail() {
@@ -346,7 +346,7 @@ function materialsBoard() {
       sectionHead('(Material library)', 'Things you can <em>touch</em>'),
       paragraph(t('Samples live in the studio. Come and handle them.'), { className: 'dimora-reveal', color: 'muted' }),
     ]),
-    grid({ name: 'Materials', min: '220px', gap: space('50'), className: 'dimora-stagger' }, tiles.map(([file, name], i) => flow({ gap: space('30') }, [
+    grid({ name: 'Materials', min: '280px', gap: space('50'), className: 'dimora-stagger dimora-quads' }, tiles.map(([file, name], i) => flow({ gap: space('30') }, [
       photo(file, { ratio: '1', className: 'dimora-image' }),
       row({ justify: 'space-between', wrap: false }, [small(t(name), { color: 'ink' }), label(`(${no(i)})`)]),
     ]))),
@@ -371,7 +371,7 @@ function contact() {
     columns({}, [
       column({ width: '56%', gap: space('70') }, [
         statement('Tell us about the place, the people who use it and what is <em>not</em> working. A few lines are enough to start.'),
-        grid({ name: 'Details', align: null, min: '220px', gap: space('60'), className: 'dimora-stagger' }, [
+        grid({ name: 'Details', align: null, min: '280px', gap: space('60'), className: 'dimora-stagger' }, [
           line('Write', `<a href="mailto:${S.email}">${S.email}</a>`),
           line('Call', `<a href="${S.phoneLink}">${S.phone}</a>`),
           line('Visit', t(S.address)),
@@ -412,7 +412,7 @@ function footer(o = {}) {
           arrowLink(S.email, `mailto:${S.email}`, { size: 'x-large', className: 'dimora-reveal' }),
         ]),
         column({ width: '44%' }, [
-          grid({ name: 'Details', align: null, min: '160px', gap: space('60'), className: 'dimora-stagger' }, [
+          grid({ name: 'Details', align: null, min: '220px', gap: space('60'), className: 'dimora-stagger' }, [
             col('Studio', [t(S.address), t(S.hours)]),
             col('Contact', [`<a href="${S.phoneLink}">${S.phone}</a>`, `<a href="mailto:${S.email}">${S.email}</a>`]),
             col('Explore', [link('Projects', '/projects/'), link('Studio', '/studio/'), link('Services', '/services/'), link('Journal', '/journal/')]),

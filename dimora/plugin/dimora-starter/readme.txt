@@ -1,6 +1,6 @@
 === Dimora Starter ===
 Contributors: grayfox86
-Tags: starter site, demo content, block theme, dentist
+Tags: starter site, demo content, block theme, interior design, portfolio
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -16,7 +16,7 @@ Dimora Starter is the companion of the Dimora block theme. The theme comes with 
 
 One click on Appearance > Dimora Starter creates:
 
-* Home, About, Team, Reviews, Treatments with its six treatment pages, Prices, First visit, Questions, Journal, Contact and Terms
+* Home, Projects with its six project pages, Studio, Services, Journal, Contact and Terms
 * a menu with those pages, unless you have already made one
 * three sample articles, if you want them
 * copies of the theme photographs in the Media Library, so they can be replaced like any other image

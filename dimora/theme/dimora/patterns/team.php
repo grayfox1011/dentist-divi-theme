@@ -24,8 +24,8 @@
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"People"},"align":"wide","className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"240px"}} -->
-<div class="wp-block-group alignwide dimora-stagger"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
+<!-- wp:group {"metadata":{"name":"People"},"align":"wide","className":"dimora-stagger dimora-quads","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"270px"}} -->
+<div class="wp-block-group alignwide dimora-stagger dimora-quads"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:image {"aspectRatio":"4/5","scale":"cover","sizeSlug":"full","className":"dimora-portrait"} -->
 <figure class="wp-block-image size-full dimora-portrait"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/portrait.svg' ) ); ?>" alt="" style="aspect-ratio:4/5;object-fit:cover"/></figure>
 <!-- /wp:image -->

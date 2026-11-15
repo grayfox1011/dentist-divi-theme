@@ -2,7 +2,7 @@
   "name": "dimora-block-theme",
   "version": "1.0.0",
   "private": true,
-  "description": "Dimora – a block theme for dental clinics made of core blocks only, with its starter plugin.",
+  "description": "Dimora – a block theme for interior design studios made of core blocks only, with its starter plugin.",
   "license": "GPL-2.0-or-later",
   "scripts": {
     "setup": "bash bin/setup.sh",

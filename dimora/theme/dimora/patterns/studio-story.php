@@ -27,7 +27,7 @@
 
 <!-- wp:column {"width":"46%"} -->
 <div class="wp-block-column" style="flex-basis:46%"><!-- wp:image {"aspectRatio":"4/5","scale":"cover","sizeSlug":"full","className":"dimora-image dimora-parallax"} -->
-<figure class="wp-block-image size-full dimora-image dimora-parallax"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/studio-2.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Oak shelves on a black steel frame with a carved bird and a wire tree sculpture', 'dimora' ); ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
+<figure class="wp-block-image size-full dimora-image dimora-parallax"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/studio-2.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Wooden shelves on a black steel frame with a carved bird and a wire tree sculpture', 'dimora' ); ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>

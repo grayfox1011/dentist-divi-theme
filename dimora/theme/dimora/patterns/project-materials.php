@@ -26,8 +26,8 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"verticalAlignment":"center","width":"66%"} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:66%"><!-- wp:group {"metadata":{"name":"Swatches"},"className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"grid","minimumColumnWidth":"140px"}} -->
-<div class="wp-block-group dimora-stagger"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
+<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:66%"><!-- wp:group {"metadata":{"name":"Swatches"},"className":"dimora-stagger dimora-quads","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"grid","minimumColumnWidth":"190px"}} -->
+<div class="wp-block-group dimora-stagger dimora-quads"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:group {"className":"dimora-swatch","style":{"color":{"background":"#b08d63"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-swatch has-background" style="background-color:#b08d63"></div>
 <!-- /wp:group -->

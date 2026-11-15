@@ -25,7 +25,7 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"verticalAlignment":"bottom","width":"50%"} -->
-<div class="wp-block-column is-vertically-aligned-bottom" style="flex-basis:50%"><!-- wp:group {"metadata":{"name":"Facts"},"className":"dimora-facts","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","minimumColumnWidth":"150px"}} -->
+<div class="wp-block-column is-vertically-aligned-bottom" style="flex-basis:50%"><!-- wp:group {"metadata":{"name":"Facts"},"className":"dimora-facts","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","minimumColumnWidth":"240px"}} -->
 <div class="wp-block-group dimora-facts"><!-- wp:group {"className":"dimora-fact","style":{"spacing":{"blockGap":"6px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-fact"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
 <p class="is-style-dimora-label"><?php echo esc_html__( 'Location', 'dimora' ); ?></p>
@@ -71,6 +71,6 @@
 <!-- /wp:group -->
 
 <!-- wp:image {"aspectRatio":"16/9","scale":"cover","sizeSlug":"full","align":"wide","className":"dimora-image dimora-parallax"} -->
-<figure class="wp-block-image alignwide size-full dimora-image dimora-parallax"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/canal-house-cover.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Garden room with a long oak table, cane chairs, white curtains and potted plants', 'dimora' ); ?>" style="aspect-ratio:16/9;object-fit:cover"/></figure>
+<figure class="wp-block-image alignwide size-full dimora-image dimora-parallax"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/canal-house-cover.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Garden room with a long wooden table, cane chairs, white curtains and potted plants', 'dimora' ); ?>" style="aspect-ratio:16/9;object-fit:cover"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:group -->

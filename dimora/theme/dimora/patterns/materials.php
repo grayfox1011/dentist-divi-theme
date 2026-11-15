@@ -24,8 +24,8 @@
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"Materials"},"align":"wide","className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","minimumColumnWidth":"220px"}} -->
-<div class="wp-block-group alignwide dimora-stagger"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
+<!-- wp:group {"metadata":{"name":"Materials"},"align":"wide","className":"dimora-stagger dimora-quads","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","minimumColumnWidth":"280px"}} -->
+<div class="wp-block-group alignwide dimora-stagger dimora-quads"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full","className":"dimora-image"} -->
 <figure class="wp-block-image size-full dimora-image"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/material-1.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Polished marble with flowing grey and brown veins', 'dimora' ); ?>" style="aspect-ratio:1;object-fit:cover"/></figure>
 <!-- /wp:image -->
@@ -43,7 +43,7 @@
 
 <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full","className":"dimora-image"} -->
-<figure class="wp-block-image size-full dimora-image"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/material-2.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Soft beige fabric with a brushed, cloudy texture', 'dimora' ); ?>" style="aspect-ratio:1;object-fit:cover"/></figure>
+<figure class="wp-block-image size-full dimora-image"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/material-2.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Beige suede upholstery with a soft, clouded surface', 'dimora' ); ?>" style="aspect-ratio:1;object-fit:cover"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
@@ -75,12 +75,12 @@
 
 <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full","className":"dimora-image"} -->
-<figure class="wp-block-image size-full dimora-image"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/material-4.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Honey-coloured cane woven in an open diagonal pattern', 'dimora' ); ?>" style="aspect-ratio:1;object-fit:cover"/></figure>
+<figure class="wp-block-image size-full dimora-image"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/material-4.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Sand-coloured rough plaster in sunlight, crossed by a thin shadow', 'dimora' ); ?>" style="aspect-ratio:1;object-fit:cover"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"textColor":"ink","fontSize":"small"} -->
-<p class="has-ink-color has-text-color has-small-font-size"><?php echo esc_html__( 'Woven cane', 'dimora' ); ?></p>
+<p class="has-ink-color has-text-color has-small-font-size"><?php echo esc_html__( 'Rough plaster', 'dimora' ); ?></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"is-style-dimora-label"} -->

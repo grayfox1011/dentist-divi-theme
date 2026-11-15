@@ -14,7 +14,7 @@
 <p class="dimora-statement dimora-split has-ink-color has-text-color has-xx-large-font-size"><?php echo wp_kses_post( __( 'Tell us about the place, the people who use it and what is <em>not</em> working. A few lines are enough to start.', 'dimora' ) ); ?></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"metadata":{"name":"Details"},"className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"220px"}} -->
+<!-- wp:group {"metadata":{"name":"Details"},"className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"280px"}} -->
 <div class="wp-block-group dimora-stagger"><!-- wp:group {"className":"dimora-fact","style":{"spacing":{"blockGap":"6px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-fact"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
 <p class="is-style-dimora-label"><?php echo esc_html__( 'Write', 'dimora' ); ?></p>

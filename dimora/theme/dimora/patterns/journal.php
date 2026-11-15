@@ -25,7 +25,7 @@
 <!-- /wp:group -->
 
 <!-- wp:query {"queryId":21,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"exclude","inherit":false},"align":"wide"} -->
-<div class="wp-block-query alignwide"><!-- wp:post-template {"className":"dimora-reveal","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"300px"}} -->
+<div class="wp-block-query alignwide"><!-- wp:post-template {"className":"dimora-reveal","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","minimumColumnWidth":"380px"}} -->
 <!-- wp:group {"className":"dimora-post","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-post"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"3/2"} /-->
 
