@@ -101,6 +101,27 @@ function dimora_psycho_mantis( $content, $block ) {
 }
 add_filter( 'render_block_core/group', 'dimora_psycho_mantis', 10, 2 );
 
+// Loads the script that fits the name of the site to the width of the footer, where that large name is used.
+function dimora_big_shell( $content, $block ) {
+	if ( empty( $block['attrs']['className'] ) || false === strpos( $block['attrs']['className'], 'dimora-wordmark' ) || wp_script_is( 'dimora-fit' ) ) {
+		return $content;
+	}
+
+	wp_enqueue_script(
+		'dimora-fit',
+		get_parent_theme_file_uri( 'assets/js/fit.js' ),
+		array(),
+		dimora_dog_tag(),
+		array(
+			'strategy'  => 'defer',
+			'in_footer' => true,
+		)
+	);
+
+	return $content;
+}
+add_filter( 'render_block_core/site-title', 'dimora_big_shell', 10, 2 );
+
 function dimora_grey_fox( $value ) {
 	return (bool) $value;
 }

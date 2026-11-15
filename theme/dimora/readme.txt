@@ -80,7 +80,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 = Scripts =
 
 * Lenis 1.3.27, Copyright (c) 2024 darkroom.engineering. License: MIT, https://github.com/darkroomengineering/lenis/blob/main/LICENSE. File: assets/js/lenis.js, licence text: assets/js/lenis-LICENSE.txt
-* assets/js/motion.js and assets/js/compare.js were written for this theme. License: GPLv2 or later.
+* assets/js/motion.js, assets/js/compare.js and assets/js/fit.js were written for this theme. License: GPLv2 or later.
 
 = Photographs =
 

@@ -118,9 +118,11 @@ I nomi delle funzioni seguono la stessa regola di Perla: prefisso obbligatorio `
 | `dimora_codec` | categorie dei pattern |
 | `dimora_big_boss` | dice se la home scelta ha un contenuto suo |
 | `dimora_psycho_mantis` | carica il cursore disegno/stanza solo dove serve |
+| `dimora_big_shell` | carica lo script che adatta il nome del sito alla larghezza del footer |
 | `dimora_otacon`, `dimora_grey_fox` | interruttori delle animazioni |
 | `dimora_liquid_snake` | carica le animazioni |
-| `nanomachines`, `revolverOcelot`, `codecCall`, `metalGear`, `solitonRadar`, `bigShell` (motion.js) | parole dei titoli, numeri, testo che scorre, galleria orizzontale, comparsa allo scorrimento, nome nel footer |
+| `nanomachines`, `revolverOcelot`, `codecCall`, `metalGear`, `solitonRadar` (motion.js) | parole dei titoli, numeri, testo che scorre, galleria orizzontale, comparsa allo scorrimento |
+| `bigShell` (fit.js) | nome del sito largo quanto il footer, anche con le animazioni spente |
 | `sniperWolf` (compare.js) | cursore disegno/stanza |
 | `dimora_starter_outer_heaven`, `_foxdie`, `_fulton`, `_extraction`, `_nanomachines`, `_soliton` (plugin) | costruisce il sito, annulla, copia una foto, collega le foto, espande i pattern, scrive il menu |
 
