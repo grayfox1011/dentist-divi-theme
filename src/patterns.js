@@ -323,6 +323,37 @@ function servicesDetail() {
   ]);
 }
 
+function packages() {
+  const ways = [
+    ['A day of advice', 'One designer, one day, in your home. You keep the sketches and a written list of what to do next.', 'From £650', ['A visit of six hours', 'Sketches and a shopping list', 'No obligation to go further']],
+    ['One room', 'A full design for a single room: layout, lighting, joinery, furniture and a schedule your builder can price.', 'From £3,800', ['Two design meetings', 'Drawings and specifications', 'Sourcing and ordering']],
+    ['The whole house', 'From the first survey to hanging the pictures, with one person in charge throughout.', '10 to 14% of the build cost', ['Concept, detail and site visits', 'Tenders and contractor management', 'Furniture, art and styling']],
+  ];
+  return section({ name: 'Ways to work', bg: 'base' }, [
+    row({ name: 'Heading', align: 'wide', justify: 'space-between', valign: 'bottom', gap: space('50') }, [
+      sectionHead('(Ways to work)', 'Three ways to <em>begin</em>'),
+      paragraph(t('Fees are agreed in writing before any work starts.'), { className: 'dimora-reveal', color: 'muted' }),
+    ]),
+    grid({ name: 'Ways', min: '360px', gap: space('60'), className: 'dimora-stagger' }, ways.map(([name, text, price, points], i) => flow({ name, className: 'dimora-value', gap: space('50'), padding: { top: space('50') } }, [
+      label(`(${no(i)})`),
+      flow({ gap: space('30') }, [heading(t(name), { level: 3 }), paragraph(t(text))]),
+      paragraph(t(price), { className: 'dimora-price', color: 'ink' }),
+      dashes(points.map(point => t(point))),
+      arrowLink(t('Ask about this'), url(CONTACT)),
+    ]))),
+  ]);
+}
+
+function testimonials() {
+  return section({ name: 'Clients', bg: 'surface' }, [
+    sectionHead('(Clients)', 'Said after the dust had <em>settled</em>', { wide: true }),
+    grid({ name: 'Quotes', min: '360px', gap: space('60'), className: 'dimora-stagger' }, C.TESTIMONIALS.map(q => flow({ className: 'dimora-value', gap: space('50'), padding: { top: space('50') } }, [
+      paragraph(t(`“${q.quote}”`), { size: 'x-large', color: 'ink', className: 'dimora-statement' }),
+      small(`${t(q.name)} · ${t(q.detail)}`, { color: 'muted' }),
+    ]))),
+  ]);
+}
+
 function compare() {
   const shot = (file, text) => b('core/image', { url: img(file), alt: alt(file), caption: t(text), sizeSlug: 'full', aspectRatio: '4/3', scale: 'cover' });
   return section({ name: 'Drawing and room', bg: 'surface' }, [
@@ -501,6 +532,8 @@ const PATTERNS = [
   sectionPattern('team', 'Team', team, 'people, staff, team', 'team'),
   sectionPattern('numbers', 'Numbers', numbers, 'stats, counters, figures'),
   sectionPattern('quote', 'Large quote with press names', quote, 'testimonial, quote, press', 'testimonials'),
+  sectionPattern('testimonials', 'Three client quotes', testimonials, 'testimonials, reviews, quotes', 'testimonials'),
+  sectionPattern('packages', 'Three ways to work together, with fees', packages, 'pricing, fees, packages, services', 'services'),
   sectionPattern('compare', 'Drawing and room slider', compare, 'before, after, compare, slider', 'gallery'),
   sectionPattern('materials', 'Material library', materialsBoard, 'materials, swatches, gallery', 'gallery'),
   sectionPattern('journal', 'Latest articles', journal, 'blog, news, query', 'posts'),
@@ -512,7 +545,7 @@ const PATTERNS = [
   pagePattern('page-projects', 'Projects', [ref('projects-grid'), ref('projects-list'), ref('cta')], 'portfolio, projects, work'),
   ...C.PROJECTS.map((p, i) => pagePattern(`page-project-${p.slug}`, `Project: ${p.title}`, i ? Object.values(projectPage(p, i)) : PROJECT_PARTS.map(([key]) => ref(`project-${key}`)), 'project, case study, portfolio')),
   pagePattern('page-studio', 'Studio', [ref('studio-story'), ref('numbers'), ref('values'), ref('team'), quote({ index: 2, press: false }), ref('cta')], 'about, studio, team'),
-  pagePattern('page-services', 'Services', [ref('services-detail'), ref('process'), ref('compare'), ref('materials'), ref('faq'), ref('cta')], 'services, process'),
+  pagePattern('page-services', 'Services', [ref('services-detail'), ref('process'), ref('packages'), ref('compare'), ref('materials'), ref('faq'), ref('cta')], 'services, process'),
   pagePattern('page-contact', 'Contact', [ref('contact'), faq({ bg: 'surface' }), ref('cta')], 'contact'),
 
   { slug: 'header', title: 'Header with menu', categories: 'header', blockTypes: 'core/template-part/header', blocks: [navBar()] },

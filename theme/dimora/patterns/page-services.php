@@ -13,6 +13,8 @@
 
 <!-- wp:pattern {"slug":"dimora/process"} /-->
 
+<!-- wp:pattern {"slug":"dimora/packages"} /-->
+
 <!-- wp:pattern {"slug":"dimora/compare"} /-->
 
 <!-- wp:pattern {"slug":"dimora/materials"} /-->
