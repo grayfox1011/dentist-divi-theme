@@ -156,7 +156,7 @@ const postCard = () => flow({ className: 'dimora-post', gap: space('40') }, [
 ]);
 
 const postsGrid = (queryId, query, inner = []) => b('core/query', { queryId, query, align: 'wide' }, [
-  b('core/post-template', { className: 'dimora-reveal', style: { spacing: { blockGap: space('60') } }, layout: { type: 'grid', minimumColumnWidth: '380px' } }, [postCard()]),
+  b('core/post-template', { className: 'dimora-reveal', style: { spacing: { blockGap: space('60') } }, layout: { type: 'grid', minimumColumnWidth: '320px' } }, [postCard()]),
   ...inner,
 ]);
 

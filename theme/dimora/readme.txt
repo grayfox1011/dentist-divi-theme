@@ -18,7 +18,7 @@ The home page is ready as soon as the theme is active: a statement hero, a sidew
 What is included:
 
 * 11 page patterns: Home, Projects, six project case studies, Studio, Services and Contact
-* 30 section patterns, among them a project page in six parts (title and facts, story in three chapters, gallery, palette of materials, words of the client, link to the next project), a drawing-to-room slider and a material library
+* 29 section patterns, among them a project page in six parts (title and facts, story in three chapters, gallery, palette of materials, words of the client, link to the next project), a drawing-to-room slider and a material library
 * two headers (menu in a row, or a full-screen menu) and two footers
 * four style variations: Oxblood, Olive, Plaster and Ink (dark)
 * templates for pages, pages without title, articles, the blog, archives, search and 404
