@@ -8,7 +8,7 @@ const path = require('path');
 const { chromium } = require('playwright');
 const { PATTERNS } = require('../src/patterns');
 const { TEMPLATES, PARTS } = require('../src/templates');
-const { tokens } = require('../src/blocks');
+const { tokens, ta } = require('../src/blocks');
 const CONTENT = require('../src/content');
 
 const BASE = process.env.WP_URL || 'http://localhost:8090';
@@ -64,6 +64,7 @@ function withPhp(html) {
       case 'attr': return `<?php echo esc_attr__( ${php(token.value)}, '${DOMAIN}' ); ?>`;
       // the home page is always there; any other page is looked up, because it may not exist yet
       case 'url': return token.value === '/' ? `<?php echo esc_url( home_url( '/' ) ); ?>` : `<?php echo esc_url( dimora_soliton_radar( ${php(token.value.replace(/^\/|\/$/g, ''))} ) ); ?>`;
+      case 'privacy': return `<?php echo wp_kses_post( get_the_privacy_policy_link( '', ' · ' ) ); ?>`;
       case 'image': return `<?php echo esc_url( get_theme_file_uri( ${php(`assets/images/${token.value}`)} ) ); ?>`;
       default: throw new Error(`Unknown kind of token: ${token.kind}`);
     }
@@ -91,15 +92,27 @@ function emptyDir(dir, extension) {
   for (const file of fs.readdirSync(dir)) if (file.endsWith(extension)) fs.unlinkSync(path.join(dir, file));
 }
 
+// The names shown in the List View of the editor: translatable in patterns, left out of templates, which cannot hold PHP.
+function named(tree, translate) {
+  for (const node of tree) {
+    if (node.attrs.metadata && node.attrs.metadata.name) {
+      if (translate) node.attrs.metadata = { ...node.attrs.metadata, name: ta(node.attrs.metadata.name) };
+      else delete node.attrs.metadata;
+    }
+    named(node.inner, translate);
+  }
+  return tree;
+}
+
 (async () => {
   const jobs = {};
   for (const pattern of PATTERNS) {
-    jobs[`pattern:${pattern.slug}`] = pattern.blocks;
-    if (pattern.otherwise) jobs[`otherwise:${pattern.slug}`] = pattern.otherwise;
-    (pattern.branches || []).forEach((branch, index) => { jobs[`branch:${pattern.slug}:${index}`] = branch.blocks; });
+    jobs[`pattern:${pattern.slug}`] = named(pattern.blocks, true);
+    if (pattern.otherwise) jobs[`otherwise:${pattern.slug}`] = named(pattern.otherwise, true);
+    (pattern.branches || []).forEach((branch, index) => { jobs[`branch:${pattern.slug}:${index}`] = named(branch.blocks, true); });
   }
-  for (const [name, tree] of Object.entries(TEMPLATES)) jobs[`template:${name}`] = tree;
-  for (const [name, tree] of Object.entries(PARTS)) jobs[`part:${name}`] = tree;
+  for (const [name, tree] of Object.entries(TEMPLATES)) jobs[`template:${name}`] = named(tree, false);
+  for (const [name, tree] of Object.entries(PARTS)) jobs[`part:${name}`] = named(tree, false);
 
   const { browser, page } = await sneakIn();
   const version = await page.evaluate(() => (document.body.className.match(/version-(\d+)-(\d+)/) || []).slice(1).join('.'));

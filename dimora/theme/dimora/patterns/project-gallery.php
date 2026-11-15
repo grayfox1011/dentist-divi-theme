@@ -7,7 +7,7 @@
  * Viewport Width: 1400
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Gallery"},"align":"full","style":{"spacing":{"padding":{"top":"0px","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Gallery', 'dimora' ); ?>"},"align":"full","style":{"spacing":{"padding":{"top":"0px","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-base-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:0px;padding-bottom:var(--wp--preset--spacing--90)"><!-- wp:columns {"align":"wide","className":"dimora-pair","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|70","left":"var:preset|spacing|80"}}}} -->
 <div class="wp-block-columns alignwide dimora-pair"><!-- wp:column {"width":"46%"} -->
 <div class="wp-block-column" style="flex-basis:46%"><!-- wp:image {"aspectRatio":"4/5","scale":"cover","sizeSlug":"full","className":"dimora-image"} -->

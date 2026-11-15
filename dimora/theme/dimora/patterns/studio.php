@@ -7,7 +7,7 @@
  * Viewport Width: 1400
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Studio"},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|90","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"surface","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Studio', 'dimora' ); ?>"},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|90","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"surface","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-surface-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--90);padding-bottom:var(--wp--preset--spacing--90)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|70","left":"var:preset|spacing|80"}}}} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center","width":"44%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:44%"><!-- wp:image {"aspectRatio":"4/5","scale":"cover","sizeSlug":"full","className":"dimora-image dimora-parallax"} -->
@@ -16,7 +16,7 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"verticalAlignment":"center","width":"56%","style":{"spacing":{"blockGap":"var:preset|spacing|60"}}} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:56%"><!-- wp:group {"metadata":{"name":"Heading"},"className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
+<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:56%"><!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Heading', 'dimora' ); ?>"},"className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-stagger"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
 <p class="is-style-dimora-label"><?php echo esc_html__( '(The studio)', 'dimora' ); ?></p>
 <!-- /wp:paragraph -->
@@ -30,7 +30,7 @@
 <p class="dimora-reveal dimora-measure"><?php echo esc_html__( 'The studio was started in 2013 by Marta Lind, after eight years of designing other people’s houses under other people’s names. We are still small on purpose: the person you meet is the person who draws your kitchen.', 'dimora' ); ?></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"metadata":{"name":"Numbers"},"className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","minimumColumnWidth":"150px"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Numbers', 'dimora' ); ?>"},"className":"dimora-stagger","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","minimumColumnWidth":"150px"}} -->
 <div class="wp-block-group dimora-stagger"><!-- wp:group {"className":"dimora-stat","style":{"spacing":{"blockGap":"4px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-stat"><!-- wp:paragraph {"className":"dimora-number","textColor":"ink"} -->
 <p class="dimora-number has-ink-color has-text-color">64</p>

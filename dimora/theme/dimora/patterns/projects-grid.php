@@ -7,9 +7,9 @@
  * Viewport Width: 1400
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Projects"},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull has-base-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--90)"><!-- wp:group {"metadata":{"name":"Projects grid"},"align":"wide","className":"dimora-stagger dimora-offset-grid","style":{"spacing":{"blockGap":"var:preset|spacing|70"}},"layout":{"type":"grid","minimumColumnWidth":"420px"}} -->
-<div class="wp-block-group alignwide dimora-stagger dimora-offset-grid"><!-- wp:group {"metadata":{"name":"Canal House"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Projects', 'dimora' ); ?>"},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull has-base-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--90)"><!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Projects grid', 'dimora' ); ?>"},"align":"wide","className":"dimora-stagger dimora-offset-grid","style":{"spacing":{"blockGap":"var:preset|spacing|70"}},"layout":{"type":"grid","minimumColumnWidth":"420px"}} -->
+<div class="wp-block-group alignwide dimora-stagger dimora-offset-grid"><!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Canal House', 'dimora' ); ?>"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-card dimora-cursor"><!-- wp:image {"aspectRatio":"4/5","scale":"cover","sizeSlug":"full"} -->
 <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/canal-house-cover.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Garden room with a long wooden table, cane chairs, white curtains and potted plants', 'dimora' ); ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
 <!-- /wp:image -->
@@ -31,7 +31,7 @@
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"Northlight Loft"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Northlight Loft', 'dimora' ); ?>"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-card dimora-cursor"><!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full"} -->
 <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/northlight-loft-cover.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Double-height lounge with grey sofas, a planted wall and a curved steel and timber staircase', 'dimora' ); ?>" style="aspect-ratio:1;object-fit:cover"/></figure>
 <!-- /wp:image -->
@@ -53,7 +53,7 @@
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"The Orchard"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'The Orchard', 'dimora' ); ?>"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-card dimora-cursor"><!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full"} -->
 <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/the-orchard-cover.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Open terrace door with a linen curtain, a rattan chair and dark green shutters beyond', 'dimora' ); ?>" style="aspect-ratio:1;object-fit:cover"/></figure>
 <!-- /wp:image -->
@@ -75,7 +75,7 @@
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"Casa Arenal"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Casa Arenal', 'dimora' ); ?>"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-card dimora-cursor"><!-- wp:image {"aspectRatio":"4/5","scale":"cover","sizeSlug":"full"} -->
 <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/casa-arenal-cover.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Two white shell chairs in warm sunlight beside sheer curtains', 'dimora' ); ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
 <!-- /wp:image -->
@@ -97,7 +97,7 @@
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"The Reading Rooms"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'The Reading Rooms', 'dimora' ); ?>"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-card dimora-cursor"><!-- wp:image {"aspectRatio":"4/5","scale":"cover","sizeSlug":"full"} -->
 <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/reading-rooms-cover.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Spaniel resting on a brown leather armchair beside a cast-iron stove', 'dimora' ); ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
 <!-- /wp:image -->
@@ -119,7 +119,7 @@
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"metadata":{"name":"Atelier Café"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Atelier Café', 'dimora' ); ?>"},"className":"dimora-card dimora-cursor","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-card dimora-cursor"><!-- wp:image {"aspectRatio":"1","scale":"cover","sizeSlug":"full"} -->
 <figure class="wp-block-image size-full"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/atelier-cafe-cover.jpg' ) ); ?>" alt="<?php echo esc_attr__( 'Grey tub chairs, a round black table and an orange sofa beside a timber screen and tall windows', 'dimora' ); ?>" style="aspect-ratio:1;object-fit:cover"/></figure>
 <!-- /wp:image -->

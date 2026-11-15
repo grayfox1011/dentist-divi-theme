@@ -7,8 +7,8 @@
  * Viewport Width: 1400
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Numbers"},"align":"full","style":{"spacing":{"padding":{"top":"0px","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull has-base-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:0px;padding-bottom:var(--wp--preset--spacing--90)"><!-- wp:group {"metadata":{"name":"Numbers"},"align":"wide","className":"dimora-stagger dimora-quads","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","minimumColumnWidth":"290px"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Numbers', 'dimora' ); ?>"},"align":"full","style":{"spacing":{"padding":{"top":"0px","bottom":"var:preset|spacing|90"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull has-base-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:0px;padding-bottom:var(--wp--preset--spacing--90)"><!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Numbers', 'dimora' ); ?>"},"align":"wide","className":"dimora-stagger dimora-quads","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","minimumColumnWidth":"290px"}} -->
 <div class="wp-block-group alignwide dimora-stagger dimora-quads"><!-- wp:group {"className":"dimora-stat","style":{"spacing":{"blockGap":"4px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-stat"><!-- wp:paragraph {"className":"dimora-number","textColor":"ink"} -->
 <p class="dimora-number has-ink-color has-text-color">64</p>

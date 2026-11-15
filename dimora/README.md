@@ -131,10 +131,10 @@ I nomi delle funzioni seguono la stessa regola di Perla: prefisso obbligatorio `
 | Prova | Esito |
 |---|---|
 | Costruzione dei pattern con l'editor di WordPress 6.6 | 50 pattern, 8 modelli, 2 parti di modello scritti dall'editor stesso |
-| Validità dei blocchi, WordPress 6.6.4 (`tools/check.js`) | 3220 blocchi, tutti validi; 71 immagini, tutte caricate |
-| Validità dei blocchi, WordPress 7.1.4 | tutti validi |
-| Animazioni (`tools/motion-check.js`, 41 controlli) | 41 su 41 |
-| Plugin (`tools/starter-check.js`) | ESITO_PLUGIN |
+| Validità dei blocchi, WordPress 6.6.4 (`tools/check.js`) | 3243 blocchi in pattern, modelli, 12 pagine e 3 articoli: tutti validi; 71 immagini, tutte caricate |
+| Validità dei blocchi, WordPress 7.1.4 | 3243 blocchi, tutti validi |
+| Animazioni (`tools/motion-check.js`, 41 controlli) | 41 su 41 su WordPress 6.6.4 e su 7.1.4 |
+| Plugin (`tools/starter-check.js`) | 24 controlli su 24 (WordPress 7.1.4): creazione, secondo clic senza doppioni, pagine e menu del proprietario lasciati stare, annullamento |
 | Sito WordPress 7.1.4 nuovo, tema e plugin installati dagli zip, un clic | 18 controlli su 18: 13 pagine, menu, 3 articoli, 38 foto nella Libreria media con testo alternativo, home impostata |
 | Solo tema, senza plugin | la home mostra le sezioni pronte; i link verso pagine che non esistono ancora restano inerti invece di dare errore 404 |
 | Home con "Gli ultimi articoli" | elenco vero degli articoli con le pagine successive |
@@ -143,9 +143,15 @@ I nomi delle funzioni seguono la stessa regola di Perla: prefisso obbligatorio `
 | Contrasto dei colori, 5 palette | tutte le coppie testo/fondo usate sono sopra 4,5:1 |
 | Interruttori in Aspetto → Personalizza | animazioni spente: nessuno script di animazione caricato; scorrimento fluido spento: niente Lenis |
 | Movimento ridotto, JavaScript spento, script bloccato | contenuto sempre tutto visibile |
-| Revisione sulle regole di WordPress.org | nessun motivo di rifiuto trovato; ESITO_WPORG |
-| Revisione di accessibilità | ESITO_A11Y |
+| Revisione sulle regole di WordPress.org | nessun motivo di rifiuto trovato; 10 osservazioni, 7 corrette (link, blog in home, foto degli articoli nel plugin, nomi dei blocchi traducibili…), 3 lasciate e descritte sotto |
+| Revisione di accessibilità | 19 osservazioni misurate nel browser, 18 confermate da una seconda verifica: 17 corrette (fra cui menu del telefono con nomi lunghi, fuoco della tastiera sul testo che scorre e sulle schede articolo, stampa, lingue da destra a sinistra), 1 lasciata (menu del telefono senza JavaScript, limite del blocco Navigazione di WordPress) |
 | Viste controllate a occhio | 1920, 1440, 1366×650, 820 (tablet), 390 (telefono), editor di WordPress |
+
+Lasciato com'è, per scelta:
+
+- numero di telefono, e-mail e cifre della demo non passano dalla traduzione: sono dati che ogni studio sostituisce;
+- i titoli delle pagine e gli articoli creati dal plugin sono in inglese anche su un sito in un'altra lingua;
+- i tre link ai social nel footer sono segnaposto ("#") da sostituire.
 
 Non verificato: browser diversi da Chromium (Firefox e Safari non sono installati in questo ambiente); dispositivi reali; lettori di schermo veri; lingue da destra a sinistra; la revisione umana di WordPress.org, che è l'unica che conta davvero.
 

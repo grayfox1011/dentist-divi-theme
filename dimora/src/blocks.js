@@ -14,6 +14,8 @@ const th = html => token('html', html);
 const ta = text => token('attr', text);
 const url = path => token('url', path);
 const img = file => token('image', file);
+// The link to the privacy policy page of the site, followed by a separator; nothing while there is no such page.
+const privacy = () => token('privacy', 'link');
 
 const b = (name, attrs = {}, inner = []) => ({ name, attrs: prune(attrs), inner: inner.flat().filter(Boolean) });
 
@@ -179,4 +181,4 @@ function image(file, o = {}) {
   });
 }
 
-module.exports = { b, t, th, ta, url, img, tokens, space, sides, section, flow, stack, row, grid, columns, column, card, heading, paragraph, label, lead, small, buttons, button, arrowLink, list, dashes, image };
+module.exports = { b, t, th, ta, url, img, privacy, tokens, space, sides, section, flow, stack, row, grid, columns, column, card, heading, paragraph, label, lead, small, buttons, button, arrowLink, list, dashes, image };

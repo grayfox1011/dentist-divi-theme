@@ -7,7 +7,7 @@
  * Viewport Width: 1400
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Project"},"align":"full","className":"dimora-hero","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"0px"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Project', 'dimora' ); ?>"},"align":"full","className":"dimora-hero","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"0px"},"blockGap":"var:preset|spacing|70","margin":{"top":"0","bottom":"0"}}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull dimora-hero has-base-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--60);padding-bottom:0px"><!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group alignwide"><!-- wp:paragraph {"className":"is-style-dimora-label dimora-reveal"} -->
 <p class="is-style-dimora-label dimora-reveal"><a href="<?php echo esc_url( dimora_soliton_radar( 'projects' ) ); ?>"><?php echo esc_html__( 'Projects', 'dimora' ); ?></a> / <?php echo esc_html__( 'Townhouse renovation', 'dimora' ); ?></p>
@@ -25,7 +25,7 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"verticalAlignment":"bottom","width":"50%"} -->
-<div class="wp-block-column is-vertically-aligned-bottom" style="flex-basis:50%"><!-- wp:group {"metadata":{"name":"Facts"},"className":"dimora-facts","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","minimumColumnWidth":"240px"}} -->
+<div class="wp-block-column is-vertically-aligned-bottom" style="flex-basis:50%"><!-- wp:group {"metadata":{"name":"<?php echo esc_attr__( 'Facts', 'dimora' ); ?>"},"className":"dimora-facts","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","minimumColumnWidth":"240px"}} -->
 <div class="wp-block-group dimora-facts"><!-- wp:group {"className":"dimora-fact","style":{"spacing":{"blockGap":"6px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group dimora-fact"><!-- wp:paragraph {"className":"is-style-dimora-label"} -->
 <p class="is-style-dimora-label"><?php echo esc_html__( 'Location', 'dimora' ); ?></p>
