@@ -24,12 +24,10 @@
 		return Math.min( Math.max( value, min ), max );
 	}
 
-	// Wraps every word of a title in a mask; words on the same line rise together.
+	// Wraps every word of a title in a mask.
 	function nanomachines( title ) {
 		var walker = document.createTreeWalker( title, NodeFilter.SHOW_TEXT );
 		var texts = [];
-		var line = -1;
-		var top = null;
 
 		while ( walker.nextNode() ) {
 			texts.push( walker.currentNode );
@@ -59,6 +57,12 @@
 
 			text.parentNode.replaceChild( fragment, text );
 		} );
+	}
+
+	// Words on the same line rise together: each word is told which line it is on.
+	function foxhound( title ) {
+		var line = -1;
+		var top = null;
 
 		each( '.dimora-word', function ( word ) {
 			if ( word.offsetTop !== top ) {
@@ -222,192 +226,228 @@
 		update();
 	}
 
-	try {
-		each( '.dimora-split', nanomachines );
-
-		each( '.dimora-stagger', function ( group ) {
-			Array.prototype.forEach.call( group.children, function ( child, index ) {
-				child.style.setProperty( '--dimora-i', Math.min( index, 10 ) );
+	function boot() {
+		try {
+			each( '.dimora-split', function ( title ) {
+				nanomachines( title );
+				foxhound( title );
 			} );
-		} );
 
-		each( '.dimora-marquee', codecCall );
-
-		var hidden = Array.prototype.slice.call( document.querySelectorAll( '.dimora-reveal, .dimora-stagger, .dimora-split, .dimora-image, .dimora-number, .dimora-rule' ) );
-		var solitonRadar;
-
-		function spotted( element ) {
-			var index = hidden.indexOf( element );
-
-			if ( index < 0 ) {
-				return;
-			}
-
-			hidden.splice( index, 1 );
-			solitonRadar.unobserve( element );
-			element.classList.add( 'is-in' );
-
-			if ( element.classList.contains( 'dimora-number' ) ) {
-				revolverOcelot( element );
-			}
-		}
-
-		solitonRadar = new IntersectionObserver(
-			function ( entries ) {
-				entries.forEach( function ( entry ) {
-					if ( entry.isIntersecting ) {
-						spotted( entry.target );
-					}
+			each( '.dimora-stagger', function ( group ) {
+				Array.prototype.forEach.call( group.children, function ( child, index ) {
+					child.style.setProperty( '--dimora-i', Math.min( index, 10 ) );
 				} );
-			},
-			{ rootMargin: '0px 0px -8% 0px' }
-		);
+			} );
 
-		hidden.forEach( function ( element ) {
-			solitonRadar.observe( element );
-		} );
+			each( '.dimora-marquee', codecCall );
 
-		// Pictures that drift a little inside their frame. Only the ones on screen are moved.
-		var drifting = [];
-		var parallax = new IntersectionObserver( function ( entries ) {
-			entries.forEach( function ( entry ) {
-				var at = drifting.indexOf( entry.target );
+			var hidden = Array.prototype.slice.call( document.querySelectorAll( '.dimora-reveal, .dimora-stagger, .dimora-split, .dimora-image, .dimora-number, .dimora-rule' ) );
+			var solitonRadar;
 
-				if ( entry.isIntersecting && at < 0 ) {
-					drifting.push( entry.target );
-				} else if ( ! entry.isIntersecting && at > -1 ) {
-					drifting.splice( at, 1 );
+			function spotted( element ) {
+				var index = hidden.indexOf( element );
+
+				if ( index < 0 ) {
+					return;
 				}
-			} );
-		} );
 
-		each( '.dimora-parallax', function ( element ) {
-			parallax.observe( element );
-		} );
+				hidden.splice( index, 1 );
+				solitonRadar.unobserve( element );
 
-		var rails = [];
+				// The lines may have changed since the page loaded: a resize, a font that came late.
+				if ( element.classList.contains( 'dimora-split' ) ) {
+					foxhound( element );
+				}
 
-		each( '.dimora-rail', function ( rail ) {
-			var machine = metalGear( rail );
+				element.classList.add( 'is-in' );
 
-			if ( machine ) {
-				rails.push( machine );
+				if ( element.classList.contains( 'dimora-number' ) ) {
+					revolverOcelot( element );
+				}
 			}
-		} );
 
-		function measureRails() {
-			rails.forEach( function ( rail ) {
-				rail.measure();
+			solitonRadar = new IntersectionObserver(
+				function ( entries ) {
+					entries.forEach( function ( entry ) {
+						if ( entry.isIntersecting ) {
+							spotted( entry.target );
+						}
+					} );
+				},
+				{ rootMargin: '0px 0px -8% 0px' }
+			);
+
+			hidden.forEach( function ( element ) {
+				solitonRadar.observe( element );
 			} );
-		}
 
-		measureRails();
-		window.addEventListener( 'resize', measureRails );
-		window.addEventListener( 'load', measureRails );
+			// Pictures that drift a little inside their frame. Only the ones on screen are moved.
+			var drifting = [];
 
-		var header = document.querySelector( '.wp-site-blocks > header' );
-		var lastY = window.scrollY;
-
-		onScroll( function () {
-			var y = window.scrollY;
-			var height = window.innerHeight;
-
-			drifting.forEach( function ( element ) {
+			function drift( element ) {
 				var box = element.getBoundingClientRect();
+				var height = window.innerHeight;
 
 				element.style.setProperty( '--dimora-p', clamp( ( box.top + box.height / 2 - height / 2 ) / ( height / 2 + box.height / 2 ), -1, 1 ).toFixed( 3 ) );
-			} );
-
-			rails.forEach( function ( rail ) {
-				rail.update();
-			} );
-
-			// The header steps aside on the way down and comes back on the way up.
-			if ( header ) {
-				var open = header.querySelector( '.is-menu-open' ) || header.contains( document.activeElement );
-
-				root.classList.toggle( 'dimora-scrolled', y > 24 );
-
-				if ( open || y < 200 || y < lastY - 4 ) {
-					root.classList.remove( 'dimora-header-away' );
-				} else if ( y > lastY + 4 ) {
-					root.classList.add( 'dimora-header-away' );
-				}
 			}
 
-			lastY = y;
+			var parallax = new IntersectionObserver( function ( entries ) {
+				entries.forEach( function ( entry ) {
+					var at = drifting.indexOf( entry.target );
 
-			// Nothing can scroll further in at the end of the page, so whatever is left shows up.
-			if ( hidden.length && height + y >= root.scrollHeight - 4 ) {
-				hidden.slice().forEach( spotted );
-			}
-		} );
-
-		if ( finePointer ) {
-			root.classList.add( 'dimora-fine' );
-
-			// A round label that follows the pointer over project cards.
-			var label = document.createElement( 'span' );
-			var x = 0;
-			var y = 0;
-			var targetX = 0;
-			var targetY = 0;
-			var following = false;
-
-			label.className = 'dimora-pointer';
-			label.setAttribute( 'aria-hidden', 'true' );
-			label.textContent = words.view || 'View';
-			document.body.appendChild( label );
-
-			function follow() {
-				x += ( targetX - x ) * 0.18;
-				y += ( targetY - y ) * 0.18;
-				label.style.transform = 'translate3d(' + x.toFixed( 1 ) + 'px,' + y.toFixed( 1 ) + 'px,0)';
-
-				if ( following ) {
-					window.requestAnimationFrame( follow );
-				}
-			}
-
-			document.addEventListener( 'pointermove', function ( event ) {
-				var card = event.target.closest ? event.target.closest( '.dimora-cursor' ) : null;
-
-				targetX = event.clientX;
-				targetY = event.clientY;
-
-				if ( card && ! following ) {
-					following = true;
-					x = targetX;
-					y = targetY;
-					label.classList.add( 'is-on' );
-					window.requestAnimationFrame( follow );
-				} else if ( ! card && following ) {
-					following = false;
-					label.classList.remove( 'is-on' );
-				}
-			}, { passive: true } );
-
-			// In a list of projects, the picture of the row under the pointer floats next to it.
-			each( '.dimora-list-row', function ( row ) {
-				row.addEventListener( 'pointermove', function ( event ) {
-					var box = row.getBoundingClientRect();
-
-					row.style.setProperty( '--dimora-x', ( event.clientX - box.left ).toFixed( 0 ) + 'px' );
-					row.style.setProperty( '--dimora-y', ( event.clientY - box.top ).toFixed( 0 ) + 'px' );
-				}, { passive: true } );
+					if ( entry.isIntersecting && at < 0 ) {
+						drifting.push( entry.target );
+						drift( entry.target );
+					} else if ( ! entry.isIntersecting && at > -1 ) {
+						drifting.splice( at, 1 );
+					}
+				} );
 			} );
 
-			if ( window.Lenis ) {
-				each( '.wp-block-navigation__responsive-container', function ( menu ) {
-					menu.setAttribute( 'data-lenis-prevent', '' );
+			each( '.dimora-parallax', function ( element ) {
+				parallax.observe( element );
+			} );
+
+			var rails = [];
+
+			each( '.dimora-rail', function ( rail ) {
+				var machine = metalGear( rail );
+
+				if ( machine ) {
+					rails.push( machine );
+				}
+			} );
+
+			function measureRails() {
+				rails.forEach( function ( rail ) {
+					rail.measure();
+				} );
+			}
+
+			measureRails();
+			window.addEventListener( 'resize', measureRails );
+			window.addEventListener( 'load', measureRails );
+
+			var header = document.querySelector( '.wp-site-blocks > header' );
+			var lastY = window.scrollY;
+
+			onScroll( function () {
+				var y = window.scrollY;
+				var height = window.innerHeight;
+
+				drifting.forEach( drift );
+
+				rails.forEach( function ( rail ) {
+					rail.update();
 				} );
 
-				lenis = new window.Lenis( { autoRaf: true, anchors: true, allowNestedScroll: true } );
-			}
-		}
+				// The header steps aside on the way down and comes back on the way up.
+				if ( header ) {
+					var open = header.querySelector( '.is-menu-open' ) || header.contains( document.activeElement );
 
-		root.classList.add( 'dimora-ready' );
-	} catch ( error ) {
-		root.classList.remove( 'dimora-motion' );
+					root.classList.toggle( 'dimora-scrolled', y > 24 );
+
+					if ( open || y < 200 || y < lastY - 4 ) {
+						root.classList.remove( 'dimora-header-away' );
+					} else if ( y > lastY + 4 ) {
+						root.classList.add( 'dimora-header-away' );
+					}
+				}
+
+				lastY = y;
+
+				// Nothing can scroll further in at the end of the page, so whatever is left shows up.
+				if ( hidden.length && height + y >= root.scrollHeight - 4 ) {
+					hidden.slice().forEach( spotted );
+				}
+			} );
+
+			if ( finePointer ) {
+				root.classList.add( 'dimora-fine' );
+
+				// A round label that follows the pointer over project cards.
+				var label = document.createElement( 'span' );
+				var x = 0;
+				var y = 0;
+				var targetX = 0;
+				var targetY = 0;
+				var following = false;
+
+				label.className = 'dimora-pointer';
+				label.setAttribute( 'aria-hidden', 'true' );
+				label.textContent = words.view || 'View';
+				document.body.appendChild( label );
+
+				function follow() {
+					x += ( targetX - x ) * 0.18;
+					y += ( targetY - y ) * 0.18;
+					label.style.transform = 'translate3d(' + x.toFixed( 1 ) + 'px,' + y.toFixed( 1 ) + 'px,0)';
+
+					if ( following ) {
+						window.requestAnimationFrame( follow );
+					}
+				}
+
+				document.addEventListener( 'pointermove', function ( event ) {
+					var card = event.target.closest ? event.target.closest( '.dimora-cursor' ) : null;
+
+					targetX = event.clientX;
+					targetY = event.clientY;
+
+					if ( card && ! following ) {
+						following = true;
+						x = targetX;
+						y = targetY;
+						label.classList.add( 'is-on' );
+						window.requestAnimationFrame( follow );
+					} else if ( ! card && following ) {
+						following = false;
+						label.classList.remove( 'is-on' );
+					}
+				}, { passive: true } );
+
+				// In a list of projects, the picture of the row under the pointer floats next to it.
+				each( '.dimora-list-row', function ( row ) {
+					row.addEventListener( 'pointermove', function ( event ) {
+						var box = row.getBoundingClientRect();
+						var picture = row.querySelector( '.dimora-list-image' );
+						var room = Math.max( box.width - ( picture ? picture.offsetWidth : 0 ) - 40, 0 );
+
+						// The picture stays inside the row, also when the pointer is at its right end.
+						row.style.setProperty( '--dimora-x', clamp( event.clientX - box.left, 0, room ).toFixed( 0 ) + 'px' );
+						row.style.setProperty( '--dimora-y', ( event.clientY - box.top ).toFixed( 0 ) + 'px' );
+					}, { passive: true } );
+				} );
+
+				if ( window.Lenis ) {
+					each( '.wp-block-navigation__responsive-container', function ( menu ) {
+						menu.setAttribute( 'data-lenis-prevent', '' );
+					} );
+
+					lenis = new window.Lenis( { autoRaf: true, anchors: true, allowNestedScroll: true } );
+				}
+			}
+
+			root.classList.add( 'dimora-ready' );
+		} catch ( error ) {
+			root.classList.remove( 'dimora-motion' );
+		}
+	}
+
+	// Titles are cut into lines with their real letters: wait for the fonts, but never longer than two seconds.
+	var booted = false;
+
+	function snake() {
+		if ( ! booted ) {
+			booted = true;
+			boot();
+		}
+	}
+
+	if ( document.fonts && document.fonts.ready ) {
+		document.fonts.ready.then( snake );
+		window.setTimeout( snake, 2000 );
+	} else {
+		snake();
 	}
 }() );
