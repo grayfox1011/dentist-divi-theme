@@ -39,7 +39,7 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph {"className":"perla-arrow-link","fontSize":"small"} -->
-<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/general-dentistry/' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
+<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services/general-dentistry' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
@@ -59,7 +59,7 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph {"className":"perla-arrow-link","fontSize":"small"} -->
-<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/cosmetic-dentistry/' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
+<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services/cosmetic-dentistry' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
@@ -79,7 +79,7 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph {"className":"perla-arrow-link","fontSize":"small"} -->
-<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/dental-implants/' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
+<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services/dental-implants' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
@@ -99,7 +99,7 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph {"className":"perla-arrow-link","fontSize":"small"} -->
-<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/teeth-whitening/' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
+<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services/teeth-whitening' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
@@ -119,7 +119,7 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph {"className":"perla-arrow-link","fontSize":"small"} -->
-<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/orthodontics/' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
+<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services/orthodontics' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
@@ -139,14 +139,14 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph {"className":"perla-arrow-link","fontSize":"small"} -->
-<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/emergency-care/' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
+<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services/emergency-care' ) ); ?>"><?php echo esc_html__( 'Learn more', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 
 <!-- wp:buttons {"className":"perla-reveal","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons perla-reveal"><!-- wp:button {"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/services/' ) ); ?>"><?php echo esc_html__( 'All treatments and prices', 'perla' ); ?></a></div>
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( perla_soliton_radar( 'services' ) ); ?>"><?php echo esc_html__( 'All treatments and prices', 'perla' ); ?></a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->

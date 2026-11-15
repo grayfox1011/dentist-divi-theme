@@ -25,7 +25,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-arrow-link","fontSize":"small"} -->
-<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo esc_html__( 'Contact us', 'perla' ); ?></a></p>
+<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'contact' ) ); ?>"><?php echo esc_html__( 'Contact us', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
@@ -85,7 +85,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-arrow-link","fontSize":"small"} -->
-<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo esc_html__( 'Contact us', 'perla' ); ?></a></p>
+<p class="perla-arrow-link has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'contact' ) ); ?>"><?php echo esc_html__( 'Contact us', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 

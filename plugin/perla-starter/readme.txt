@@ -4,7 +4,7 @@ Tags: starter site, demo content, block theme, dentist
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ Perla Starter is the companion of the Perla block theme. The theme comes with re
 One click on Appearance > Perla Starter creates:
 
 * Home, About, Team, Reviews, Treatments with its six treatment pages, Prices, First visit, Questions, Journal, Contact and Terms
-* a menu with those pages, unless you have already made one
+* a menu with those pages. Menus you already have are kept, and a box lets you skip this one
 * three sample articles, if you want them
 * copies of the theme photographs in the Media Library, so they can be replaced like any other image
 
@@ -58,6 +58,11 @@ No. The pages are built from the patterns of the Perla theme.
 Yes. The pages, the menu and the articles are ordinary WordPress content and stay where they are.
 
 == Changelog ==
+
+= 1.0.1 =
+* The menu is now made on every site, also where another menu already existed. A new box lets you skip it.
+* Pages are created first and filled afterwards, so the links between them work from the start.
+* Uploaded files that share a name with a page no longer count as that page.
 
 = 1.0.0 =
 * Initial release.

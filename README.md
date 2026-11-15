@@ -17,13 +17,17 @@ Altre anteprime in [`docs/previews`](docs/previews): le pagine interne, il telef
 2. **Installa e attiva Perla Starter**, poi Aspetto → Perla Starter → "Build the site". In pochi secondi ci sono 17 pagine fatte di blocchi normali, il menu, tre articoli di esempio e le foto nella Libreria media. La pagina Home diventa la pagina iniziale e Journal la pagina degli articoli.
 3. **Modifica.** Ogni pagina, Home compresa, si apre e si modifica come qualsiasi pagina di WordPress.
 
-Il plugin non sovrascrive nulla: se una pagina con lo stesso indirizzo esiste già, la lascia com'è. Un secondo clic non crea doppioni. C'è un pulsante per annullare, che sposta nel cestino ciò che il plugin ha creato e rimette le impostazioni di prima. Finito il lavoro, il plugin si può anche disinstallare: le pagine restano.
+Il plugin non sovrascrive nulla: se una pagina con lo stesso indirizzo esiste già, la lascia com'è. Il menu invece viene creato sempre, anche se il sito ne aveva già uno di un altro tema o di un'altra demo: l'header mostra il menu più recente, quindi quello nuovo; i menu vecchi restano e si scelgono in Aspetto → Editor → Navigazione. Una casella permette di non crearlo. Un secondo clic non crea doppioni. C'è un pulsante per annullare, che sposta nel cestino ciò che il plugin ha creato e rimette le impostazioni di prima. Finito il lavoro, il plugin si può anche disinstallare: le pagine restano.
 
 Chi non vuole il plugin crea le pagine a mano: Pagine → Aggiungi, WordPress propone i pattern, due clic per pagina.
 
 ### La home
 
 Finché non esiste una pagina iniziale con del contenuto, il tema mostra la sua home già pronta. Appena il cliente (o il plugin) imposta come homepage una pagina con del contenuto, il tema mostra quella. Così il sito non sembra mai vuoto e la home resta una pagina normale.
+
+Se in Impostazioni → Lettura la homepage è "Gli ultimi articoli", la home mostra le stesse sezioni ma al posto del riquadro Journal c'è l'elenco vero degli articoli, con le pagine successive.
+
+I pulsanti e i link delle sezioni puntano alle pagine Contact, Treatments, About e così via. Finché una di queste pagine non esiste il link resta fermo invece di portare a una pagina di errore; comincia a funzionare appena esiste una pagina con quell'indirizzo.
 
 ### Perché serve un plugin a parte
 
@@ -79,6 +83,17 @@ Serve Docker.
 
 Il sito è su http://localhost:8080 (utente `admin`, password `admin`). Lo script installa WordPress, attiva tema e plugin e fa costruire il sito al plugin, come farebbe un clic sul suo pulsante.
 
+## Versione 1.0.1
+
+La 1.0.0 è quella caricata su WordPress.org. La 1.0.1 corregge quattro cose:
+
+- **Link dei pattern.** Con il solo tema installato portavano a pagine che non esistevano ancora (errore 404). Ora ogni link cerca la sua pagina e resta fermo finché non c'è.
+- **Blog in home.** Con la homepage impostata su "Gli ultimi articoli" l'elenco degli articoli e le sue pagine non erano raggiungibili. Ora la home li mostra.
+- **Link "Privacy policy" nel footer.** Compare solo se il sito ha una pagina della privacy pubblicata.
+- **Menu del plugin.** Su un sito che aveva già un menu (anche solo quello lasciato da un altro tema) il plugin non creava il suo. Ora lo crea sempre, una volta sola, con una casella per escluderlo. Inoltre crea prima tutte le pagine e poi le riempie, così i link fra una pagina e l'altra sono giusti dal primo momento.
+
+Per mandarla a WordPress.org basta caricare il nuovo `perla.zip` dalla stessa pagina di invio: sostituisce quello in attesa di revisione.
+
 ## Prima di inviare a WordPress.org
 
 Tema e plugin si inviano separatamente.
@@ -133,6 +148,7 @@ Nel tema (`functions.php`):
 | `perla_octocamo` | Carica `style.css` |
 | `perla_stealth_camo` | Stili aggiuntivi dei blocchi |
 | `perla_codec` | Categorie dei pattern |
+| `perla_soliton_radar` | Trova l'indirizzo di una pagina del sito; finché la pagina non esiste il link resta fermo |
 | `perla_big_boss` | Decide se la home mostra la pagina del cliente o quella pronta |
 | `perla_psycho_mantis` | Carica lo slider prima / dopo solo dove serve |
 | `perla_otacon` | I due interruttori in Aspetto → Personalizza |
@@ -149,6 +165,7 @@ Nel plugin (`perla-starter.php`):
 | `perla_starter_colonel` | Riceve il clic e controlla i permessi |
 | `perla_starter_intel` | Legge l'elenco di pagine, menu e articoli |
 | `perla_starter_suit_on` | Verifica che il tema Perla sia attivo |
+| `perla_starter_radar` | Dice se a un indirizzo c'è già una pagina vera (un file caricato con lo stesso nome non conta) |
 | `perla_starter_nanomachines` | Trasforma un pattern in blocchi veri |
 | `perla_starter_fulton` | Copia una foto nella Libreria media |
 | `perla_starter_extraction` | Collega le immagini alle foto della Libreria |
@@ -162,20 +179,22 @@ Nel plugin (`perla-starter.php`):
 ```bash
 npm run check           # ogni blocco di pattern, template e pagine è valido per l'editor, ogni immagine si carica
 npm run check:motion    # animazioni, slider prima / dopo, tastiera, movimento ridotto, senza JavaScript
-npm run check:starter   # il plugin dalla sua schermata: crea, secondo clic, annulla, ricrea
+npm run check:starter   # il plugin dalla sua schermata: crea, secondo clic, annulla, menu su un sito che ne ha già uno, ricrea
 ```
 
-Risultati sulla versione consegnata:
+Risultati sulla versione 1.0.1:
 
 | Controllo | WordPress 6.6.4 | WordPress 7.1.4 |
 | --- | --- | --- |
 | 3879 blocchi in 50 pattern, 8 template, 2 template part e 16 pagine create dal plugin: tutti validi | sì | sì |
-| Plugin dalla sua schermata, su un sito già visitato: 13 prove su 13 | sì | sì, su un sito nuovo con i due zip installati |
+| Plugin dalla sua schermata: 16 prove su 16 (anche: menu creato dove ne esisteva già uno, casella per non crearlo, link della Home verso pagine vere) | sì | sì |
+| Sito nuovo, tema e plugin installati dai due zip, un clic | non eseguito | sì, 15 prove su 15: con il solo tema nessun link porta a una pagina mancante, dopo il clic 17 pagine, menu e link verso pagine vere |
+| Home con "Gli ultimi articoli": elenco degli articoli e seconda pagina | sì | non eseguito |
 | Animazioni, slider, tastiera, movimento ridotto, senza JavaScript: 22 prove su 22 | sì | sì |
-| Home identica nelle due versioni (confronto delle schermate) | sì | sì |
-| Pagina creata a mano dal pattern "About": 115 blocchi, nessun avviso | sì | sì |
-| Theme Check ufficiale (versione 20260901): nessun errore né avviso | non eseguito | sì |
-| Plugin Check ufficiale (versione 2.2.0): nessun errore | non eseguito | sì |
+| Theme Check ufficiale (versione 20260901): nessun errore né avviso | sì | sì |
+| Plugin Check ufficiale (versione 2.2.0): nessun errore | sì | sì |
+| Home identica nelle due versioni (confronto delle schermate) | solo sulla 1.0.0 | solo sulla 1.0.0 |
+| Pagina creata a mano dal pattern "About": 115 blocchi, nessun avviso | solo sulla 1.0.0 | solo sulla 1.0.0 |
 
 Non verificato: Safari e Firefox, telefoni veri (solo le dimensioni simulate in Chromium, compreso il trascinamento dello slider con il dito), le versioni di WordPress tra la 6.7 e la 7.0, PHP diverso da 8.3 (tema e plugin dichiarano 7.4 e usano solo sintassi vecchia, ma non sono stati eseguiti su 7.4), lingue da destra a sinistra, l'esito delle revisioni di WordPress.org.
 

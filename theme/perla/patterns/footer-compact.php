@@ -19,19 +19,19 @@
 
 <!-- wp:group {"style":{"spacing":{"blockGap":"8px 24px"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>"><?php echo esc_html__( 'About us', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'about' ) ); ?>"><?php echo esc_html__( 'About us', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/' ) ); ?>"><?php echo esc_html__( 'Treatments', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services' ) ); ?>"><?php echo esc_html__( 'Treatments', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo esc_html__( 'Contact', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'contact' ) ); ?>"><?php echo esc_html__( 'Contact', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php echo esc_html__( 'Privacy policy', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'privacy-policy' ) ); ?>"><?php echo esc_html__( 'Privacy policy', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 

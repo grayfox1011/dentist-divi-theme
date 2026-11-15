@@ -3,7 +3,7 @@ Contributors: grayfox86
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,11 @@ Yes. Select a block, open Advanced > Additional CSS class(es) and add one of the
 Your page, as soon as it has some content. While it is empty, the front page keeps showing the ready-made home of the theme, so the site never looks unfinished.
 
 == Changelog ==
+
+= 1.0.1 =
+* Links in the patterns now look for the page they point to and stay inert until a page with that address exists, instead of leading to a "not found" page.
+* With "Your latest posts" as homepage, the front page shows the real list of posts with its pages.
+* The "Privacy policy" link in the footer is shown only when the site has a privacy policy page.
 
 = 1.0.0 =
 * Initial release.

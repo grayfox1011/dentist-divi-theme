@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Perla Starter
  * Description:       Builds the whole Perla site in one click: every page with real blocks, the menu, three sample articles, and the Home page set as the front page.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Fontana Jonathan
@@ -44,6 +44,13 @@ function perla_starter_intel() {
 		'menu'  => array(),
 		'posts' => array(),
 	);
+}
+
+// The page or article that lives at an address, if any. An uploaded file with the same name does not count.
+function perla_starter_radar( $path, $type = 'page' ) {
+	$found = get_page_by_path( $path, OBJECT, $type );
+
+	return $found && $type === $found->post_type ? $found : null;
 }
 
 function perla_starter_suit_on() {
@@ -187,9 +194,10 @@ function perla_starter_soliton( $menu, $ids, $titles ) {
  *
  * @param bool $front Set the Home page as the front page and the Journal page as the posts page.
  * @param bool $posts Add the sample articles.
+ * @param bool $menu  Make the menu.
  * @return array What was created, for the report and for the undo.
  */
-function perla_starter_outer_heaven( $front = true, $posts = true ) {
+function perla_starter_outer_heaven( $front = true, $posts = true, $menu = true ) {
 	$site   = perla_starter_intel();
 	$before = get_option( 'perla_starter_log' );
 	$log    = is_array( $before ) ? $before : array(
@@ -203,11 +211,14 @@ function perla_starter_outer_heaven( $front = true, $posts = true ) {
 
 	$log['kept'] = array();
 
+	$fresh = array();
+
+	// First every page gets its place, still empty: the links inside the patterns can then find each other.
 	foreach ( $site['pages'] as $page ) {
 		$titles[ $page['slug'] ] = $page['title'];
 
 		$path  = empty( $page['parent'] ) ? $page['slug'] : $page['parent'] . '/' . $page['slug'];
-		$found = get_page_by_path( $path );
+		$found = perla_starter_radar( $path );
 
 		if ( $found ) {
 			$ids[ $page['slug'] ] = $found->ID;
@@ -218,17 +229,9 @@ function perla_starter_outer_heaven( $front = true, $posts = true ) {
 			continue;
 		}
 
-		$content = '';
-
-		if ( ! empty( $page['pattern'] ) ) {
-			$content = perla_starter_extraction( perla_starter_nanomachines( $page['pattern'] ) );
-
-			// No pattern, no page: an empty one would only get in the way.
-			if ( '' === $content ) {
-				continue;
-			}
-		} elseif ( ! empty( $page['text'] ) ) {
-			$content = "<!-- wp:paragraph -->\n<p>" . esc_html( $page['text'] ) . "</p>\n<!-- /wp:paragraph -->";
+		// No pattern, no page: an empty one would only get in the way.
+		if ( ! empty( $page['pattern'] ) && ! WP_Block_Patterns_Registry::get_instance()->is_registered( $page['pattern'] ) ) {
+			continue;
 		}
 
 		$id = wp_insert_post(
@@ -238,7 +241,7 @@ function perla_starter_outer_heaven( $front = true, $posts = true ) {
 				'post_title'     => $page['title'],
 				'post_name'      => $page['slug'],
 				'post_parent'    => empty( $page['parent'] ) || empty( $ids[ $page['parent'] ] ) ? 0 : $ids[ $page['parent'] ],
-				'post_content'   => wp_slash( $content ),
+				'post_content'   => empty( $page['text'] ) ? '' : wp_slash( "<!-- wp:paragraph -->\n<p>" . esc_html( $page['text'] ) . "</p>\n<!-- /wp:paragraph -->" ),
 				'comment_status' => 'closed',
 			)
 		);
@@ -246,7 +249,21 @@ function perla_starter_outer_heaven( $front = true, $posts = true ) {
 		if ( $id && ! is_wp_error( $id ) ) {
 			$ids[ $page['slug'] ] = $id;
 			$log['pages'][]       = $id;
+			$fresh[ $id ]         = $page;
 		}
+	}
+
+	foreach ( $fresh as $id => $page ) {
+		if ( empty( $page['pattern'] ) ) {
+			continue;
+		}
+
+		wp_update_post(
+			array(
+				'ID'           => $id,
+				'post_content' => wp_slash( perla_starter_extraction( perla_starter_nanomachines( $page['pattern'] ) ) ),
+			)
+		);
 	}
 
 	if ( $posts ) {
@@ -254,7 +271,7 @@ function perla_starter_outer_heaven( $front = true, $posts = true ) {
 		$category = $category ? $category : wp_insert_term( 'Dental care', 'category' );
 
 		foreach ( $site['posts'] as $index => $post ) {
-			if ( get_page_by_path( sanitize_title( $post['title'] ), OBJECT, 'post' ) ) {
+			if ( perla_starter_radar( sanitize_title( $post['title'] ), 'post' ) ) {
 				continue;
 			}
 
@@ -289,31 +306,23 @@ function perla_starter_outer_heaven( $front = true, $posts = true ) {
 		}
 	}
 
-	// The header shows the newest menu of the site. A menu somebody made stays in charge; the bare
-	// list of pages that WordPress creates by itself when a site has no menu does not count.
-	$own_menu = false;
-
-	foreach ( get_posts( array( 'post_type' => 'wp_navigation', 'numberposts' => 50 ) ) as $existing ) {
-		if ( '<!-- wp:page-list /-->' !== trim( $existing->post_content ) ) {
-			$own_menu = true;
-			break;
-		}
-	}
-
-	if ( ! $own_menu ) {
-		$menu = wp_insert_post(
+	// The header shows the newest menu of the site, so this one takes the place of whatever was there:
+	// the menu of another theme, an old menu WordPress converted, its bare list of pages.
+	// Those are kept, and the menu is made only once.
+	if ( $menu && ( empty( $log['menu'] ) || 'publish' !== get_post_status( $log['menu'] ) ) ) {
+		$made = wp_insert_post(
 			array(
 				'post_type'    => 'wp_navigation',
 				'post_status'  => 'publish',
-				'post_title'   => __( 'Main menu', 'perla-starter' ),
+				'post_title'   => __( 'Perla menu', 'perla-starter' ),
 				'post_content' => wp_slash( perla_starter_soliton( $site['menu'], $ids, $titles ) ),
 			)
 		);
 
-		$log['menu'] = $menu && ! is_wp_error( $menu ) ? $menu : 0;
+		$log['menu'] = $made && ! is_wp_error( $made ) ? $made : 0;
 	}
 
-	if ( $front && ! empty( $ids['home'] ) ) {
+	if ( $front && ! empty( $ids['home'] ) && 'publish' === get_post_status( $ids['home'] ) ) {
 		if ( null === $log['reading'] ) {
 			$log['reading'] = array( get_option( 'show_on_front' ), (int) get_option( 'page_on_front' ), (int) get_option( 'page_for_posts' ) );
 		}
@@ -366,7 +375,7 @@ function perla_starter_colonel() {
 	if ( 'undo' === $order ) {
 		perla_starter_foxdie();
 	} elseif ( 'build' === $order && perla_starter_suit_on() ) {
-		perla_starter_outer_heaven( ! empty( $_POST['perla_starter_front'] ), ! empty( $_POST['perla_starter_posts'] ) );
+		perla_starter_outer_heaven( ! empty( $_POST['perla_starter_front'] ), ! empty( $_POST['perla_starter_posts'] ), ! empty( $_POST['perla_starter_menu'] ) );
 	} else {
 		$order = 'none';
 	}
@@ -426,7 +435,7 @@ function perla_starter_briefing() {
 					<tr>
 						<td><?php echo esc_html( $page['title'] ); ?></td>
 						<td><code>/<?php echo esc_html( $path ); ?>/</code></td>
-						<td><?php get_page_by_path( $path ) ? esc_html_e( 'Exists, will be kept', 'perla-starter' ) : esc_html_e( 'Will be created', 'perla-starter' ); ?></td>
+						<td><?php perla_starter_radar( $path ) ? esc_html_e( 'Exists, will be kept', 'perla-starter' ) : esc_html_e( 'Will be created', 'perla-starter' ); ?></td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>
@@ -438,7 +447,16 @@ function perla_starter_briefing() {
 				<?php wp_nonce_field( 'perla_starter' ); ?>
 				<p><label><input type="checkbox" name="perla_starter_front" value="1" checked> <?php esc_html_e( 'Use the Home page as the front page and the Journal page for the articles', 'perla-starter' ); ?></label></p>
 				<p><label><input type="checkbox" name="perla_starter_posts" value="1" checked> <?php esc_html_e( 'Add three sample articles', 'perla-starter' ); ?></label></p>
-				<p class="description"><?php esc_html_e( 'A menu is created unless you have already made one. Photographs are copied to the Media Library.', 'perla-starter' ); ?></p>
+				<p><label><input type="checkbox" name="perla_starter_menu" value="1" checked>
+					<?php
+					printf(
+						/* translators: %s: the items of the menu */
+						esc_html__( 'Make the menu: %s', 'perla-starter' ),
+						esc_html( implode( ', ', wp_list_pluck( $site['menu'], 'label' ) ) )
+					);
+					?>
+				</label></p>
+				<p class="description"><?php esc_html_e( 'The header shows the newest menu, so the new one takes the place of the menu you see now. Menus you already have are kept: choose between them in Appearance > Editor > Navigation. Photographs are copied to the Media Library.', 'perla-starter' ); ?></p>
 				<?php submit_button( __( 'Build the site', 'perla-starter' ) ); ?>
 			</form>
 		<?php endif; ?>

@@ -42,23 +42,23 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>"><?php echo esc_html__( 'About us', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'about' ) ); ?>"><?php echo esc_html__( 'About us', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/' ) ); ?>"><?php echo esc_html__( 'Treatments', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services' ) ); ?>"><?php echo esc_html__( 'Treatments', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/prices/' ) ); ?>"><?php echo esc_html__( 'Prices', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'prices' ) ); ?>"><?php echo esc_html__( 'Prices', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>"><?php echo esc_html__( 'Journal', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'blog' ) ); ?>"><?php echo esc_html__( 'Journal', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo esc_html__( 'Contact', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'contact' ) ); ?>"><?php echo esc_html__( 'Contact', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
@@ -70,23 +70,23 @@
 
 <!-- wp:group {"style":{"spacing":{"blockGap":"10px"}},"layout":{"type":"default"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/general-dentistry/' ) ); ?>"><?php echo esc_html__( 'General Dentistry', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services/general-dentistry' ) ); ?>"><?php echo esc_html__( 'General Dentistry', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/cosmetic-dentistry/' ) ); ?>"><?php echo esc_html__( 'Cosmetic Dentistry', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services/cosmetic-dentistry' ) ); ?>"><?php echo esc_html__( 'Cosmetic Dentistry', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/dental-implants/' ) ); ?>"><?php echo esc_html__( 'Dental Implants', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services/dental-implants' ) ); ?>"><?php echo esc_html__( 'Dental Implants', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/teeth-whitening/' ) ); ?>"><?php echo esc_html__( 'Teeth Whitening', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services/teeth-whitening' ) ); ?>"><?php echo esc_html__( 'Teeth Whitening', 'perla' ); ?></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/services/orthodontics/' ) ); ?>"><?php echo esc_html__( 'Orthodontics', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( perla_soliton_radar( 'services/orthodontics' ) ); ?>"><?php echo esc_html__( 'Orthodontics', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
@@ -124,7 +124,7 @@
 <!-- /wp:group -->
 
 <!-- wp:paragraph {"className":"perla-on-dark","fontSize":"small"} -->
-<p class="perla-on-dark has-small-font-size"><a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php echo esc_html__( 'Privacy policy', 'perla' ); ?></a> · <a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>"><?php echo esc_html__( 'Terms', 'perla' ); ?></a></p>
+<p class="perla-on-dark has-small-font-size"><?php echo wp_kses_post( get_the_privacy_policy_link( '', ' · ' ) ); ?><a href="<?php echo esc_url( perla_soliton_radar( 'terms' ) ); ?>"><?php echo esc_html__( 'Terms', 'perla' ); ?></a></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->

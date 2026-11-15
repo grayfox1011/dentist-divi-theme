@@ -1,4 +1,4 @@
-const { b, t, th, ta, url, img, space, sides, section, flow, stack, row, grid, columns, column, card, heading, paragraph, eyebrow, lead, small, buttons, button, arrowLink, checks, image, icon } = require('./blocks');
+const { b, t, th, ta, url, img, privacy, space, sides, section, flow, stack, row, grid, columns, column, card, heading, paragraph, eyebrow, lead, small, buttons, button, arrowLink, checks, image, icon } = require('./blocks');
 const C = require('./content');
 
 const PHONE = '(217) 555-0142';
@@ -450,7 +450,7 @@ function footer() {
       ]),
       row({ name: 'Legal', align: 'wide', className: 'perla-legal perla-reveal', justify: 'space-between', gap: '24px', padding: { top: '24px' } }, [
         row({ gap: '6px' }, [small(t('©'), { className: 'perla-on-dark' }), b('core/site-title', { level: 0, isLink: false, className: 'perla-site-title-plain' })]),
-        small(`<a href="${url('/privacy-policy/')}">${t('Privacy policy')}</a> · <a href="${url('/terms/')}">${t('Terms')}</a>`, { className: 'perla-on-dark' }),
+        small(`${privacy()}<a href="${url('/terms/')}">${t('Terms')}</a>`, { className: 'perla-on-dark' }),
       ]),
     ]),
   ];
@@ -474,6 +474,17 @@ const band = inner => section({ name: 'Page header', bg: 'tint', className: 'per
 const blogHeader = () => band([eyebrow(t('Journal'), { align: 'center' }), heading(t('Notes from the studio'), { level: 1, align: 'center', className: 'perla-split' }), lead(t('Short answers to the questions we are asked most, written by the team.'), { align: 'center' })]);
 
 const pagination = () => b('core/query-pagination', { paginationArrow: 'arrow', layout: { type: 'flex', justifyContent: 'center' }, style: { spacing: { margin: { top: space('70') } } } }, [b('core/query-pagination-previous'), b('core/query-pagination-numbers'), b('core/query-pagination-next')]);
+
+// the journal of a front page set to "Your latest posts": the posts of the site, with their pages
+const latestPaged = () => section({ name: 'Journal', bg: 'white' }, [
+  row({ name: 'Journal intro', align: 'wide', justify: 'space-between', valign: 'bottom', gap: space('50') }, [
+    flow({ gap: space('40'), className: 'perla-stagger' }, [eyebrow(t('From our journal')), heading(t('Things patients ask us'), { className: 'perla-split' })]),
+  ]),
+  postsGrid(1, { perPage: 9, pages: 0, offset: 0, postType: 'post', order: 'desc', orderBy: 'date', author: '', search: '', exclude: [], sticky: '', inherit: true }, [
+    pagination(),
+    b('core/query-no-results', {}, [paragraph(t('Your latest posts will be shown here.'), { align: 'center' })]),
+  ]),
+]);
 
 const postsLoop = () => section({ name: 'Posts', bg: 'white' }, [
   postsGrid(1, { perPage: 9, pages: 0, offset: 0, postType: 'post', order: 'desc', orderBy: 'date', author: '', search: '', exclude: [], sticky: '', inherit: true }, [
@@ -556,8 +567,20 @@ const PATTERNS = [
   { slug: 'footer', title: 'Footer with four columns', categories: 'footer', blockTypes: 'core/template-part/footer', blocks: footer() },
   { slug: 'header-simple', title: 'Header without top bar', categories: 'header', blockTypes: 'core/template-part/header', blocks: [navBar()] },
   { slug: 'footer-compact', title: 'Footer on one line', categories: 'footer', blockTypes: 'core/template-part/footer', blocks: footerCompact() },
-  // shows the page chosen as homepage when it has content, the ready-made home otherwise
-  { slug: 'front-page', title: 'Front page', inserter: false, when: 'perla_big_boss()', blocks: [b('core/post-content', { align: 'full', className: 'perla-content', layout: { type: 'constrained' } })], otherwise: FRONT_PAGE.map(slug => ref(slug)) },
+  // shows the page chosen as homepage when it has content; the list of posts, with its pages, when the
+  // homepage is set to "Your latest posts"; the ready-made home otherwise
+  {
+    slug: 'front-page',
+    title: 'Front page',
+    inserter: false,
+    when: 'perla_big_boss()',
+    blocks: [b('core/post-content', { align: 'full', className: 'perla-content', layout: { type: 'constrained' } })],
+    branches: [
+      { when: 'is_home() && is_paged()', blocks: [ref('blog-header'), ref('posts-loop')] },
+      { when: 'is_home()', blocks: FRONT_PAGE.map(slug => (slug === 'latest-posts' ? latestPaged() : ref(slug))) },
+    ],
+    otherwise: FRONT_PAGE.map(slug => ref(slug)),
+  },
   hidden('blog-header', 'Blog header', blogHeader()),
   hidden('posts-loop', 'Posts of the current page', postsLoop()),
   hidden('post-footer', 'After a post', postFooter()),

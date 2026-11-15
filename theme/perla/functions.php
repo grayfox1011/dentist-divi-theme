@@ -68,6 +68,21 @@ function perla_codec() {
 }
 add_action( 'init', 'perla_codec' );
 
+// The address of a page of the site, found by its path. While that page does not exist the link leads nowhere.
+function perla_soliton_radar( $path ) {
+	if ( 'privacy-policy' === $path ) {
+		return get_privacy_policy_url() ? get_privacy_policy_url() : '#';
+	}
+
+	$page = get_page_by_path( $path );
+
+	if ( $page && 'publish' === $page->post_status ) {
+		return get_permalink( $page );
+	}
+
+	return 'blog' === $path ? get_post_type_archive_link( 'post' ) : '#';
+}
+
 // True when the page chosen as homepage has content of its own: the front page then shows that page.
 function perla_big_boss() {
 	if ( 'page' !== get_option( 'show_on_front' ) ) {

@@ -252,7 +252,7 @@
 <!-- wp:column {"verticalAlignment":"center","width":"34%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:34%"><!-- wp:buttons {"className":"perla-stagger perla-panel-buttons","style":{"spacing":{"blockGap":"14px"}},"layout":{"type":"flex"}} -->
 <div class="wp-block-buttons perla-stagger perla-panel-buttons"><!-- wp:button {"className":"is-style-perla-light"} -->
-<div class="wp-block-button is-style-perla-light"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php echo esc_html__( 'Book a visit', 'perla' ); ?></a></div>
+<div class="wp-block-button is-style-perla-light"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( perla_soliton_radar( 'contact' ) ); ?>"><?php echo esc_html__( 'Book a visit', 'perla' ); ?></a></div>
 <!-- /wp:button -->
 
 <!-- wp:button {"className":"is-style-perla-ghost"} -->

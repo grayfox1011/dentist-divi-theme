@@ -33,11 +33,26 @@ const ok = (name, pass, detail = '') => { results.push(pass); console.log(`${pas
     const settings = await api('wp/v2/settings');
     return { pages: pages.length, slugs: pages.map(p => p.slug), media: media.length, posts: posts.length, menus: menus.length, front: settings.show_on_front, home: settings.page_on_front, blog: settings.page_for_posts };
   };
-  const press = async label => {
+  const send = async (method, route, data) => {
+    const nonce = (await (await page.request.get(`${BASE}/wp-admin/admin-ajax.php?action=rest-nonce`)).text()).trim();
+    return (await page.request.fetch(`${BASE}/?rest_route=/${route}`, { method, headers: { 'X-WP-Nonce': nonce }, data })).json();
+  };
+  const MENU = 'Home | About | Treatments | First visit | Journal | Contact';
+  const UNDO = 'Remove what the starter created';
+  const shownMenu = async () => {
+    await front.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+    return front.evaluate(() => [...document.querySelectorAll('header .wp-block-navigation__container > li > a, header .wp-block-navigation__container > li > button')].map(a => a.textContent.trim()).filter(Boolean).join(' | '));
+  };
+  const press = async (label, untick = []) => {
     await page.goto(screen, { waitUntil: 'domcontentloaded' });
+    for (const name of untick) await page.uncheck(`input[name="${name}"]`);
     await Promise.all([page.waitForNavigation({ timeout: 180000 }), page.click(`input[type=submit][value="${label}"]`)]);
     return (await page.locator('.notice-success').first().textContent().catch(() => '')).trim().replace(/\s+/g, ' ');
   };
+
+  // A site that was already built is taken apart first, so the test always starts from the same place.
+  await page.goto(screen, { waitUntil: 'domcontentloaded' });
+  if (await page.locator(`input[type=submit][value="${UNDO}"]`).count()) await press(UNDO);
 
   // A site is normally looked at before the starter runs, and WordPress then makes a menu of its own.
   const front = await context.newPage();
@@ -91,6 +106,26 @@ const ok = (name, pass, detail = '') => { results.push(pass); console.log(`${pas
   await front.goto(`${BASE}/`, { waitUntil: 'networkidle' });
   const fallback = await front.evaluate(() => ({ hero: !!document.querySelector('main > .perla-hero'), sections: document.querySelectorAll('main > .alignfull').length }));
   ok('without a Home page the theme shows its ready-made home again', fallback.hero && fallback.sections === 11, `${fallback.sections} sections`);
+
+  // The owner already has a menu, for example the one another theme or demo left behind.
+  const own = await send('POST', 'wp/v2/navigation', { title: 'Our own menu', status: 'publish', content: '<!-- wp:navigation-link {"label":"Our own link","url":"/","kind":"custom"} /-->' });
+  await press('Build the site');
+  const mixed = await state();
+  const shown = await shownMenu();
+  ok('with a menu of the owner in place the starter still makes its menu and the header shows it', mixed.menus === start.menus + 2 && shown === MENU, `menus ${start.menus} → ${mixed.menus} | the header shows: ${shown}`);
+
+  const homePage = await api(`wp/v2/pages/${mixed.home}?context=edit&_fields=content`);
+  const hrefs = [...homePage.content.raw.matchAll(/href="([^"]*)"/g)].map(match => match[1]);
+  const dead = hrefs.filter(href => href === '#' || href === '');
+  ok('the links inside the Home page lead to the pages that were made', hrefs.length > 10 && dead.length === 0, `${hrefs.length} links, ${dead.length} leading nowhere`);
+  await press(UNDO);
+
+  await press('Build the site', ['perla_starter_menu']);
+  const plain = await state();
+  const kept = await shownMenu();
+  ok('with the menu box unticked no menu is made', plain.menus === start.menus + 1 && kept === 'Our own link', `menus ${plain.menus} | the header shows: ${kept}`);
+  await press(UNDO);
+  await send('DELETE', `wp/v2/navigation/${own.id}&force=true`);
 
   await press('Build the site');
   const rebuilt = await state();
