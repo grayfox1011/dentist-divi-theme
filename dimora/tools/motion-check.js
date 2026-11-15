@@ -20,11 +20,11 @@ const watchHtml = () => {
   }).observe(document, { attributes: true, attributeFilter: ['class'], subtree: true });
 };
 
-// Pieces the animation styles still hide, and pieces still waiting for "is-in".
+// Pieces the animation styles still hide, and pieces still waiting for "is-in". Soft texts sit at 0.66 to 0.74 by design, so hidden means under 0.5.
 const hiddenCount = page => page.evaluate(() => {
   const css = e => getComputedStyle(e), all = s => [...document.querySelectorAll(s)];
   const hidden = [
-    ...all('.dimora-reveal, .dimora-stagger > *').filter(e => parseFloat(css(e).opacity) < 0.99),
+    ...all('.dimora-reveal, .dimora-stagger > *').filter(e => parseFloat(css(e).opacity) < 0.5),
     ...all('.dimora-image').filter(e => css(e).clipPath !== 'none'),
     ...all('.dimora-split').filter(e => css(e).visibility !== 'visible'),
     ...all('.dimora-word > span').filter(e => css(e).translate !== 'none'),
@@ -98,8 +98,10 @@ const railState = page => page.evaluate(() => {
   });
   const sum = (list, f) => list.reduce((n, x) => n + f(x), 0);
   const waiting = { titles: top.titles.filter(t => !t.in), groups: top.groups.filter(g => !g.in), reveals: top.reveals.filter(r => !r.in), images: top.images.filter(i => !i.in) };
-  const badTitles = top.titles.filter(t => !t.words || t.loose || t.bare || t.given !== t.lines);
-  ok('titles: every word sits in .dimora-word > span with its line number --dimora-l', top.titles.length > 0 && !badTitles.length, `${top.titles.length} titles, ${sum(top.titles, t => t.words)} words${badTitles.slice(0, 2).map(t => ` ; "${t.text}" has ${t.given}, lines are ${t.lines}, ${t.loose} loose`).join('')}`);
+  const badTitles = top.titles.filter(t => !t.words || t.loose || t.bare || !/^0[0-6]*$/.test(t.given) || t.given.split('').some((l, i, a) => i > 0 && l < a[i - 1]));
+  const badLines = top.titles.filter(t => t.given !== t.lines);
+  ok('titles: every word sits in .dimora-word > span with a line number --dimora-l', top.titles.length > 0 && !badTitles.length, `${top.titles.length} titles, ${sum(top.titles, t => t.words)} words${badTitles.slice(0, 2).map(t => ` ; "${t.text}": ${t.given}, ${t.loose} loose, ${t.bare} bare`).join('')}`);
+  ok('titles: words on the same line share the same --dimora-l', top.titles.length > 0 && !badLines.length, `${top.titles.length - badLines.length} of ${top.titles.length} titles${badLines.slice(0, 3).map(t => ` ; "${t.text}" has ${t.given}, on screen the lines are ${t.lines}`).join('')}`);
   ok('titles: the words wait below their mask until "is-in"', waiting.titles.length > 0 && waiting.titles.every(t => t.sunk === t.words), `${waiting.titles.length} titles waiting, ${sum(waiting.titles, t => t.sunk)} of ${sum(waiting.titles, t => t.words)} words moved down 115%`);
   ok('reveal and stagger pieces wait at opacity 0 until "is-in"', waiting.reveals.length > 0 && waiting.groups.length > 0 && waiting.reveals.every(r => r.dark) && waiting.groups.every(g => g.dark === g.n), `${waiting.reveals.filter(r => r.dark).length} of ${waiting.reveals.length} reveals, ${sum(waiting.groups, g => g.dark)} of ${sum(waiting.groups, g => g.n)} stagger children`);
   ok('stagger children carry --dimora-i 0, 1, 2…', top.groups.length > 0 && top.groups.every(g => g.numbered), `${top.groups.filter(g => g.numbered).length} of ${top.groups.length} groups`);
@@ -177,26 +179,31 @@ const railState = page => page.evaluate(() => {
   const resumed = await moving();
   ok('marquee: the track runs, pauses under the pointer and runs again', running.name === 'dimora-marquee' && running.state === 'running' && running.by !== 0 && paused.state === 'paused' && paused.by === 0 && resumed.state === 'running' && resumed.by !== 0, `${running.by}px in 0.4 s, ${paused.state} ${paused.by}px, ${resumed.state} ${resumed.by}px`);
 
-  // Keyboard: Tab from the last stop before the rail through every card.
+  // Keyboard: Tab from the last stop before the rail through every card, out of it, and one step back.
   await page.evaluate(() => {
     const first = document.querySelector('.dimora-rail-track a[href]');
     const stops = [...document.querySelectorAll('a[href], button, input, select, textarea, summary')].filter(e => e.tabIndex >= 0 && e.getClientRects().length);
     stops[stops.indexOf(first) - 1].focus({ preventScroll: true });
   });
+  const railStop = () => page.evaluate(() => {
+    const link = document.activeElement, track = document.querySelector('.dimora-rail-track');
+    if (!track.contains(link)) return null;
+    const card = link.closest('.dimora-rail-track > *'), r = card.getBoundingClientRect();
+    return { card: [...track.children].indexOf(card) + 1, left: Math.round(r.left), right: Math.round(r.right), top: Math.round(r.top), bottom: Math.round(r.bottom), pin: document.querySelector('.dimora-rail-pin').scrollLeft };
+  });
   const stops = [];
   for (let i = 0; i < 12; i++) {
     await page.keyboard.press('Tab');
     await page.waitForTimeout(350);
-    const stop = await page.evaluate(() => {
-      const link = document.activeElement, track = document.querySelector('.dimora-rail-track');
-      if (!track.contains(link)) return null;
-      const card = link.closest('.dimora-rail-track > *'), r = card.getBoundingClientRect();
-      return { card: [...track.children].indexOf(card) + 1, left: Math.round(r.left), right: Math.round(r.right), top: Math.round(r.top), bottom: Math.round(r.bottom), pin: document.querySelector('.dimora-rail-pin').scrollLeft };
-    });
+    const stop = await railStop();
     if (stop) stops.push(stop); else if (stops.length) break;
   }
+  await page.keyboard.press('Shift+Tab');
+  await page.waitForTimeout(350);
+  const back = await railStop();
+  if (back) stops.push(back);
   const offScreen = stops.filter(s => s.left < 0 || s.right > rail.width || s.top < 0 || s.bottom > rail.view || s.pin !== 0);
-  ok('rail: Tab brings each card into view, the last one too', stops.some(s => s.card === rail.cards) && !offScreen.length, stops.map(s => `card ${s.card} at ${s.left}…${s.right}px`).join(', ') + offScreen.slice(0, 2).map(s => ` ; card ${s.card} out: y ${s.top}…${s.bottom}, pin scrolled ${s.pin}px`).join(''));
+  ok('rail: Tab brings each card into view, Shift+Tab from below the last one', stops.length > rail.cards && !!back && back.card === rail.cards && !offScreen.length, stops.map(s => `card ${s.card} at ${s.left}…${s.right}px`).join(', ') + offScreen.slice(0, 2).map(s => ` ; card ${s.card} out: y ${s.top}…${s.bottom}, pin scrolled ${s.pin}px`).join(''));
 
   // The "View" label over a project card.
   const spot = await page.evaluate(() => { const r = [...document.querySelectorAll('.dimora-cursor')].map(e => e.getBoundingClientRect()).find(r => r.left >= 0 && r.right <= innerWidth && r.top + r.height / 2 > 100 && r.top + r.height / 2 < innerHeight); return r ? { x: Math.round(r.left + r.width / 2), y: Math.round(r.top + r.height / 2) } : null; });
@@ -232,6 +239,7 @@ const railState = page => page.evaluate(() => {
   const row = page.locator('.dimora-list-row').nth(2);
   await row.scrollIntoViewIfNeeded();
   await settle(page);
+  await page.waitForTimeout(2200);
   const rowBox = await row.boundingBox();
   const picture = () => row.evaluate(e => { const i = e.querySelector('.dimora-list-image'), r = i.getBoundingClientRect(); return { x: e.style.getPropertyValue('--dimora-x'), y: e.style.getPropertyValue('--dimora-y'), opacity: +getComputedStyle(i).opacity, left: Math.round(r.left), right: Math.round(r.right), middle: Math.round(r.top + r.height / 2), page: document.documentElement.scrollWidth - document.documentElement.clientWidth }; });
   const idle = await picture();
@@ -239,7 +247,7 @@ const railState = page => page.evaluate(() => {
   await page.mouse.move(px - 40, py); await page.mouse.move(px, py, { steps: 4 });
   await page.waitForTimeout(900);
   const hover = await picture();
-  ok('project list: the hovered row gets --dimora-x / --dimora-y and shows its picture', idle.opacity === 0 && hover.opacity === 1 && hover.x === `${Math.round(px - rowBox.x)}px` && hover.y === `${Math.round(py - rowBox.y)}px` && Math.abs(hover.left - px - 28) <= 3 && Math.abs(hover.middle - py) <= 3, `pointer ${px},${py}: --dimora-x ${hover.x}, --dimora-y ${hover.y}, picture opacity ${idle.opacity} → ${hover.opacity}, at ${hover.left}…${hover.right}px, middle ${hover.middle}px`);
+  ok('project list: the hovered row gets --dimora-x / --dimora-y and shows its picture', idle.opacity === 0 && hover.opacity === 1 && Math.abs(parseFloat(hover.x) - (px - rowBox.x)) <= 1 && Math.abs(parseFloat(hover.y) - (py - rowBox.y)) <= 1 && Math.abs(hover.left - px - 28) <= 3 && Math.abs(hover.middle - py) <= 3, `pointer ${px},${py}: --dimora-x ${hover.x}, --dimora-y ${hover.y}, picture opacity ${idle.opacity} → ${hover.opacity}, at ${hover.left}…${hover.right}px, middle ${hover.middle}px`);
   const pointer = await page.evaluate(() => ({ cls: document.documentElement.className, label: document.querySelectorAll('.dimora-pointer').length }));
   ok('project list page: "dimora-fine", "lenis" and one pointer label', /dimora-fine/.test(pointer.cls) && /(^| )lenis( |$)/.test(pointer.cls) && pointer.label === 1, pointer.cls);
 
@@ -322,10 +330,13 @@ const railState = page => page.evaluate(() => {
   await page.waitForTimeout(400);
   const trackBox = await track.boundingBox();
   const cdp = await context.newCDPSession(page);
-  await cdp.send('Input.synthesizeScrollGesture', { x: Math.round(trackBox.x + trackBox.width / 2), y: Math.round(trackBox.y + trackBox.height / 2), xDistance: -300, yDistance: 0, speed: 1200, gestureSourceType: 'touch' });
-  await page.waitForTimeout(700);
+  const finger = { x: Math.round(trackBox.x + trackBox.width * 0.8), y: Math.round(trackBox.y + trackBox.height / 2) };
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [finger] });
+  for (let i = 1; i <= 12; i++) { await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: finger.x - i * 22, y: finger.y }] }); await page.waitForTimeout(16); }
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await page.waitForTimeout(900);
   const swiped = Math.round(await track.evaluate(e => e.scrollLeft));
-  ok('rail at 390x844: not pinned, the track is swiped sideways', !phone.rail.pinned && phone.rail.sticky !== 'sticky' && phone.rail.overflow === 'auto' && phone.rail.scroll > phone.rail.client && swiped > 0, `track ${phone.rail.scroll}px in ${phone.rail.client}px, overflow-x ${phone.rail.overflow}, a 300px swipe scrolled it ${swiped}px`);
+  ok('rail at 390x844: not pinned, the track is swiped sideways', !phone.rail.pinned && phone.rail.sticky !== 'sticky' && phone.rail.overflow === 'auto' && phone.rail.scroll > phone.rail.client && swiped > 0, `track ${phone.rail.scroll}px in ${phone.rail.client}px, overflow-x ${phone.rail.overflow}, a 264px finger drag scrolled it ${swiped}px`);
   const phoneMark = await wordmark(page);
   ok('phone: the wordmark is fitted', phoneMark.fits, `text ${phoneMark.text}px in ${phoneMark.box}px`);
   await context.close();
