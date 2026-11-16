@@ -158,6 +158,68 @@ function progress() {
   $('loader-pct').textContent = p + '%';
 }
 
+// ------------------------------------------------------------------ modello
+// Il modello si scarica con un normale fetch() dello stesso sito e si passa a GLTFLoader gia' in memoria.
+// Le immagini incorporate diventano <img> (indirizzi blob:) invece di fetch(): cosi' il tour funziona
+// anche dove una Content-Security-Policy restrittiva blocca fetch() di indirizzi data: e blob:.
+function gltfLoader() {
+  const loader = new GLTFLoader();
+  loader.register((parser) => {
+    parser.textureLoader = new THREE.TextureLoader(parser.options.manager);
+    parser.textureLoader.setCrossOrigin(parser.options.crossOrigin);
+    return { name: 'tour_image_textures' };
+  });
+  return loader;
+}
+
+async function fetchBytes(url, onProgress) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+  const total = Number(res.headers.get('content-length')) || 0;
+  if (!res.body || !total) { const b = new Uint8Array(await res.arrayBuffer()); onProgress(1); return b; }
+  const reader = res.body.getReader();
+  const chunks = [];
+  let got = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value); got += value.length;
+    onProgress(Math.min(1, got / total));
+  }
+  const out = new Uint8Array(got);
+  let o = 0;
+  for (const c of chunks) { out.set(c, o); o += c.length; }
+  return out;
+}
+
+// glTF in formato JSON con il buffer in base64 -> GLB in memoria (nessun fetch di data:)
+function jsonToGLB(json) {
+  const uri = json.buffers?.[0]?.uri || '';
+  if (!uri.startsWith('data:')) throw new Error('il glTF JSON deve avere i dati incorporati');
+  const b64 = atob(uri.slice(uri.indexOf(',') + 1));
+  const bin = new Uint8Array(b64.length);
+  for (let i = 0; i < b64.length; i++) bin[i] = b64.charCodeAt(i);
+  json.buffers[0] = { byteLength: bin.length };
+  const js = new TextEncoder().encode(JSON.stringify(json));
+  const jp = (4 - (js.length % 4)) % 4, bp = (4 - (bin.length % 4)) % 4;
+  const total = 12 + 8 + js.length + jp + 8 + bin.length + bp;
+  const buf = new ArrayBuffer(total), dv = new DataView(buf), u8 = new Uint8Array(buf);
+  dv.setUint32(0, 0x46546c67, true); dv.setUint32(4, 2, true); dv.setUint32(8, total, true);
+  dv.setUint32(12, js.length + jp, true); dv.setUint32(16, 0x4e4f534a, true);
+  u8.set(js, 20); u8.fill(0x20, 20 + js.length, 20 + js.length + jp);
+  const o = 20 + js.length + jp;
+  dv.setUint32(o, bin.length + bp, true); dv.setUint32(o + 4, 0x004e4942, true);
+  u8.set(bin, o + 8);
+  return buf;
+}
+
+async function loadModel(url, onProgress) {
+  const bytes = await fetchBytes(url, onProgress);
+  const isGLB = bytes[0] === 0x67 && bytes[1] === 0x6c && bytes[2] === 0x54 && bytes[3] === 0x46;   // 'glTF'
+  const data = isGLB ? bytes.buffer : jsonToGLB(JSON.parse(new TextDecoder().decode(bytes)));
+  return new Promise((resolve, reject) => gltfLoader().parse(data, url.replace(/[^/]*$/, ''), resolve, reject));
+}
+
 async function load() {
   const meta = await fetch('assets/lightmaps.json').then((r) => r.json());
   const tl = new THREE.TextureLoader();
@@ -170,9 +232,7 @@ async function load() {
       maps[key] = t; status.maps = ++done / Object.keys(meta.maps).length; progress(); res();
     }, undefined, rej);
   })));
-  const gltf = await new GLTFLoader().loadAsync(window.TOUR_MODEL || 'assets/toasteria.glb', (e) => {
-    if (e.total) { status.glb = e.loaded / e.total; progress(); }
-  });
+  const gltf = await loadModel(window.TOUR_MODEL || 'assets/toasteria.glb', (p) => { status.glb = p; progress(); });
   const intensity = Math.PI * meta.lmax;
   const cache = new Map();
   const glass = new THREE.MeshBasicMaterial({ color: 0xdfe9ec, transparent: true, opacity: 0.12, depthWrite: false, side: THREE.DoubleSide });
@@ -518,7 +578,7 @@ function loop() {
     await load();
   } catch (e) {
     console.error(e);
-    $('loader-pct').textContent = 'Non riesco a caricare il modello 3D.';
+    $('loader-pct').textContent = 'Non riesco a caricare il modello 3D (' + String(e?.message || e).slice(0, 140) + ').';
     return;
   }
   const start = byId[new URLSearchParams(location.search).get('punto')] ?? 0;
