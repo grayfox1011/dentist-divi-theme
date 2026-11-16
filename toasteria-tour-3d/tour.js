@@ -170,7 +170,7 @@ async function load() {
       maps[key] = t; status.maps = ++done / Object.keys(meta.maps).length; progress(); res();
     }, undefined, rej);
   })));
-  const gltf = await new GLTFLoader().loadAsync('assets/toasteria.glb', (e) => {
+  const gltf = await new GLTFLoader().loadAsync(window.TOUR_MODEL || 'assets/toasteria.glb', (e) => {
     if (e.total) { status.glb = e.loaded / e.total; progress(); }
   });
   const intensity = Math.PI * meta.lmax;
@@ -402,7 +402,7 @@ $('btn-next').addEventListener('click', () => next(1));
 $('btn-full').addEventListener('click', () => {
   const el = document.documentElement;
   if (document.fullscreenElement) document.exitFullscreen();
-  else (el.requestFullscreen || el.webkitRequestFullscreen)?.call(el);
+  else Promise.resolve((el.requestFullscreen || el.webkitRequestFullscreen)?.call(el)).catch(() => {});
 });
 let hintTimer = setTimeout(hideHint, 9000);
 function hideHint() { $('hint').classList.add('is-hidden'); clearTimeout(hintTimer); }

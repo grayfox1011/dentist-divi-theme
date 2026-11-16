@@ -57,3 +57,22 @@ blender -b toasteria.blend -P render_stills.py -- ../../renders
 Le misure sono stimate dal video: proporzioni dei murales, alzata e pedata dei gradini (18 × 27 cm,
 16 alzate fino al pianerottolo e 3 fino al primo piano), dimensioni standard di tavoli e sedie.
 Per cambiarle si modificano le costanti all'inizio di `build.py` e si rilancia la catena.
+
+## Modello in formato JSON (opzionale)
+
+Alcuni hosting o anteprime non servono i file `.glb`. Lo stesso modello si può salvare come glTF
+JSON con i dati incorporati:
+
+```bash
+python3 - <<'PY'
+import json, struct, base64
+b = open('../assets/toasteria.glb', 'rb').read()
+n = struct.unpack('<I', b[12:16])[0]
+j = json.loads(b[20:20 + n])
+bin_len = struct.unpack('<I', b[20 + n:24 + n])[0]
+j['buffers'][0]['uri'] = 'data:application/octet-stream;base64,' + base64.b64encode(b[28 + n:28 + n + bin_len]).decode()
+json.dump(j, open('../assets/toasteria.gltf.json', 'w'), separators=(',', ':'))
+PY
+```
+
+e nella pagina, prima di `tour.js`: `<script>window.TOUR_MODEL = 'assets/toasteria.gltf.json';</script>`.

@@ -15,7 +15,7 @@ si naviga come su Google Street View: **frecce sul pavimento** per andare avanti
 | `vendor/` | three.js r170 in locale (licenza MIT in `THREE-LICENSE.txt`). |
 | `assets/toasteria.glb` | Il modello 3D con le texture. |
 | `assets/lm_*.webp`, `assets/lightmaps.json` | La luce calcolata in Blender (lightmap) per i tre gruppi: piano terra, scala, primo piano. |
-| `renders/` | Immagini statiche renderizzate con Cycles, utili anche per il sito e i social. |
+| `renders/` | Sei immagini statiche renderizzate con Cycles (1600 × 900), utili anche per il sito e i social: `piano-terra`, `nascita-di-venere`, `scala`, `primavera`, `sala-divanetto`, `vetrata`. |
 | `source/` | Script Blender e Python per rigenerare tutto (vedi `source/README.md`). |
 
 Il giro tocca 12 punti: ingresso, la *Nascita di Venere*, la scala, il pianerottolo con i poster,
@@ -74,3 +74,7 @@ avanzamento durante il caricamento. Funziona su Chrome, Safari, Firefox ed Edge,
   dalle finestre è una foto presa dal video.
 
 Per cambiare nomi o posizione dei punti di vista basta modificare l'elenco `NODES` in `tour.js`.
+
+Se il server non serve i file `.glb`, si può caricare il modello come glTF in formato JSON: basta
+definire `window.TOUR_MODEL = 'assets/toasteria.gltf.json'` prima di `tour.js` (la conversione è
+descritta in `source/README.md`).
