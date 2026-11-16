@@ -1,8 +1,9 @@
 {
- "lmax": 4.75,
+ "lmax": 3.5,
  "maps": {
   "lm_gf": "lm_gf.webp",
   "lm_st": "lm_st.webp",
-  "lm_uf": "lm_uf.webp"
+  "lm_ufa": "lm_ufa.webp",
+  "lm_ufb": "lm_ufb.webp"
  }
 }
