@@ -242,8 +242,19 @@ quad_crop(626, [[191, 423], [299, 421], [192, 556], [299, 552]], (300, 400), 'po
 quad_crop(46, [[362, 133], [431, 133], [362, 202], [431, 202]], (256, 256), 'logo_sign')
 quad_crop(331, [[18, 168], [112, 166], [20, 252], [113, 250]], (360, 300), 'pictures_grid')
 # street views seen through the windows (cropped above the chairs)
-im = frame(651)[212:468, 2:302]
-cv2.imwrite(f'{OUT}/street_b.jpg', cv2.GaussianBlur(cv2.resize(im, (900, 768), interpolation=cv2.INTER_CUBIC), (3, 3), 0), [cv2.IMWRITE_JPEG_QUALITY, 90])
+im = cv2.GaussianBlur(cv2.resize(frame(655)[194:385, 96:236], (700, 955), interpolation=cv2.INTER_LANCZOS4), (5, 5), 0)
+lab = cv2.cvtColor(im, cv2.COLOR_BGR2LAB).astype(np.float32)
+lab[..., 0] = np.clip((lab[..., 0] - 128) * 1.15 + 120, 0, 255)
+im = cv2.cvtColor(lab.astype(np.uint8), cv2.COLOR_LAB2BGR)
+side = im[:, ::-1].copy()   # mirrored copies widen the view; their shop sign is blurred so no text reads backwards
+ramp = np.clip((np.arange(side.shape[0]) - int(side.shape[0] * 0.6)) / 60.0, 0, 1)[:, None, None]
+side = (side * (1 - ramp) + cv2.GaussianBlur(side, (0, 0), 25) * ramp).astype(np.uint8)
+im = np.hstack([side, im, side])
+h = im.shape[0]; big = cv2.copyMakeBorder(im, 330, 330, 0, 0, cv2.BORDER_REFLECT); H = big.shape[0]   # taller: sky above, street below
+ramp = np.clip(np.maximum((370 - np.arange(H)) / 80.0, (np.arange(H) - (290 + h)) / 80.0), 0, 1)[:, None, None]
+big = big * (1 - ramp) + cv2.GaussianBlur(big, (0, 0), 30) * ramp
+shade = np.ones(H); shade[330 + h:] = np.linspace(1.0, 0.75, H - 330 - h); shade[:330] = np.linspace(1.08, 1.0, 330)
+cv2.imwrite(f'{OUT}/street_b.jpg', np.clip(big * shade[:, None, None], 0, 255).astype(np.uint8), [cv2.IMWRITE_JPEG_QUALITY, 88])
 im = frame(506)[0:300, 60:478]
 cv2.imwrite(f'{OUT}/street_a.jpg', cv2.resize(im, (836, 600), interpolation=cv2.INTER_CUBIC), [cv2.IMWRITE_JPEG_QUALITY, 90])
 # murals at web resolution

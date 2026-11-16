@@ -6,6 +6,9 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 // Coordinate di Blender (x destra, y verso il fondo del locale, z in alto) -> three.js (y in alto)
 const B = (x, y, z) => new THREE.Vector3(x, z, -y);
 const EYE = 1.6;
+const TILT = -0.2;                  // sguardo leggermente verso il basso: le frecce restano in vista
+const ARROW_DIST = 2.2;                // distanza delle frecce davanti al punto di vista
+const ARROW_H = 0.45;                  // poco sopra il pavimento, cosi' non finiscono sotto i comandi
 const Z1 = 3.42;                    // quota del primo piano
 
 // ------------------------------------------------------------------ punti di vista
@@ -16,16 +19,16 @@ const NODES = [
   { id: 'piedi-scala', name: 'Verso la scala', floor: 0, p: [2.6, 4.35, EYE], look: [2.45, 9.5, 3.3] },
   { id: 'scala', name: 'Sulla scala', floor: 0.5, p: [2.45, 6.9, 1.44 + EYE], look: [2.2, 10.05, 4.6] },
   { id: 'pianerottolo', name: 'Il pianerottolo dei poster', floor: 0.5, p: [2.35, 9.45, 2.88 + EYE], look: [1.9, 10.05, 4.55] },
-  { id: 'arrivo', name: 'Primo piano', floor: 1, p: [1.35, 7.75, Z1 + EYE], look: [1.6, 0, Z1 + 1.2] },
+  { id: 'arrivo', name: 'Arrivo al primo piano', floor: 1, p: [1.35, 7.75, Z1 + EYE], look: [1.6, 0, Z1 + 1.2] },
   { id: 'primavera', name: 'La Primavera', floor: 1, p: [2.45, 4.5, Z1 + EYE], look: [0, 4.55, Z1 + 1.95] },
-  { id: 'vetrata', name: 'La vetrata sulla strada', floor: 1, p: [1.85, 1.0, Z1 + EYE], look: [1.85, -2, Z1 + 1.2] },
+  { id: 'vetrata', name: 'La vetrata sulla strada', floor: 1, p: [1.9, 1.75, Z1 + EYE], look: [1.85, -2, Z1 + 1.2] },
   { id: 'passaggio', name: 'Passaggio tra le sale', floor: 1, p: [3.95, 1.55, Z1 + EYE], look: [6.4, 8.0, Z1 + 1.3] },
   { id: 'divanetto', name: 'La sala del divanetto', floor: 1, p: [5.45, 4.3, Z1 + EYE], look: [8.4, 4.4, Z1 + 1.0] },
   { id: 'cassette', name: 'Il muro di cassette', floor: 1, p: [5.9, 6.4, Z1 + EYE], look: [6.3, 8.3, Z1 + 1.6] },
   { id: 'vetrata-2', name: 'La seconda vetrata', floor: 1, p: [6.2, 1.7, Z1 + EYE], look: [6.3, -2, Z1 + 1.1] },
 ];
 const EDGES = [
-  ['ingresso', 'venere'], ['ingresso', 'piedi-scala'], ['venere', 'piedi-scala'], ['piedi-scala', 'scala'],
+  ['ingresso', 'venere'], ['venere', 'piedi-scala'], ['piedi-scala', 'scala'],
   ['scala', 'pianerottolo'], ['pianerottolo', 'arrivo'], ['arrivo', 'primavera'], ['primavera', 'vetrata'],
   ['primavera', 'passaggio'], ['vetrata', 'passaggio'], ['passaggio', 'divanetto'], ['passaggio', 'vetrata-2'],
   ['divanetto', 'cassette'], ['divanetto', 'vetrata-2'],
@@ -76,6 +79,7 @@ let dirty = true;
 const yawTo = (from, to) => Math.atan2(-(to.x - from.x), -(to.z - from.z));
 const pitchTo = (from, to) => Math.atan2(to.y - from.y, Math.hypot(to.x - from.x, to.z - from.z));
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
+const curatedPitch = (i) => Math.max(-0.5, Math.min(0.35, pitchTo(NODES[i].pos, NODES[i].lookAt) + TILT));
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
 function applyCamera() {
@@ -124,8 +128,11 @@ function buildArrows() {
     const m = NODES[j];
     const d = new THREE.Vector3(m.pos.x - n.pos.x, 0, m.pos.z - n.pos.z).normalize();
     const g = new THREE.Group();
-    g.position.set(n.pos.x + d.x * 1.15, n.floorY + 0.03, n.pos.z + d.z * 1.15);
+    const dist = Math.min(ARROW_DIST, 0.85 * Math.hypot(m.pos.x - n.pos.x, m.pos.z - n.pos.z));
+    g.position.set(n.pos.x + d.x * dist, n.floorY + ARROW_H, n.pos.z + d.z * dist);
     g.rotation.y = Math.atan2(-d.x, -d.z);
+    g.scale.setScalar(1.3);
+    g.userData.base = 1.3;
     const sh = new THREE.Mesh(chevronGeo, shadowMat);
     sh.scale.setScalar(1.12); sh.position.y = -0.005; sh.renderOrder = 10;
     const ar = new THREE.Mesh(chevronGeo, arrowMat()); ar.renderOrder = 11;
@@ -226,7 +233,7 @@ function travel(to, { curated = false } = {}) {
   const yaw0 = view.yaw, pitch0 = view.pitch;
   const last = pts[pts.length - 1], prev = pts[pts.length - 2];
   const yaw1 = curated ? yawTo(NODES[to].pos, NODES[to].lookAt) : yawTo(prev, last);
-  const pitch1 = curated ? clamp(pitchTo(NODES[to].pos, NODES[to].lookAt), -0.5, 0.5) : 0;
+  const pitch1 = curated ? curatedPitch(to) : TILT;
   const dy = wrap(yaw1 - yaw0);
   const t0 = performance.now();
   view.moving = true;
@@ -258,7 +265,7 @@ function teleport(to, curated) {
     camera.position.copy(NODES[to].pos);
     if (curated) {
       view.yaw = yawTo(NODES[to].pos, NODES[to].lookAt);
-      view.pitch = clamp(pitchTo(NODES[to].pos, NODES[to].lookAt), -0.5, 0.5);
+      view.pitch = curatedPitch(to);
     }
     applyCamera();
     arrive(to);
@@ -292,7 +299,7 @@ function setHover(t) {
   hover = t;
   for (const a of arrows) {
     const on = a.target === t;
-    a.group.scale.setScalar(on ? 1.18 : 1);
+    a.group.scale.setScalar(on ? 1.55 : 1.3);
     a.group.userData.mat.opacity = on ? 1 : 0.88;
   }
   canvas.classList.toggle('is-pointer', t !== null);
@@ -518,7 +525,7 @@ function loop() {
   view.index = start;
   camera.position.copy(NODES[start].pos);
   view.yaw = yawTo(NODES[start].pos, NODES[start].lookAt);
-  view.pitch = clamp(pitchTo(NODES[start].pos, NODES[start].lookAt), -0.5, 0.5);
+  view.pitch = curatedPitch(start);
   applyCamera();
   arrive(start);
   renderer.compile(scene, camera);

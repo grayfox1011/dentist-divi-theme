@@ -1,0 +1,8 @@
+# Blender backups and intermediate outputs of the build scripts
+*.blend1
+source/blender/baked/
+source/blender/web/
+source/blender/prev*/
+source/video/frames10/
+source/video/tex/
+__pycache__/
