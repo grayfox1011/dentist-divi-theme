@@ -140,11 +140,25 @@ try {
   root.classList.remove('is-loading');
   throw e;
 }
+// La scheda grafica puo' togliere la vista 3D alla pagina (poca memoria, scheda rimasta a lungo in secondo
+// piano). Si lascia che il browser la ripristini; se e' successo a pagina visibile, al prossimo
+// caricamento si parte dalla resa leggera.
+let contextLost = false, ready = false;
 canvas.addEventListener('webglcontextlost', (ev) => {
   ev.preventDefault();
-  try { sessionStorage.setItem('tour-qualita', 'base'); } catch (e) { /* senza memoria si riprova uguale */ }
-  $('nogl').textContent = 'La vista 3D si è interrotta. Ricarica la pagina: ripartirà in versione più leggera.';
+  contextLost = true;
+  if (document.visibilityState === 'visible') {
+    try { sessionStorage.setItem('tour-qualita', 'base'); } catch (e) { /* senza memoria si riprova uguale */ }
+  }
+  $('nogl').textContent = 'La vista 3D si è interrotta. Se non riparte da sola, ricarica la pagina.';
   $('nogl').hidden = false;
+});
+canvas.addEventListener('webglcontextrestored', async () => {
+  contextLost = false;
+  $('nogl').hidden = true;
+  if (!ready) return;
+  await captureProbes();          // le sonde dei riflessi erano immagini calcolate: vanno rifatte
+  resize();
 });
 const coarse = window.matchMedia('(pointer: coarse)').matches;
 let pixelCap = Math.min(window.devicePixelRatio || 1, coarse ? 1.75 : 2);   // si abbassa da solo se il dispositivo fatica
@@ -559,6 +573,7 @@ async function captureProbes() {
   for (const z of Object.values(ZONES)) {
     cubeCam.position.copy(z.uProbe.value);
     cubeCam.update(renderer, scene);
+    z.env?.dispose();
     z.env = pmrem.fromCubemap(cubeRT.texture).texture;
     status.setup = 0.3 + 0.7 * (++k / 4); progress();
     await nextFrame();
@@ -884,7 +899,7 @@ function placeLabels() {
   }
 }
 function loop() {
-  if (dirty) {
+  if (dirty && !contextLost) {
     renderFrame();
     placeLabels();
     if (mapCone) mapCone.setAttribute('d', conePath());
@@ -917,6 +932,7 @@ function loop() {
   }
   status.setup = 1; progress();
   renderFrame();
+  ready = true;
   root.classList.remove('is-loading');
   window.TOUR = { view, NODES, LOOK, renderer, camera, scene, redraw: applyCamera };   // per prove e regolazioni dalla console
   loop();
