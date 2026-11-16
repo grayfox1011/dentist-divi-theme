@@ -153,7 +153,7 @@ table_top('table_small', 1024, 1024, False, 3, 9)
 # ---------------------------------------------------------------- stair tread (grey carpet/stone, tileable 1024)
 g = noise2(1024, 1024, 3, 5, 21)
 g2 = noise2(1024, 1024, 40, 3, 22)
-c = (118 + 60 * (g - 0.5) + 25 * (g2 - 0.5))
+c = (82 + 66 * (g - 0.5) + 27 * (g2 - 0.5))   # dark grey treads, as in the video
 img = np.stack([c * 1.0, c * 0.98, c * 0.94], -1)
 cv2.imwrite(f'{OUT}/carpet.jpg', img[..., ::-1].clip(0, 255).astype(np.uint8), [cv2.IMWRITE_JPEG_QUALITY, 88])
 
@@ -205,6 +205,10 @@ S = 512; img = Image.new('RGBA', (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(img)
 pts = [(S / 2 + 120 * math.sin(t) * (1 - 0.3 * math.cos(t)), S / 2 - 245 * math.cos(t)) for t in np.linspace(0, 2 * math.pi, 100)]
 d.polygon(pts, fill=(28, 84, 34, 255)); d.line([(S / 2, 10), (S / 2, S - 10)], fill=(60, 120, 50, 255), width=5)
 img.save(f'{OUT}/leaf_oval.png')
+a = np.array(img).astype(np.float32)   # orange copy for the autumn branches on the console
+lum = a[..., :3].mean(-1, keepdims=True) / 60.0
+a[..., :3] = np.clip(np.array([226, 112, 38], np.float32) * (0.75 + 0.35 * lum), 0, 255)
+Image.fromarray(a.astype(np.uint8)).save(f'{OUT}/leaf_autumn.png')
 
 # ---------------------------------------------------------------- acapulco string weave (alpha)
 img = Image.new('RGBA', (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(img)

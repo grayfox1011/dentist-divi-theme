@@ -93,7 +93,10 @@ body { font-family: var(--font); color: var(--ink); -webkit-font-smoothing: anti
 
 @media (max-width: 640px) {
   .place { left: calc(12px + var(--safe-l)); top: calc(12px + var(--safe-t)); padding: 8px 12px 10px; }
-  .minimap { right: calc(12px + var(--safe-r)); top: auto; bottom: calc(86px + var(--safe-b)); width: 138px; padding: 8px; }
+  .minimap { right: calc(12px + var(--safe-r)); top: calc(12px + var(--safe-t)); width: 112px; padding: 6px; }
+  .minimap .tabs { flex-direction: column; gap: 3px; margin-bottom: 6px; }
+  .minimap .tab { font-size: 9.5px; padding: 5px 0; }
+  .place { max-width: calc(100vw - 112px - 48px); }
   .controls { bottom: calc(14px + var(--safe-b)); gap: 6px; padding: 6px; }
   .btn { padding: 0 14px; font-size: 14px; }
   .btn span { display: none; }

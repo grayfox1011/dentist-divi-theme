@@ -18,13 +18,13 @@ const NODES = [
   { id: 'venere', name: 'La Nascita di Venere', floor: 0, p: [2.55, 2.8, EYE], look: [0, 2.8, 1.85] },
   { id: 'piedi-scala', name: 'Verso la scala', floor: 0, p: [2.6, 4.35, EYE], look: [2.45, 9.5, 3.3] },
   { id: 'scala', name: 'Sulla scala', floor: 0.5, p: [2.45, 6.9, 1.44 + EYE], look: [2.2, 10.05, 4.6] },
-  { id: 'pianerottolo', name: 'Il pianerottolo dei poster', floor: 0.5, p: [2.35, 9.45, 2.88 + EYE], look: [1.9, 10.05, 4.55] },
+  { id: 'pianerottolo', name: 'Il pianerottolo dei poster', floor: 0.5, p: [2.0, 9.02, 2.88 + EYE], look: [1.9, 10.05, 4.85] },
   { id: 'arrivo', name: 'Arrivo al primo piano', floor: 1, p: [1.35, 7.75, Z1 + EYE], look: [1.6, 0, Z1 + 1.2] },
   { id: 'primavera', name: 'La Primavera', floor: 1, p: [2.45, 4.5, Z1 + EYE], look: [0, 4.55, Z1 + 1.95] },
   { id: 'vetrata', name: 'La vetrata sulla strada', floor: 1, p: [1.9, 1.75, Z1 + EYE], look: [1.85, -2, Z1 + 1.2] },
   { id: 'passaggio', name: 'Passaggio tra le sale', floor: 1, p: [3.95, 1.55, Z1 + EYE], look: [6.4, 8.0, Z1 + 1.3] },
   { id: 'divanetto', name: 'La sala del divanetto', floor: 1, p: [5.45, 4.3, Z1 + EYE], look: [8.4, 4.4, Z1 + 1.0] },
-  { id: 'cassette', name: 'Il muro di cassette', floor: 1, p: [5.9, 6.4, Z1 + EYE], look: [6.3, 8.3, Z1 + 1.6] },
+  { id: 'cassette', name: 'Il muro di cassette', floor: 1, p: [5.95, 5.5, Z1 + EYE], look: [6.3, 8.3, Z1 + 1.45] },
   { id: 'vetrata-2', name: 'La seconda vetrata', floor: 1, p: [6.2, 1.7, Z1 + EYE], look: [6.3, -2, Z1 + 1.1] },
 ];
 const EDGES = [
@@ -35,8 +35,8 @@ const EDGES = [
 ];
 // passaggi intermedi per i tratti che girano (scala a U)
 const VIA = {
-  'pianerottolo>arrivo': [[1.6, 9.6, 2.88 + EYE], [1.35, 8.75, 3.06 + EYE]],
-  'scala>pianerottolo': [[2.45, 8.7, 2.7 + EYE]],
+  'pianerottolo>arrivo': [[1.45, 9.35, 2.88 + EYE], [1.35, 8.75, 3.06 + EYE]],
+  'scala>pianerottolo': [[2.45, 8.6, 2.7 + EYE]],
   'primavera>passaggio': [[2.6, 2.05, Z1 + EYE]],   // gira attorno al divisorio tra le sale
   'divanetto>vetrata-2': [[6.25, 3.1, Z1 + EYE]],   // lascia spazio alla pianta
 };

@@ -18,6 +18,17 @@ for img in bpy.data.images:
     if img.name in WEB_SIZE and tuple(img.size) != WEB_SIZE[img.name]:
         img.scale(*WEB_SIZE[img.name])
 
+# autumn leaves: use the orange texture directly (a colour multiply node does not survive glTF)
+m = bpy.data.materials.get('leaf_autumn')
+if m:
+    nt = m.node_tree
+    tex = next(n for n in nt.nodes if n.type == 'TEX_IMAGE' and n.name != 'LM_BAKE')
+    tex.image = bpy.data.images.load(os.path.join(os.path.dirname(bpy.data.filepath), '..', 'tex', 'leaf_autumn.png')) \
+        if not os.path.exists(os.path.join(os.path.dirname(bpy.data.filepath), 'tex', 'leaf_autumn.png')) \
+        else bpy.data.images.load(os.path.join(os.path.dirname(bpy.data.filepath), 'tex', 'leaf_autumn.png'))
+    b = nt.nodes['Principled BSDF']
+    nt.links.new(tex.outputs['Color'], b.inputs['Base Color'])
+
 for o in bpy.context.view_layer.objects:
     o.select_set(o.type == 'MESH')
 bpy.ops.export_scene.gltf(

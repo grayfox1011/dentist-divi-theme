@@ -551,7 +551,7 @@ uf.append(plant('uf_autumn', U, (6.25, 7.78, Z1 + 0.86), 'zz', 0.6, 0.07, 0.2))
 for o in uf[-1:]:
     for s in o.material_slots:
         if s.material == M['leaf2']:
-            s.material = mat('leaf_autumn', '#c0561c', 0.6, tex='leaf_oval.png', alpha=True, tex_color_mul='#f08a3a')
+            s.material = mat('leaf_autumn', '#c0561c', 0.6, tex='leaf_autumn.png', alpha=True)
 # bay B: two acapulco chairs with black pillows, plant on stand, side table
 uf.append(acapulco('uf_acapB1', U, (5.55, 0.48, Z1), 170, 'black'))
 uf.append(acapulco('uf_acapB2', U, (6.55, 0.42, Z1), 190, 'black'))

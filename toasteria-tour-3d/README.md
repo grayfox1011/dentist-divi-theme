@@ -47,8 +47,9 @@ Il tour va aperto da un indirizzo web (http/https): se fai doppio clic su `index
 browser blocca il caricamento del modello. Per provarlo sul computer apri un terminale nella
 cartella e lancia `python3 -m http.server 8000`, poi vai su <http://localhost:8000>.
 
-Peso totale da scaricare: circa 6 MB, con barra di avanzamento durante il caricamento. Funziona su
-Chrome, Safari, Firefox ed Edge, anche da telefono (trascina con un dito, pizzica per zoomare).
+Peso totale da scaricare: circa 4 MB (modello 2,7 MB, luce 0,5 MB, three.js 0,7 MB), con barra di
+avanzamento durante il caricamento. Funziona su Chrome, Safari, Firefox ed Edge, anche da telefono
+(trascina con un dito, pizzica per zoomare).
 
 ## Comandi
 
