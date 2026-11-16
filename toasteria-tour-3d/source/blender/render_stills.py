@@ -12,7 +12,7 @@ VIEWS = {
     'scala': ((2.75, 3.3, 1.55), (2.4, 8.0, 2.5), 16),
     'primavera': ((2.75, 7.4, Z1 + 1.6), (0.0, 3.6, Z1 + 1.55), 15),
     'sala-divanetto': ((3.75, 1.35, Z1 + 1.6), (6.6, 7.8, Z1 + 1.2), 15),
-    'vetrata': ((6.3, 3.4, Z1 + 1.55), (6.0, 0.0, Z1 + 1.1), 17),
+    'vetrata': ((6.95, 3.1, Z1 + 1.5), (6.0, 0.0, Z1 + 1.15), 17),
 }
 scene = bpy.context.scene
 cam = scene.camera
@@ -30,6 +30,11 @@ for o in bpy.data.objects:
             b = s.material.node_tree.nodes.get('Principled BSDF')
             if b:
                 b.inputs['Emission Strength'].default_value = 0.45
+for o in bpy.data.objects:            # the window area lights light the room but must not show as white panels
+    if o.type == 'LIGHT':
+        o.visible_camera = False
+    elif o.name.startswith('GLASS_'):  # the panes are a plain opaque surface in Blender: leave them out
+        o.hide_render = True
 for name, (p, t, lens) in VIEWS.items():
     if only and name not in only:
         continue
