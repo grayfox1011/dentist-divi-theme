@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tour 3D del locale</title>
+<meta name="description" content="Visita virtuale in 3D della Toasteria Italiana: piano terra, scala e sale al primo piano.">
+<link rel="stylesheet" href="tour.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/" } }
+</script>
+</head>
+<body>
+<div id="tour" class="tour is-loading">
+  <canvas id="view" aria-label="Vista 3D del locale. Trascina per guardarti intorno, usa le frecce per spostarti."></canvas>
+  <div class="labels" id="labels" aria-hidden="true"></div>
+
+  <div class="loader" role="status" aria-live="polite">
+    <div class="loader-box">
+      <p class="loader-title">Stiamo preparando il locale…</p>
+      <div class="bar"><span id="bar-fill"></span></div>
+      <p class="loader-pct" id="loader-pct">0%</p>
+    </div>
+  </div>
+
+  <header class="place">
+    <p class="place-floor" id="place-floor">Piano terra</p>
+    <h1 class="place-name" id="place-name">Ingresso</h1>
+  </header>
+
+  <nav class="minimap" id="minimap" aria-label="Mappa dei punti di vista"></nav>
+
+  <p class="hint" id="hint">Trascina per guardarti intorno · tocca le frecce per spostarti</p>
+
+  <div class="controls">
+    <button type="button" class="btn" id="btn-prev" aria-label="Punto precedente">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>Indietro</span>
+    </button>
+    <p class="counter" id="counter" aria-live="polite">1 / 12</p>
+    <button type="button" class="btn" id="btn-next" aria-label="Punto successivo">
+      <span>Avanti</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <button type="button" class="btn btn-icon" id="btn-full" aria-label="Schermo intero">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+    </button>
+  </div>
+
+  <div class="fade" id="fade"></div>
+  <p class="nogl" id="nogl" hidden>Il tuo browser non riesce a mostrare la vista 3D. Prova con una versione aggiornata di Chrome, Safari, Firefox o Edge.</p>
+</div>
+<script type="module" src="tour.js"></script>
+</body>
+</html>
