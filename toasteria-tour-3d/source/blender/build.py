@@ -441,12 +441,12 @@ def french_window(name, coll, x0, x1, y, z0, z1, panels=3):
     fb = M['frame_brown']
     p = [box(f'{name}_l', (x0, y - fd, z0), (x0 + fw, y, z1), fb, coll),
          box(f'{name}_r', (x1 - fw, y - fd, z0), (x1, y, z1), fb, coll),
-         box(f'{name}_t', (x0, y - fd, z1 - fw), (x1, y, z1), fb, coll),
-         box(f'{name}_b', (x0, y - fd, z0), (x1, y, z0 + 0.09), fb, coll)]
+         box(f'{name}_t', (x0 + fw, y - fd, z1 - fw), (x1 - fw, y, z1), fb, coll),      # rails fit between the uprights:
+         box(f'{name}_b', (x0 + fw, y - fd, z0), (x1 - fw, y, z0 + 0.09), fb, coll)]    # no faces lying on top of each other
     pw = (x1 - x0 - 2 * fw) / panels
     for k in range(1, panels):
         xm = x0 + fw + k * pw
-        p.append(box(f'{name}_m{k}', (xm - 0.055, y - fd, z0), (xm + 0.055, y, z1), fb, coll))
+        p.append(box(f'{name}_m{k}', (xm - 0.055, y - fd, z0 + 0.09), (xm + 0.055, y, z1 - fw), fb, coll))
     for k in range(panels):
         xa = x0 + fw + k * pw + (0.055 if k else 0)
         xb = x0 + fw + (k + 1) * pw - (0.055 if k < panels - 1 else 0)

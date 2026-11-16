@@ -91,6 +91,10 @@ body { font-family: var(--font); color: var(--ink); -webkit-font-smoothing: anti
 .fade.is-on { opacity: 1; }
 .nogl { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; margin: 0; text-align: center; background: #1a0f0f; z-index: 6; }
 
+/* su schermi larghi il suggerimento sta in alto, cosi' non copre le frecce e i loro nomi */
+@media (min-width: 1000px) {
+  .hint { bottom: auto; top: calc(22px + var(--safe-t)); }
+}
 @media (max-width: 640px) {
   .place { left: calc(12px + var(--safe-l)); top: calc(12px + var(--safe-t)); padding: 8px 12px 10px; }
   .minimap { right: calc(12px + var(--safe-r)); top: calc(12px + var(--safe-t)); width: 112px; padding: 6px; }
